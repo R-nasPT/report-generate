@@ -63,6 +63,7 @@ memberRouter.post("/login", async (req, res) => {
 
   return res.json({
     message: "login succesfully",
+    id: user.ID,
     username: user.Username,
     isAdmin: user.IsAdmin,
     token: token,

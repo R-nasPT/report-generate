@@ -19,8 +19,9 @@ function LoginPage() {
         Password: password,
       });
 
-      console.log(response.data);
+      // console.log(response.data);
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("id", response.data.id);
       const isAdmin = response.data.isAdmin;
 
       if (isAdmin === "Admin") {

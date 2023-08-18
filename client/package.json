@@ -16,7 +16,7 @@
   },
   "domain":{
     "ipbackend":"http://localhost:4000",
-    "ipftp":"http://localhost:3001"
+    "ipftp":"http://172.13.0.190:3001"
   },
   "scripts": {
     "start": "react-scripts start",

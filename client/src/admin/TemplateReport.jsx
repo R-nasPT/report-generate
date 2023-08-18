@@ -14,13 +14,26 @@ function TemplateReport() {
   useEffect(() => {
     const getconfigInfo = async () => {
       try {
-        const result = await axios.get(`${packageJson.domain.ipbackend}/config/template`);
-        setConfigTemplate(result.data);
+        const member = await axios.get(
+          `${packageJson.domain.ipbackend}/member`
+        );
+        const config = await axios.get(
+          `${packageJson.domain.ipbackend}/config/template`
+        );
+        // console.log(member.data);
+        member.data.forEach((m) => {
+          config.data.forEach((c) => {
+            if (m.ID === c.create_by) {
+              c.name = m.Username;
+            }
+          });
+        });
+        // console.log(config.data);
+        setConfigTemplate(config.data);
       } catch (error) {
         console.log(error);
       }
     };
-
     getconfigInfo();
   }, []);
 
@@ -77,44 +90,65 @@ function TemplateReport() {
                 <td className="w-[calc(100%/8)]">Operation</td>
                 <td className="w-[calc(100%/8)]">Report Name</td>
                 <td className="w-[calc(100%/8)]">Customer</td>
-                <td className="w-[calc(100%/8)]">Mail</td>
-                <td className="w-[calc(100%/8)]">Line</td>
-                <td className="w-[calc(100%/8)]">.....</td>
+                <td className="w-[calc(100%/8)]">Create By</td>
+                <td className="w-[calc(100%/8)]">วันที่สร้าง</td>
+                <td className="w-[calc(100%/8)]">ประเภท</td>
                 <td className="w-[calc(100%/8)]"></td>
               </tr>
             </thead>
             <tbody>
-              {configTemplate.map((item, index) => (
-                <tr
-                  key={index}
-                  className=" h-[106px] border-[1px] border-[#D6D9E4] text-center"
-                >
-                  <td>{item.configuration_info_id}</td>
-                  <td>{item.op.operation_name}</td>
-                  <td>{item.doc_name}</td>
-                  <td>{item.Customer?.initials}</td>
-                  <td>....</td>
-                  <td></td>
-                  <td></td>
-                  <td className="flex gap-3 items-center h-[106px]">
-                    {/* <img
+              {configTemplate
+                .sort(
+                  (a, b) => b.configuration_info_id - a.configuration_info_id
+                )
+                .map((item, index) => {
+                  const createDate = new Date(item.create_time);
+                  const formattedDate = `${createDate.getDate()}/${
+                    createDate.getMonth() + 1
+                  }/${createDate.getFullYear()}`;
+
+                  return (
+                    <tr
+                      key={index}
+                      className=" h-[106px] border-[1px] border-[#D6D9E4] text-center"
+                    >
+                      <td>{item.configuration_info_id}</td>
+                      <td>{item.op.operation_name}</td>
+                      <td>{item.doc_name}</td>
+                      <td>{item.Customer?.initials}</td>
+                      <td>{item.name}</td>
+                      <td>{formattedDate}</td>
+                      <td>
+                        {item.getdata_type === 1
+                          ? "One Time"
+                          : item.getdata_type === 2
+                          ? "Daily"
+                          : item.getdata_type === 3
+                          ? "Monthly"
+                          : "Realtime"}
+                      </td>
+                      <td className="flex gap-3 items-center h-[106px]">
+                        {/* <img
                     src="admin/pencil-square.svg"
                     alt="edit"
                     className="bg-sky-600 hover:bg-sky-700 cursor-pointer p-3 rounded-lg"
                     onClick={() => editConfig(item.configuration_info_id)}
                   /> */}
-                    <img
-                      src="/admin/view.svg"
-                      alt="edit"
-                      className="bg-gray-400 hover:bg-gray-500 cursor-pointer p-[10px] rounded-lg shadow-md"
-                      onClick={() => viewConfig(item.configuration_info_id)}
-                    />
-                    <DeletePopup
-                      onDelete={() => deleteConfig(item.configuration_info_id)}
-                    />
-                  </td>
-                </tr>
-              ))}
+                        <img
+                          src="/admin/view.svg"
+                          alt="edit"
+                          className="bg-gray-400 hover:bg-gray-500 cursor-pointer p-[10px] rounded-lg shadow-md"
+                          onClick={() => viewConfig(item.configuration_info_id)}
+                        />
+                        <DeletePopup
+                          onDelete={() =>
+                            deleteConfig(item.configuration_info_id)
+                          }
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         )}

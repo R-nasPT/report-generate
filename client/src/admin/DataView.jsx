@@ -14,7 +14,9 @@ const DataView = () => {
   useEffect(() => {
     const getConfigInfo = async () => {
       try {
-        const result = await axios.get(`${packageJson.domain.ipbackend}/config/${id}`);
+        const result = await axios.get(
+          `${packageJson.domain.ipbackend}/config/${id}`
+        );
         setConfigDetail(result.data);
       } catch (error) {
         console.log(error);
@@ -26,14 +28,11 @@ const DataView = () => {
   if (configDetail.length === 0) return <LoadingPage />;
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: false,
-    });
+    const createDate = new Date(dateString);
+    const formattedDate = `${createDate.getDate()}/${
+      createDate.getMonth() + 1
+    }/${createDate.getFullYear()}, ${createDate.getHours()}:${createDate.getMinutes()}`;
+    return formattedDate;
   };
 
   return (
@@ -98,6 +97,12 @@ const DataView = () => {
                     {configDetail.getdata_month
                       ? `Month ${configDetail.getdata_month} Day ${configDetail.getdata_month_date}`
                       : null}
+                  </span>
+                </p>
+                <p>
+                  RealTime :{" "}
+                  <span className="font-normal text-gray-600">
+                    {configDetail.getdata_type === 4 ? "YES" : "NO"}
                   </span>
                 </p>
               </div>

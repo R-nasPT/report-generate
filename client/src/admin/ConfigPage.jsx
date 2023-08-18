@@ -8,6 +8,10 @@ import packageJson from "../../package.json";
 function ConfigPage() {
   const [operation, setOperation] = useState([]);
   const [customer, setCustomer] = useState([]);
+  const creator = localStorage.getItem("id");
+  const [disableFields, setDisableFields] = useState(false);
+
+  // console.log(creator);
 
   const [selectedOperationId, setSelectedOperationId] = useState();
   const [selectCustomerId, setSelectCustomerId] = useState();
@@ -118,45 +122,71 @@ function ConfigPage() {
   const handleSaveConfig = async (event) => {
     event.preventDefault();
     try {
-      if (pictureName.length === pictureNameEng.length) {
-        await axios.post(`${packageJson.domain.ipbackend}/config`, {
-          operation_id: selectedOperationId,
-          customer_id: selectCustomerId,
-          doc_name: reportName,
-          doc_name_eng: reportNameEng,
-          getdata_type: getDataType,
-          getdata_start_date: getDataStartDate.date
-            ? `${getDataStartDate.date}  ${getDataStartDate.time}`
-            : null,
-          getdata_end_date: getDataEndDate.date
-            ? `${getDataEndDate.date}  ${getDataEndDate.time}`
-            : null,
-          getdata_start_time: getDataStartTime,
-          getdata_end_time: getDataEndTime,
-          getdata_month: getDataMonth,
-          getdata_month_date: getDataMonthDate,
-          generate_type: generateType,
-          generate_date: generateDate.date
-            ? `${generateDate.date}  ${generateDate.time}`
-            : null,
-          generate_next_date: generateNextDate,
-          generate_month: generateMonth,
-          generate_month_date: generateMonthDate,
-          create_by: 1,
-          visible: true,
-          fileinfo: [
-            pictureName.map((name) => ({ name: name })),
-            pictureNameEng.map((name_en) => ({ name_en: name_en })),
-          ],
-        });
+      if (
+        selectedOperationId &&
+        selectCustomerId &&
+        reportName &&
+        getDataType &&
+        generateType
+      ) {
+        if (
+          ((getDataStartDate.date &&
+            getDataStartDate.time &&
+            getDataEndDate.date &&
+            getDataEndDate.time) ||
+            (getDataStartTime && getDataEndTime) ||
+            (getDataMonth && getDataMonthDate) ||
+            getDataType === "4") &&
+          ((generateDate.date && generateDate.time) ||
+            generateNextDate ||
+            (generateMonth && generateMonthDate) ||
+            generateType === "4")
+        ) {
+          if (pictureName.length === pictureNameEng.length) {
+            await axios.post(`${packageJson.domain.ipbackend}/config`, {
+              operation_id: selectedOperationId,
+              customer_id: selectCustomerId,
+              doc_name: reportName,
+              doc_name_eng: reportNameEng,
+              getdata_type: getDataType,
+              getdata_start_date: getDataStartDate.date
+                ? `${getDataStartDate.date}  ${getDataStartDate.time}`
+                : null,
+              getdata_end_date: getDataEndDate.date
+                ? `${getDataEndDate.date}  ${getDataEndDate.time}`
+                : null,
+              getdata_start_time: getDataStartTime,
+              getdata_end_time: getDataEndTime,
+              getdata_month: getDataMonth,
+              getdata_month_date: getDataMonthDate,
+              generate_type: generateType,
+              generate_date: generateDate.date
+                ? `${generateDate.date}  ${generateDate.time}`
+                : null,
+              generate_next_date: generateNextDate,
+              generate_month: generateMonth,
+              generate_month_date: generateMonthDate,
+              create_by: creator,
+              visible: true,
+              fileinfo: [
+                pictureName.map((name) => ({ name: name })),
+                pictureNameEng.map((name_en) => ({ name_en: name_en })),
+              ],
+            });
 
-        console.log("Configuration saved successfully");
-      } else if (pictureName.length >= pictureNameEng.length) {
-        alert("กรุณากรอกชื่อภาษาอังกฤษด้วย");
+            console.log("Configuration saved successfully");
+            navigate("/admin/template");
+          } else if (pictureName.length >= pictureNameEng.length) {
+            alert("กรุณากรอกชื่อภาษาอังกฤษด้วย");
+          } else {
+            alert("กรุณากรอกชื่อไทยด้วย");
+          }
+        } else {
+          alert("คุณกำหนดการออกรายงานยังไม่สมบูรณ์");
+        }
       } else {
-        alert("กรุณากรอกชื่อไทยด้วย");
+        alert("กรุณากรอกข้อมูลให้ครบ");
       }
-      navigate("/admin/template");
     } catch (error) {
       console.log("Error saving configuration:", error);
     }
@@ -262,7 +292,10 @@ function ConfigPage() {
                 type="radio"
                 name="GetInfo"
                 value="1"
-                onChange={(e) => setGetDataType(e.target.value)}
+                onChange={(e) => {
+                  setGetDataType(e.target.value);
+                  setDisableFields(false);
+                }}
               />
               <label>One Time :</label>
               <input
@@ -306,7 +339,10 @@ function ConfigPage() {
                 type="radio"
                 name="GetInfo"
                 value="2"
-                onChange={(e) => setGetDataType(e.target.value)}
+                onChange={(e) => {
+                  setGetDataType(e.target.value);
+                  setDisableFields(false);
+                }}
               />
               <label>Daily :</label>
               <input
@@ -327,7 +363,10 @@ function ConfigPage() {
                 type="radio"
                 name="GetInfo"
                 value="3"
-                onChange={(e) => setGetDataType(e.target.value)}
+                onChange={(e) => {
+                  setGetDataType(e.target.value);
+                  setDisableFields(false);
+                }}
               />
               <label>Monthly :</label>
               <select
@@ -368,7 +407,11 @@ function ConfigPage() {
                 type="radio"
                 name="GetInfo"
                 value="4"
-                onChange={(e) => setGetDataType(e.target.value)}
+                onChange={(e) => {
+                  setGetDataType(e.target.value);
+                  setGenerateType(e.target.value);
+                  setDisableFields(true);
+                }}
               />
               <label>Realtime</label>
             </div>
@@ -382,17 +425,23 @@ function ConfigPage() {
             </label>
           </p>
           <div className="flex flex-col gap-2 pl-5">
-            <div className="flex gap-4 items-center">
+            <div
+              className={`flex gap-4 items-center ${
+                disableFields ? "opacity-50 pointer-events-none" : ""
+              }`}
+            >
               <input
                 type="radio"
                 name="generate"
                 value="1"
+                disabled={disableFields}
                 onChange={(e) => setGenerateType(e.target.value)}
               />
               <label>One Time :</label>
               <input
                 type="date"
                 className="border-[1px] border-black rounded-lg px-3 py-1"
+                disabled={disableFields}
                 onChange={(e) =>
                   setGenerateDate({ ...generateDate, date: e.target.value })
                 }
@@ -400,22 +449,29 @@ function ConfigPage() {
               <input
                 type="time"
                 className="border-[1px] border-black rounded-lg px-3 py-1"
+                disabled={disableFields}
                 onChange={(e) =>
                   setGenerateDate({ ...generateDate, time: e.target.value })
                 }
               />
             </div>
-            <div className="flex gap-4 items-center">
+            <div
+              className={`flex gap-4 items-center ${
+                disableFields ? "opacity-50 pointer-events-none" : ""
+              }`}
+            >
               <input
                 type="radio"
                 name="generate"
                 value="2"
+                disabled={disableFields}
                 onChange={(e) => setGenerateType(e.target.value)}
               />
               <label>Daily :</label>
               <label>recur every :</label>
               <select
                 name="day"
+                disabled={disableFields}
                 className="border-[1px] border-black rounded-lg px-3 py-1"
                 onChange={(e) => setGenerateNextDate(e.target.value)}
               >
@@ -430,16 +486,22 @@ function ConfigPage() {
               </select>
               <label>Day</label>
             </div>
-            <div className="flex gap-4 items-center">
+            <div
+              className={`flex gap-4 items-center ${
+                disableFields ? "opacity-50 pointer-events-none" : ""
+              }`}
+            >
               <input
                 type="radio"
                 name="generate"
                 value="3"
+                disabled={disableFields}
                 onChange={(e) => setGenerateType(e.target.value)}
               />
               <label>Monthly :</label>
               <select
                 name="month"
+                disabled={disableFields}
                 className="border-[1px] border-black rounded-lg px-3 py-1"
                 onChange={(e) => setGenerateMonth(e.target.value)}
               >
@@ -459,6 +521,7 @@ function ConfigPage() {
               </select>
               <select
                 className="border-[1px] border-black rounded-lg px-3 py-1"
+                disabled={disableFields}
                 onChange={(e) => setGenerateMonthDate(e.target.value)}
               >
                 <option value="">day...</option>
@@ -505,10 +568,10 @@ function ConfigPage() {
             Picture :
           </label>
           <div className="flex flex-col gap-5">
-            <div className="flex gap-5 items-center">
+            <div className="flex flex-col gap-5 ">
               <div className="flex flex-col gap-3">
                 <div className="flex gap-3 items-center">
-                  <label htmlFor="name">Name :</label>
+                  <label htmlFor="name">NameThai :</label>
                   <input
                     type="text"
                     placeholder="name picture"

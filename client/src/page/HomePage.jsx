@@ -37,16 +37,39 @@ function HomePage() {
   useEffect(() => {
     const filteredTicket = ticket.filter(
       (item) =>
-        item.ticket_order.toLowerCase().includes(searchText) &&
-        item.customer_name.toLowerCase().includes(searchCustomer) &&
-        item.circuitId.toLowerCase().includes(searchCircuitId) &&
-        item.config.create_time.includes(searchDate)
+        item.ticket_order.toLowerCase().includes(searchText.toLowerCase()) &&
+        item.customer_name
+          .toLowerCase()
+          .includes(searchCustomer.toLowerCase()) &&
+        item.circuitId.toLowerCase().includes(searchCircuitId.toLowerCase()) &&
+        formatDate(item.onsite_date, 2).includes(searchDate)
     );
+    // console.log(searchDate);
+
     setFilteredTicket(filteredTicket);
   }, [ticket, searchText, searchCustomer, searchCircuitId, searchDate]);
 
   const getToPDF = (id) => {
     navigate(`/user/pdf/${id}`);
+  };
+
+  const formatDate = (datestring, type) => {
+    let formattedDate = undefined;
+    if (type === 1) {
+      const createDate = new Date(datestring);
+      formattedDate = `${("0" + createDate.getDate()).slice(-2)}/${(
+        "0" +
+        (createDate.getMonth() + 1)
+      ).slice(-2)}/${createDate.getFullYear()}`;
+    } else {
+      const createDate = new Date(datestring);
+      formattedDate = `${createDate.getFullYear()}-${(
+        "0" +
+        (createDate.getMonth() + 1)
+      ).slice(-2)}-${("0" + createDate.getDate()).slice(-2)}`;
+    }
+    // console.log("formattedDate", formattedDate);
+    return formattedDate;
   };
 
   if (ticket.length === 0) return <LoadingPage />;
@@ -91,8 +114,8 @@ function HomePage() {
               <tr className="bg-[#58A2E7] text-white text-center">
                 <td className="py-4 px-5"></td>
                 <td className="py-4 px-5">Status</td>
-                <td className="py-4 px-5">Ticket Order</td>
-                <td className="py-4 px-5">Onsite Date</td>
+                <td className="py-4 px-5 ">Ticket Order</td>
+                <td className="py-4 px-5 ">Onsite Date</td>
                 <td className="py-4 px-5">Customer Name</td>
                 <td className="py-4 px-5">Site Name</td>
                 <td className="py-4 px-5">Circuit</td>
@@ -100,6 +123,7 @@ function HomePage() {
                 <td className="py-4 px-5">ATM Type</td>
                 <td className="py-4 px-5">PPOT Staff</td>
                 <td className="py-4 px-5">Position</td>
+                <td className="py-4 px-5">Report Name</td>
               </tr>
             </thead>
             <tbody className="h-full bg-white">
@@ -140,14 +164,7 @@ function HomePage() {
                   )}
                   <td className="py-4 px-5 ">{item.ticket_order}</td>
                   <td className="py-4 px-5 ">
-                    {new Date(item.onsite_date).toLocaleString("en-US", {
-                      year: "numeric",
-                      month: "2-digit",
-                      day: "2-digit",
-                      hour: "numeric",
-                      minute: "numeric",
-                      hour12: false,
-                    })}
+                    {formatDate(item.onsite_date, 1)}
                   </td>
                   <td className="py-4 px-5">
                     {item.customer_name.length > 20
@@ -164,6 +181,7 @@ function HomePage() {
                   <td className="py-4 px-5">{item.atm_type}</td>
                   <td className="py-4 px-5">{item.ppot_staff}</td>
                   <td className="py-4 px-5">{item.position}</td>
+                  <td className="py-4 px-5">{item.config.doc_name}</td>
                 </tr>
               ))}
             </tbody>

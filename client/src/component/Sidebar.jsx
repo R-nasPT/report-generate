@@ -11,6 +11,7 @@ function Sidebar({ onSidebarToggle }) {
 
   const handleConfirmLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("id");
     navigate("/");
   };
 
