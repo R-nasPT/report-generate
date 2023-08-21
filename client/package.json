@@ -12,11 +12,12 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.0",
     "react-scripts": "5.0.1",
+    "react-select": "^5.7.4",
     "web-vitals": "^2.1.4"
   },
-  "domain":{
-    "ipbackend":"http://localhost:4000",
-    "ipftp":"http://172.13.0.190:3001"
+  "domain": {
+    "ipbackend": "http://172.13.0.190:4000",
+    "ipftp": "http://172.13.0.190:3001"
   },
   "scripts": {
     "start": "react-scripts start",

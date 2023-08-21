@@ -26,7 +26,9 @@ function DetailPage() {
   useEffect(() => {
     const getStatusTicket = async () => {
       try {
-        const result = await axios.get(`${packageJson.domain.ipbackend}/status`);
+        const result = await axios.get(
+          `${packageJson.domain.ipbackend}/status`
+        );
         setInstallation(result.data);
       } catch (error) {
         console.log(error);
@@ -39,7 +41,9 @@ function DetailPage() {
   useEffect(() => {
     const getDetailPage = async () => {
       try {
-        const result = await axios.get(`${packageJson.domain.ipbackend}/ticket/${id}`);
+        const result = await axios.get(
+          `${packageJson.domain.ipbackend}/ticket/${id}`
+        );
         const updatedFileName = result.data.config.pictures.map(
           (data, index) => ({
             id: index,
@@ -102,9 +106,13 @@ function DetailPage() {
           "file_info_id",
           ticketDetail.config.pictures[index].file_info_id
         );
-        axios.post(`${packageJson.domain.ipbackend}/ticket/updateimageticket`, formData, {
-          headers: { "content-type": "multipart/form-data" },
-        });
+        axios.post(
+          `${packageJson.domain.ipbackend}/ticket/updateimageticket`,
+          formData,
+          {
+            headers: { "content-type": "multipart/form-data" },
+          }
+        );
         console.log("Image uploaded successfully");
       }
     } catch (error) {
@@ -125,6 +133,14 @@ function DetailPage() {
       );
     }
   };
+
+  const formatDate = (dateString) => {
+    const createDate = new Date(dateString);
+    const formattedDate = `${createDate.getDate()}/${
+      createDate.getMonth() + 1
+    }/${createDate.getFullYear()}`;
+    return formattedDate;
+  }
 
   const handleClosePopup = () => {
     setShowPopup(false);
@@ -191,14 +207,7 @@ function DetailPage() {
               <p className=" font-semibold">
                 Onsite Date :{" "}
                 <span className="text-[#646D89] font-normal">
-                  {new Date(ticketDetail.onsite_date).toLocaleString("en-US", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour: "numeric",
-                    minute: "numeric",
-                    hour12: false,
-                  })}
+                  {formatDate(ticketDetail.onsite_date)}
                 </span>
               </p>
             </div>

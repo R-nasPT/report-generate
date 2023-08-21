@@ -1,34 +1,50 @@
-import React from 'react'
+import React from "react";
 
 const HeaderPDF = ({ ticketDetail }) => {
-    return (
-        <>
-            <header>
-                <div className="flex h-20 justify-center gap-6 px-3">
-                    <img src="/component/logoWhite.PNG" alt="logo" />
-                    <div className="flex flex-col items-center justify-center gap-3 pb-6 border-[2px] border-black rounded-2xl w-11/12">
-                        <h1 className="text-xl font-medium">::: {ticketDetail.config?.doc_name} ::: </h1>
-                        <div className="flex text-xs justify-evenly w-full">
-                            <p className="font-medium">Ticket Order : <span className="text-red-500 font-normal">{ticketDetail.ticket_order}</span></p>
-                            <p className="font-medium">Ticket Bank : <span className="text-red-500 font-normal">{ticketDetail.ticket_bank}</span></p>
-                            <p className="font-medium">Onsite Date : <span className="text-red-500 font-normal">
-                                {new Date(ticketDetail.onsite_date).toLocaleString('en-US', {
-                                    year: 'numeric',
-                                    month: '2-digit',
-                                    day: '2-digit',
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: false
-                                })}
-                            </span></p>
-                        </div>
-                    </div>
-                </div>
-                <hr className="w-full mt-4 border-t-2 border-black" />
-                <hr className="w-full mt-1 border-t-4 border-black" />
-            </header>
-        </>
-    )
-}
+  const formatDate = (dateString) => {
+    const createDate = new Date(dateString);
+    const formattedDate = `${createDate.getDate()}/${
+      createDate.getMonth() + 1
+    }/${createDate.getFullYear()}`;
+    return formattedDate;
+  };
+
+  return (
+    <>
+      <header>
+        <div className="flex h-20 justify-center gap-6 px-3">
+          <img src="/component/logoWhite.PNG" alt="logo" />
+          <div className="flex flex-col items-center justify-center gap-3 pb-6 border-[2px] border-black rounded-2xl w-11/12">
+            <h1 className="text-xl font-medium">
+              ::: {ticketDetail.config?.doc_name} :::{" "}
+            </h1>
+            <div className="flex text-xs justify-evenly w-full">
+              <p className="font-medium">
+                Ticket Order :{" "}
+                <span className="text-red-500 font-normal">
+                  {ticketDetail.ticket_order}
+                </span>
+              </p>
+              <p className="font-medium">
+                Ticket Bank :{" "}
+                <span className="text-red-500 font-normal">
+                  {ticketDetail.ticket_bank}
+                </span>
+              </p>
+              <p className="font-medium">
+                Onsite Date :{" "}
+                <span className="text-red-500 font-normal">
+                  {formatDate(ticketDetail.onsite_date)}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr className="w-full mt-4 border-t-2 border-black" />
+        <hr className="w-full mt-1 border-t-4 border-black" />
+      </header>
+    </>
+  );
+};
 
 export default HeaderPDF;

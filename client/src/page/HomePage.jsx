@@ -44,7 +44,7 @@ function HomePage() {
         item.circuitId.toLowerCase().includes(searchCircuitId.toLowerCase()) &&
         formatDate(item.onsite_date, 2).includes(searchDate)
     );
-    // console.log(searchDate);
+    console.log(searchDate);
 
     setFilteredTicket(filteredTicket);
   }, [ticket, searchText, searchCustomer, searchCircuitId, searchDate]);
@@ -68,7 +68,7 @@ function HomePage() {
         (createDate.getMonth() + 1)
       ).slice(-2)}-${("0" + createDate.getDate()).slice(-2)}`;
     }
-    // console.log("formattedDate", formattedDate);
+    console.log("formattedDate", formattedDate);
     return formattedDate;
   };
 
@@ -114,8 +114,8 @@ function HomePage() {
               <tr className="bg-[#58A2E7] text-white text-center">
                 <td className="py-4 px-5"></td>
                 <td className="py-4 px-5">Status</td>
-                <td className="py-4 px-5 ">Ticket Order</td>
-                <td className="py-4 px-5 ">Onsite Date</td>
+                <td className="py-4 px-5">Ticket Order</td>
+                <td className="py-4 px-5">Onsite Date</td>
                 <td className="py-4 px-5">Customer Name</td>
                 <td className="py-4 px-5">Site Name</td>
                 <td className="py-4 px-5">Circuit</td>
@@ -163,8 +163,10 @@ function HomePage() {
                     </td>
                   )}
                   <td className="py-4 px-5 ">{item.ticket_order}</td>
-                  <td className="py-4 px-5 ">
-                    {formatDate(item.onsite_date, 1)}
+                  <td className="py-4 px-5">
+                    <div className="w-24">
+                      {formatDate(item.onsite_date, 1)}
+                    </div>
                   </td>
                   <td className="py-4 px-5">
                     {item.customer_name.length > 20

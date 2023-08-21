@@ -4,6 +4,7 @@ import Navbar from "../component/Navbar";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import packageJson from "../../package.json";
+import Select from "react-select";
 
 function ConfigPage() {
   const [operation, setOperation] = useState([]);
@@ -182,10 +183,14 @@ function ConfigPage() {
             alert("กรุณากรอกชื่อไทยด้วย");
           }
         } else {
-          alert("คุณกำหนดการออกรายงานยังไม่สมบูรณ์");
+          alert(
+            "คุณยังไมกำหนดข้อมูลที่จะออกรายงาน(GetInfo) หรือ ระยะเวลาที่จะออกรายงาน(Generate)"
+          );
         }
       } else {
-        alert("กรุณากรอกข้อมูลให้ครบ");
+        alert(
+          "คุณยังไม่กำหนด Operation หรือ Customer หรือ Report Name หรือ ประเภท"
+        );
       }
     } catch (error) {
       console.log("Error saving configuration:", error);
@@ -221,6 +226,13 @@ function ConfigPage() {
     getCustomer();
   }, []);
 
+  const customerOptions = customer
+    .sort((a, b) => a.initials.localeCompare(b.initials))
+    .map((item) => ({
+      value: item.customer_id,
+      label: item.initials,
+    }));
+
   return (
     <>
       <Navbar />
@@ -246,20 +258,16 @@ function ConfigPage() {
           <label htmlFor="customer" className=" text-xl font-semibold">
             Customer :
           </label>
-          <select
-            name="customer"
-            className="border-[1px] border-black rounded-lg px-3 py-1 text-center"
-            onChange={(e) => setSelectCustomerId(e.target.value)}
-          >
-            <option value="">--Select--</option>
-            {customer
-              .sort((a, b) => a.initials.localeCompare(b.initials))
-              .map((item) => (
-                <option value={item.customer_id} key={item.customer_id}>
-                  {item.initials}
-                </option>
-              ))}
-          </select>
+          <Select
+            className="w-40"
+            options={customerOptions}
+            isSearchable
+            placeholder="--Select--"
+            onChange={(selectedOption) => {
+              // console.log(selectedOption);
+              setSelectCustomerId(selectedOption.value);
+            }}
+          />
         </div>
         <div className="flex gap-5 items-center">
           <label htmlFor="reportName" className=" text-xl font-semibold">

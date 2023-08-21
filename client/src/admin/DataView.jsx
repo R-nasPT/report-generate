@@ -29,9 +29,11 @@ const DataView = () => {
 
   const formatDate = (dateString) => {
     const createDate = new Date(dateString);
-    const formattedDate = `${createDate.getDate()}/${
-      createDate.getMonth() + 1
-    }/${createDate.getFullYear()}, ${createDate.getHours()}:${createDate.getMinutes()}`;
+    const formattedDate = `${createDate.getDate()}/
+    ${createDate.getMonth() + 1}/
+    ${createDate.getFullYear()}, 
+    ${("0" + createDate.getHours()).slice(-2)}:
+    ${("0" + createDate.getMinutes()).slice(-2)}`;
     return formattedDate;
   };
 
