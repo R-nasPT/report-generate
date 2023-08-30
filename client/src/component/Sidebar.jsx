@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
 function Sidebar({ onSidebarToggle }) {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
+  const { logout } = useAuthContext();
 
   const handleLogout = () => {
     setShowPopup(true);
   };
 
   const handleConfirmLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("id");
-    navigate("/");
+    logout();
   };
 
   const handleCancelLogout = () => {
@@ -49,14 +49,30 @@ function Sidebar({ onSidebarToggle }) {
               <img src="/component/home.svg" alt="home" className="h-5" />
               <h1>Home</h1>
             </div>
-            <div className="flex px-10 items-center gap-3 py-5 hover:bg-slate-200">
-              <img
-                src="/component/more-square.svg"
-                alt="home"
-                className="h-5"
-              />
-              <h1>Demo</h1>
-            </div>
+            {window.location.pathname.split("/")[1] !== "admin" && (
+              <>
+              <Link to="/user/mock">
+                <div className="flex px-10 items-center gap-3 py-5 hover:bg-slate-200">
+                  <img
+                    src="/component/more-square.svg"
+                    alt="home"
+                    className="h-5"
+                  />
+                  <h1>Customer File</h1>
+                </div>
+              </Link>
+              <Link to="/user/pdflte">
+              <div className="flex px-10 items-center gap-3 py-5 hover:bg-slate-200">
+                <img
+                  src="/component/more-square.svg"
+                  alt="home"
+                  className="h-5"
+                />
+                <h1>LTE Report(UAT)</h1>
+              </div>
+            </Link>
+            </>
+            )}
           </div>
           <div className="flex justify-center items-center gap-3 py-4">
             <img src="/component/logout.svg" alt="logout" className="h-5 " />

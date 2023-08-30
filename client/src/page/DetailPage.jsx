@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Footer from "../component/Footer";
 import LinePopup from "../component/LinePopop";
 import MailPopup from "../component/MailPopup";
-import Navbar from "../component/Navbar";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingPage from "../component/LoadingPage";
@@ -154,7 +153,6 @@ function DetailPage() {
   else {
     return (
       <>
-        <Navbar />
         <div className="p-11 bg-slate-200">
           <div className="flex justify-between">
             <Link

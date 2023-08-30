@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import DeletePopup from "../component/DeletePopup";
 import Footer from "../component/Footer";
-import Navbar from "../component/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import packageJson from "../../package.json";
@@ -59,7 +58,6 @@ function TemplateReport() {
 
   return (
     <>
-      <Navbar />
       <div
         className={`flex flex-col items-center mb-10 ${
           configTemplate.length < 6 ? "h-screen" : ""

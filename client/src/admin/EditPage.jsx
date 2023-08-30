@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Footer from "../component/Footer";
-import Navbar from "../component/Navbar";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import LoadingPage from "../component/LoadingPage";
@@ -140,7 +139,7 @@ function EditPage() {
       }
     };
     getConfigInfo();
-  }, []);
+  }, [id]);
 
   //--update--
   const handleSave = async () => {
@@ -197,7 +196,6 @@ function EditPage() {
   else
     return (
       <>
-        <Navbar />
         <div className="p-20 flex flex-col gap-5">
           <div className="flex gap-11 items-center">
             <label htmlFor="operation" className=" text-xl font-semibold">

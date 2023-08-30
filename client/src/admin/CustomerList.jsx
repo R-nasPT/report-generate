@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import Footer from "../component/Footer";
-import Navbar from "../component/Navbar";
 
 function CustomerList() {
 
@@ -8,7 +7,6 @@ function CustomerList() {
 
     return (
         <>
-            <Navbar />
             <table className="h-screen flex flex-col items-center p-8">
                 <thead>
                     <tr className="w-[1290px] h-[60px] bg-[#D6D9E4] rounded-t-3xl flex justify-around items-center text-[#424C6B] font-semibold">

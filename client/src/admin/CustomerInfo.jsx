@@ -1,11 +1,9 @@
 import Footer from "../component/Footer";
-import Navbar from "../component/Navbar";
 import PopupSucceeded from "../component/PopupSucceeded";
 
 function CustomerInfo() {
     return (
         <>
-            <Navbar />
             <div className="h-screen p-10 flex flex-col items-center justify-evenly">
                 <h1 className=" text-[#22269E] text-4xl font-medium">Edit Information / Permission!</h1>
                 <div className="grid grid-cols-2 p-10 gap-5">

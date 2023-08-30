@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-// import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
 
 import Dashboard from "../component/Dashboard";
 import LoginPage from "./LoginPage";
@@ -11,33 +11,37 @@ import HomePage from "./HomePage";
 import DetailPage from "./DetailPage";
 import PDFFile from "../component/PDFFile";
 import EditPage from "../admin/EditPage";
+import Mock from "./Mock";
+import PDFCustomerInfo from "./PDFCustomerInfo";
+import DetailMock from "./DetailMock";
+import PDFlte from "./PDFlte";
 
 function AuthenticatedApp() {
-  // const { isAdmin,  isLoggedIn } = useAuthContext();
-
-  // if (!isLoggedIn) {
-  //   return <LoginPage />;
-  // }
+  const { isAdmin } = useAuthContext();
 
   return (
     <Routes>
       <Route path="/" element={<Dashboard />}>
         <Route index element={<LoginPage />} />
-        {/* {isAdmin === "Admin" && ( */}
-        <Route path="admin">
-          <Route path="template" element={<TemplateReport />} />
-          <Route path="config" element={<ConfigPage />} />
-          <Route path="view/:id" element={<DataView />} />
-          <Route path="config/:id" element={<EditPage />} />
-        </Route>
-        {/* )}   */}
-        {/* {isAdmin === "User" && (   */}
-        <Route path="user">
-          <Route path="homepage" element={<HomePage />} />
-          <Route path="detailpage/:id" element={<DetailPage />} />
-          <Route path="pdf/:id" element={<PDFFile />} />
-        </Route>
-        {/* // )}   */}
+        {isAdmin === "Admin" && (
+          <Route path="admin">
+            <Route path="template" element={<TemplateReport />} />
+            <Route path="config" element={<ConfigPage />} />
+            <Route path="view/:id" element={<DataView />} />
+            <Route path="config/:id" element={<EditPage />} />
+          </Route>
+        )}
+        {isAdmin === "User" && (
+          <Route path="user">
+            <Route path="homepage" element={<HomePage />} />
+            <Route path="detailpage/:id" element={<DetailPage />} />
+            <Route path="pdf/:id" element={<PDFFile />} />
+            <Route path="mock" element={<Mock />} />
+            <Route path="pdfcus" element={<PDFCustomerInfo />} />
+            <Route path="detailmock" element={<DetailMock />} />
+            <Route path="pdflte" element={<PDFlte />} />
+          </Route>
+        )}
       </Route>
     </Routes>
   );

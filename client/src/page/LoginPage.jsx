@@ -1,7 +1,5 @@
-import Navbar from "../component/Navbar";
 import axios from "axios";
 import { useState } from "react";
-import { useAuthContext } from "../context/AuthContext";
 import packageJson from "../../package.json";
 
 function LoginPage() {
@@ -9,30 +7,25 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { setIsAdmin, setIsLoggedIn } = useAuthContext();
-
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(`${packageJson.domain.ipbackend}/member/login`, {
-        Username: username,
-        Password: password,
-      });
+      const response = await axios.post(
+        `${packageJson.domain.ipbackend}/member/login`,
+        {
+          Username: username,
+          Password: password,
+        }
+      );
 
       // console.log(response.data);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("id", response.data.id);
-      const isAdmin = response.data.isAdmin;
+      const isAdmins = response.data.isAdmin;
 
-      if (isAdmin === "Admin") {
-        setIsAdmin("Admin");
-        setIsLoggedIn(true);
-
+      if (isAdmins === "Admin") {
         window.location = "/admin/template";
-      } else if (isAdmin === "User") {
-        setIsAdmin("User");
-        setIsLoggedIn(true);
-
+      } else if (isAdmins === "User") {
         window.location = "/user/homepage";
       } else {
         setError("Access Denied: You do not have permission to access.");
@@ -47,7 +40,6 @@ function LoginPage() {
 
   return (
     <>
-      <Navbar />
       <div className="flex flex-col justify-center items-center ">
         <form onSubmit={handleLogin}>
           <div className="  rounded-3xl p-14 flex flex-col gap-10 mt-20">

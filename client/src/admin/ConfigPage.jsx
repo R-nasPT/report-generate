@@ -1,6 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import Footer from "../component/Footer";
-import Navbar from "../component/Navbar";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import packageJson from "../../package.json";
@@ -235,7 +235,6 @@ function ConfigPage() {
 
   return (
     <>
-      <Navbar />
       <div className="p-20 flex flex-col gap-5">
         <div className="flex gap-11 items-center">
           <label htmlFor="operation" className=" text-xl font-semibold">

@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import Footer from "../component/Footer";
-import Navbar from "../component/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import LoadingPage from "../component/LoadingPage";
@@ -13,7 +12,6 @@ function HomePage() {
   const [searchCircuitId, setSearchCircuitId] = useState("");
   const [searchDate, setSearchDate] = useState("");
   const [filteredTicket, setFilteredTicket] = useState([]);
-
   const navigate = useNavigate();
 
   const getToDetail = (id) => {
@@ -44,7 +42,7 @@ function HomePage() {
         item.circuitId.toLowerCase().includes(searchCircuitId.toLowerCase()) &&
         formatDate(item.onsite_date, 2).includes(searchDate)
     );
-    console.log(searchDate);
+    // console.log(searchDate);
 
     setFilteredTicket(filteredTicket);
   }, [ticket, searchText, searchCustomer, searchCircuitId, searchDate]);
@@ -68,14 +66,13 @@ function HomePage() {
         (createDate.getMonth() + 1)
       ).slice(-2)}-${("0" + createDate.getDate()).slice(-2)}`;
     }
-    console.log("formattedDate", formattedDate);
+    // console.log("formattedDate", formattedDate);
     return formattedDate;
   };
 
   if (ticket.length === 0) return <LoadingPage />;
   return (
     <>
-      <Navbar />
       <div className="bg-slate-100 flex flex-col items-center h-screen">
         <div className="flex items-center gap-10 p-4">
           <h1 className="text-lg font-medium">Select : </h1>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../component/Navbar";
 import Footer from "../component/Footer";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
@@ -39,7 +38,6 @@ const DataView = () => {
 
   return (
     <>
-      <Navbar />
       <div className="flex flex-col gap-2 bg-slate-200 py-10 px-60">
         <div className="flex pl-3">
           <Link
