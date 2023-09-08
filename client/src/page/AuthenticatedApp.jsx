@@ -9,9 +9,9 @@ import DataView from "../admin/DataView";
 
 import HomePage from "./HomePage";
 import DetailPage from "./DetailPage";
-import PDFFile from "../component/PDFFile";
+import PDFFile from "./PDFFile";
 import EditPage from "../admin/EditPage";
-import Mock from "./Mock";
+import ATMPage from "./ATMPage";
 import PDFCustomerInfo from "./PDFCustomerInfo";
 import DetailMock from "./DetailMock";
 import PDFlte from "./PDFlte";
@@ -36,7 +36,7 @@ function AuthenticatedApp() {
             <Route path="homepage" element={<HomePage />} />
             <Route path="detailpage/:id" element={<DetailPage />} />
             <Route path="pdf/:id" element={<PDFFile />} />
-            <Route path="mock" element={<Mock />} />
+            <Route path="atmpage" element={<ATMPage />} />
             <Route path="pdfcus" element={<PDFCustomerInfo />} />
             <Route path="detailmock" element={<DetailMock />} />
             <Route path="pdflte" element={<PDFlte />} />

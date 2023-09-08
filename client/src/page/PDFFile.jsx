@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import LoadingPage from "./LoadingPage";
-import HeaderPDF from "./HeaderPDF";
-import FooterPDF from "./FooterPDF";
+import LoadingPage from "../component/LoadingPage";
+import HeaderPDF from "../component/HeaderPDF";
+import FooterPDF from "../component/FooterPDF";
 import packageJson from "../../package.json";
 
 function PDFFile() {

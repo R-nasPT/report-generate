@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import { GiAutoRepair } from "react-icons/gi";
+import { TfiWrite } from "react-icons/tfi";
+import { RiCustomerService2Fill, RiFileMarkLine } from "react-icons/ri";
+import { MdMiscellaneousServices } from "react-icons/md";
+import AnimateHeight from "react-animate-height";
 
 function Sidebar({ onSidebarToggle }) {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
+  const [subInstall, setSubInstall] = useState(false);
+  const [subCusService, setSubCusService] = useState(false);
   const { logout } = useAuthContext();
 
   const handleLogout = () => {
@@ -30,7 +37,7 @@ function Sidebar({ onSidebarToggle }) {
 
   return (
     <>
-      <div className="fixed bg-white h-screen w-60 text-white">
+      <aside className="fixed bg-white h-screen w-60 text-white">
         <div className="h-[80px] bg-[#0D0DA4] flex justify-between pl-8 pr-3 py-3">
           <img src="/component/logo-pp-ontime.svg" alt="logo" />
           <button
@@ -43,7 +50,7 @@ function Sidebar({ onSidebarToggle }) {
         <div className=" py-10 text-center text-blue-800 font-medium h-full">
           <div className="h-4/5">
             <div
-              className="flex px-10 items-center gap-3 py-5 hover:bg-slate-200 cursor-pointer"
+              className="flex pl-7 items-center gap-3 py-5 hover:bg-slate-200 cursor-pointer"
               onClick={toFirstPage}
             >
               <img src="/component/home.svg" alt="home" className="h-5" />
@@ -51,27 +58,56 @@ function Sidebar({ onSidebarToggle }) {
             </div>
             {window.location.pathname.split("/")[1] !== "admin" && (
               <>
-              <Link to="/user/mock">
-                <div className="flex px-10 items-center gap-3 py-5 hover:bg-slate-200">
-                  <img
-                    src="/component/more-square.svg"
-                    alt="home"
-                    className="h-5"
-                  />
-                  <h1>Customer File</h1>
+                <div
+                  className="flex pl-7 items-center gap-3 py-5 hover:bg-slate-200 cursor-pointer"
+                  onClick={() => setSubInstall(!subInstall)}
+                >
+                  <GiAutoRepair className="h-10 w-6" />
+                  <h1>Installation</h1>
+                  <h1 className={`ml-10 ${subInstall ? "rotate-180" : ""}`}>
+                    ▼
+                  </h1>
                 </div>
-              </Link>
-              <Link to="/user/pdflte">
-              <div className="flex px-10 items-center gap-3 py-5 hover:bg-slate-200">
-                <img
-                  src="/component/more-square.svg"
-                  alt="home"
-                  className="h-5"
-                />
-                <h1>LTE Report(UAT)</h1>
-              </div>
-            </Link>
-            </>
+                <AnimateHeight duration={300} height={subInstall ? "auto" : 0}>
+                  <Link
+                    to="/user/atmpage"
+                    className="flex pl-14 items-center gap-3 py-5 hover:bg-slate-200"
+                  >
+                    <TfiWrite />
+                    <h1>New Install</h1>
+                  </Link>
+                </AnimateHeight>
+                <div
+                  className="flex pl-7 items-center py-5 hover:bg-slate-200 cursor-pointer"
+                  onClick={() => setSubCusService(!subCusService)}
+                >
+                  <MdMiscellaneousServices className="w-5 h-10 mr-3" />
+                  <h1>Customer Service</h1>
+                  <h1 className={`ml-3 ${subCusService ? "rotate-180" : ""}`}>
+                    ▼
+                  </h1>
+                </div>
+
+                <AnimateHeight
+                  duration={300}
+                  height={subCusService ? "auto" : 0}
+                >
+                  <Link
+                    to="/user/pdflte"
+                    className="flex pl-14 items-center gap-3 py-5 hover:bg-slate-200"
+                  >
+                    <RiCustomerService2Fill />
+                    <h1>Service</h1>
+                  </Link>
+                  <Link
+                    to=""
+                    className="flex pl-14 items-center gap-3 py-5 hover:bg-slate-200"
+                  >
+                    <RiFileMarkLine />
+                    <h1>MA</h1>
+                  </Link>
+                </AnimateHeight>
+              </>
             )}
           </div>
           <div className="flex justify-center items-center gap-3 py-4">
@@ -84,7 +120,7 @@ function Sidebar({ onSidebarToggle }) {
             </h1>
           </div>
         </div>
-      </div>
+      </aside>
       {/* Popup */}
       {showPopup && (
         <div className="w-screen fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-700 bg-opacity-75">
