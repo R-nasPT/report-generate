@@ -42,7 +42,7 @@ function Navbar() {
         >
           ☰
         </button>
-        <img src="/component/logo-pp-ontime.svg" alt="logo" />
+        <img src="/component/logo-pp-ontime.svg" alt="logo" className="hidden lg:block"/>
         <h1 className=" text-base font-medium ">PP ONTIME CO., LTD.</h1>
       </div>
     </>

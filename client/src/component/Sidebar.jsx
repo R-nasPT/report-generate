@@ -70,7 +70,7 @@ function Sidebar({ onSidebarToggle }) {
                 </div>
                 <AnimateHeight duration={300} height={subInstall ? "auto" : 0}>
                   <Link
-                    to="/user/atmpage"
+                    to="/user/install"
                     className="flex pl-14 items-center gap-3 py-5 hover:bg-slate-200"
                   >
                     <TfiWrite />

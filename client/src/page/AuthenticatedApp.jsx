@@ -11,10 +11,11 @@ import HomePage from "./HomePage";
 import DetailPage from "./DetailPage";
 import PDFFile from "./PDFFile";
 import EditPage from "../admin/EditPage";
-import ATMPage from "./ATMPage";
 import PDFCustomerInfo from "./PDFCustomerInfo";
 import DetailMock from "./DetailMock";
 import PDFlte from "./PDFlte";
+import Installation from "./Installation";
+import TotalInputInstallation from "./TotalInputInstallation";
 
 function AuthenticatedApp() {
   const { isAdmin } = useAuthContext();
@@ -36,10 +37,11 @@ function AuthenticatedApp() {
             <Route path="homepage" element={<HomePage />} />
             <Route path="detailpage/:id" element={<DetailPage />} />
             <Route path="pdf/:id" element={<PDFFile />} />
-            <Route path="atmpage" element={<ATMPage />} />
+            <Route path="atmpage/:id" element={<TotalInputInstallation />} />
             <Route path="pdfcus" element={<PDFCustomerInfo />} />
             <Route path="detailmock" element={<DetailMock />} />
             <Route path="pdflte" element={<PDFlte />} />
+            <Route path="install" element={<Installation />} />
           </Route>
         )}
       </Route>

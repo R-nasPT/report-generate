@@ -40,17 +40,17 @@ function LoginPage() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center ">
+      <div className="flex flex-col justify-center items-center">
         <form onSubmit={handleLogin}>
-          <div className="  rounded-3xl p-14 flex flex-col gap-10 mt-20">
-            <h1 className=" text-[#22269E] text-4xl font-medium">
+          <div className="rounded-3xl lg:p-14 flex flex-col gap-5 lg:gap-10 mt-52 lg:mt-20">
+            <h1 className=" text-[#22269E] text-2xl lg:text-4xl font-medium ">
               Welcome back!
             </h1>
             <div>
               <h2>Username</h2>
               <label htmlFor="username">
                 <input
-                  className="border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                  className="border-[1px] border-[#D6D9E4] rounded-lg w-80 lg:w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
                   type="text"
                   name="username"
                   placeholder="Enter Username"
@@ -63,7 +63,7 @@ function LoginPage() {
               <h2>Password</h2>
               <label htmlFor="password">
                 <input
-                  className="border-[1px] border-[#D6D9E4] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
+                  className="border-[1px] border-[#D6D9E4] rounded-lg w-80 lg:w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px]"
                   type="password"
                   name="password"
                   placeholder="Enter Password"
@@ -74,7 +74,7 @@ function LoginPage() {
             </div>
             <button
               type="submit"
-              className="text-center text-white bg-[#22269E] rounded-lg w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px] hover:bg-[#060673]"
+              className="text-center text-white bg-[#22269E] rounded-lg lg:w-[453px] h-[48px] py-[12px] pr-[16px] pl-[12px] hover:bg-[#060673]"
             >
               Log in
             </button>
