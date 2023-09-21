@@ -4,7 +4,7 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import packageJson from "../../package.json";
 import axios from "axios";
 function TotalSiteInformation({ props }) {
-  const { boxOne, setBoxOne, siteinfo, register, setValue, errors } = props;
+  const { boxOne, setBoxOne, siteinfo, register, status, errors } = props;
   const [equipmentType, setEquipmentType] = useState([]);
   const [equipmentName, setEquipmentName] = useState([]);
   const [equipmentBrand, setEquipmentBrand] = useState([]);
@@ -88,7 +88,7 @@ function TotalSiteInformation({ props }) {
     const response = await axios.get(
       `${packageJson.domain.ipSiteInfo}/upsusetype/upsusetype`
     );
-    console.log(response.data);
+    // console.log(response.data);
     setUpsType(response.data);
   };
 
@@ -313,7 +313,7 @@ function TotalSiteInformation({ props }) {
                 </div>
               </div>
             </div>
-            {siteinfo.customerModel?.cusGroupType === 1 && (
+            {status.customerModel?.cusGroupType === 1 && (
               <>
                 {/* box-5 */}
                 <div>
@@ -764,7 +764,7 @@ function TotalSiteInformation({ props }) {
                 </div>
               </>
             )}
-            {siteinfo.customerModel?.cusGroupType === 2 && (
+            {status.customerModel?.cusGroupType === 2 && (
               <>
                 {/*------ LTE Box-1 --------*/}
                 <div>
@@ -1863,8 +1863,6 @@ function TotalSiteInformation({ props }) {
                   <div className="flex gap-3 items-center">
                     <input
                       type="text"
-                      max={100}
-                      min={0}
                       className="border-[1px] border-black rounded-lg p-1"
                       {...register("load", {
                         min: 0,
@@ -2268,7 +2266,7 @@ function TotalSiteInformation({ props }) {
               </div>
             </div>
           </div>
-          {siteinfo.customerModel?.cusGroupType === 2 && (
+          {status.customerModel?.cusGroupType === 2 && (
             <>
               {/* outsideBox-1 */}
               <div>
@@ -2277,11 +2275,21 @@ function TotalSiteInformation({ props }) {
                     Test Other SIM 1
                   </h1>
                   <label className="flex p-1 gap-3 items-center">
-                    <input type="radio" name="sim1" className="h-6 w-6" />
+                    <input
+                      type="radio"
+                      className="h-6 w-6"
+                      value={1}
+                      {...register("sim1")}
+                    />
                     <span>Active</span>
                   </label>
                   <label className="flex p-1 gap-3 items-center">
-                    <input type="radio" name="sim1" className="h-6 w-6" />
+                    <input
+                      type="radio"
+                      className="h-6 w-6"
+                      value={0}
+                      {...register("sim1")}
+                    />
                     <span>Back Up</span>
                   </label>
                 </div>
@@ -2292,12 +2300,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim1name1')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim1no1" className="h-6 w-6" />
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim1no1")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" name="sim1no1" className="h-6 w-6" />
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim1no1")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2308,12 +2327,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim1name2')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim1no2" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no2')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim1no2" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no2')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2324,12 +2344,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim1name3')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim1no3" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no3')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim1no3" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no3')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2340,12 +2361,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim1name4')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim1no4" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no4')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim1no4" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no4')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2356,12 +2378,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim1name5')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim1no5" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no5')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim1no5" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no5')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2372,12 +2395,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim1name6')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim1no6" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no6')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim1no6" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no6')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2388,12 +2412,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim1name7')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim1no7" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no7')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim1no7" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no7')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2404,12 +2429,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim1name8')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim1no8" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no8')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim1no8" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no8')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2423,11 +2449,21 @@ function TotalSiteInformation({ props }) {
                     Test Other SIM 2
                   </h1>
                   <label className="flex p-1 gap-3 items-center">
-                    <input type="radio" name="sim2" className="h-6 w-6" />
+                    <input
+                      type="radio"
+                      className="h-6 w-6"
+                      value={1}
+                      {...register("sim2")}
+                    />
                     <span>Active</span>
                   </label>
                   <label className="flex p-1 gap-3 items-center">
-                    <input type="radio" name="sim2" className="h-6 w-6" />
+                    <input
+                      type="radio"
+                      className="h-6 w-6"
+                      value={0}
+                      {...register("sim2")}
+                    />
                     <span>Back Up</span>
                   </label>
                 </div>
@@ -2438,12 +2474,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim2name1')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim2no1" className="h-6 w-6" />
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim2no1")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" name="sim2no1" className="h-6 w-6" />
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim2no1")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2454,12 +2501,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim2name2')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim2no2" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no2')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim2no2" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no2')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2470,12 +2518,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim2name3')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim2no3" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no3')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim2no3" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no3')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2486,12 +2535,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim2name4')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim2no4" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no4')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim2no4" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no4')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2502,12 +2552,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim2name5')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim2no5" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no5')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim2no5" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no5')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2518,12 +2569,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim2name6')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim2no6" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no6')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim2no6" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no6')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2534,12 +2586,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim2name7')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim2no7" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no7')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim2no7" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no7')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2550,12 +2603,13 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        {...register('sim2name8')}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" name="sim2no8" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no8')}/>
                       <span>Pass</span>
-                      <input type="radio" name="sim2no8" className="h-6 w-6" />
+                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no8')}/>
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
