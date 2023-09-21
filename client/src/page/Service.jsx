@@ -3,11 +3,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import LoadingPage from "../component/LoadingPage";
 import { FiFilter } from "react-icons/fi";
 import packageJson from "../../package.json";
 
-function Installation() {
+function Service() {
   const [siteinfo, setSiteinfo] = useState([]);
   const [customer, setCustomer] = useState([]);
 
@@ -95,8 +94,6 @@ function Installation() {
     handleSearch();
   }, [siteinfo]);
 
-  if (siteinfo.length === 0) return <LoadingPage />;
-  // console.log(customerOptions);
 
   return (
     <>
@@ -318,4 +315,4 @@ function Installation() {
   );
 }
 
-export default Installation;
+export default Service;

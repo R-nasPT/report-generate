@@ -12,6 +12,7 @@ export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navigate = useNavigate();
+  // console.log(isAdmin);
 
   const login = (adminStatus) => {
     setIsAdmin(adminStatus);

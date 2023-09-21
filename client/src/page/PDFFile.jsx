@@ -105,7 +105,7 @@ function PDFFile() {
               className="w-9 h-9 p-2 bg-red-600 hover:bg-red-500 rounded-md"
             />
           </Link>
-          <Link to="/user/homepage">
+          <Link to="/user/onsite">
             <img
               src="/user/home 2.png"
               alt="home"

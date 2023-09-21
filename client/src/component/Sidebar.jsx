@@ -5,6 +5,8 @@ import { GiAutoRepair } from "react-icons/gi";
 import { TfiWrite } from "react-icons/tfi";
 import { RiCustomerService2Fill, RiFileMarkLine } from "react-icons/ri";
 import { MdMiscellaneousServices } from "react-icons/md";
+import { TbFileSettings } from "react-icons/tb";
+import { FaSitemap } from "react-icons/fa";
 import AnimateHeight from "react-animate-height";
 
 function Sidebar({ onSidebarToggle }) {
@@ -12,7 +14,8 @@ function Sidebar({ onSidebarToggle }) {
   const [showPopup, setShowPopup] = useState(false);
   const [subInstall, setSubInstall] = useState(false);
   const [subCusService, setSubCusService] = useState(false);
-  const { logout } = useAuthContext();
+  const [subMa, setSubMa] = useState(false);
+  const { logout, isAdmin } = useAuthContext();
 
   const handleLogout = () => {
     setShowPopup(true);
@@ -26,14 +29,14 @@ function Sidebar({ onSidebarToggle }) {
     setShowPopup(false);
   };
 
-  const toFirstPage = () => {
-    console.log(window.location.pathname.split("/"));
-    if (window.location.pathname.split("/")[1] === "admin") {
-      navigate("/admin/template");
-    } else {
-      navigate("/user/homepage");
-    }
-  };
+  // const toFirstPage = () => {
+  //   console.log(window.location.pathname.split("/"));
+  //   if (window.location.pathname.split("/")[1] === "admin") {
+  //     navigate("/admin/template");
+  //   } else {
+  //     navigate("/user/homepage");
+  //   }
+  // };
 
   return (
     <>
@@ -51,66 +54,74 @@ function Sidebar({ onSidebarToggle }) {
           <div className="h-4/5">
             <div
               className="flex pl-7 items-center gap-3 py-5 hover:bg-slate-200 cursor-pointer"
-              onClick={toFirstPage}
+              onClick={() => navigate("/user/homepage")}
             >
               <img src="/component/home.svg" alt="home" className="h-5" />
               <h1>Home</h1>
             </div>
-            {window.location.pathname.split("/")[1] !== "admin" && (
-              <>
-                <div
-                  className="flex pl-7 items-center gap-3 py-5 hover:bg-slate-200 cursor-pointer"
-                  onClick={() => setSubInstall(!subInstall)}
-                >
-                  <GiAutoRepair className="h-10 w-6" />
-                  <h1>Installation</h1>
-                  <h1 className={`ml-10 ${subInstall ? "rotate-180" : ""}`}>
-                    ▼
-                  </h1>
-                </div>
-                <AnimateHeight duration={300} height={subInstall ? "auto" : 0}>
-                  <Link
-                    to="/user/install"
-                    className="flex pl-14 items-center gap-3 py-5 hover:bg-slate-200"
-                  >
-                    <TfiWrite />
-                    <h1>New Install</h1>
-                  </Link>
-                </AnimateHeight>
-                <div
-                  className="flex pl-7 items-center py-5 hover:bg-slate-200 cursor-pointer"
-                  onClick={() => setSubCusService(!subCusService)}
-                >
-                  <MdMiscellaneousServices className="w-5 h-10 mr-3" />
-                  <h1>Customer Service</h1>
-                  <h1 className={`ml-3 ${subCusService ? "rotate-180" : ""}`}>
-                    ▼
-                  </h1>
-                </div>
+            <div
+              className="flex pl-7 items-center gap-3 py-5 hover:bg-slate-200 cursor-pointer"
+              onClick={() => setSubInstall(!subInstall)}
+            >
+              <GiAutoRepair className="h-10 w-6" />
+              <h1>Installation</h1>
+              <h1 className={`ml-10 ${subInstall ? "rotate-180" : ""}`}>▼</h1>
+            </div>
+            <AnimateHeight duration={300} height={subInstall ? "auto" : 0}>
+              <Link
+                to="/user/install"
+                className="flex pl-14 items-center gap-3 py-5 hover:bg-slate-200"
+              >
+                <TfiWrite />
+                <h1>New Install</h1>
+              </Link>
+            </AnimateHeight>
+            <div
+              className="flex pl-7 items-center py-5 hover:bg-slate-200 cursor-pointer"
+              onClick={() => setSubCusService(!subCusService)}
+            >
+              <MdMiscellaneousServices className="w-5 h-10 mr-3" />
+              <h1>Customer Service</h1>
+              <h1 className={`ml-3 ${subCusService ? "rotate-180" : ""}`}>▼</h1>
+            </div>
 
-                <AnimateHeight
-                  duration={300}
-                  height={subCusService ? "auto" : 0}
+            <AnimateHeight duration={300} height={subCusService ? "auto" : 0}>
+              <Link
+                to="/user/service"
+                className="flex pl-14 items-center gap-3 py-5 hover:bg-slate-200"
+              >
+                <RiCustomerService2Fill />
+                <h1>Service</h1>
+              </Link>
+              <div
+                className="flex pl-14 items-center gap-3 py-5 hover:bg-slate-200"
+                onClick={() => setSubMa(!subMa)}
+              >
+                <RiFileMarkLine />
+                <h1>MA</h1>
+                <h1 className={`ml-10 ${subMa ? "rotate-180" : ""}`}>▼</h1>
+              </div>
+              <AnimateHeight duration={300} height={subMa ? "auto" : 0}>
+                {isAdmin === "Admin" && (
+                  <Link
+                    to="/admin/template"
+                    className="flex pl-20 items-center gap-3 py-5 hover:bg-slate-200"
+                  >
+                    <TbFileSettings className="h-6 w-6"/>
+                    <h1>Setting</h1>
+                  </Link>
+                )}
+                <Link
+                  to="/user/onsite"
+                  className="flex pl-20 items-center gap-3 py-5 hover:bg-slate-200"
                 >
-                  <Link
-                    to="/user/pdflte"
-                    className="flex pl-14 items-center gap-3 py-5 hover:bg-slate-200"
-                  >
-                    <RiCustomerService2Fill />
-                    <h1>Service</h1>
-                  </Link>
-                  <Link
-                    to=""
-                    className="flex pl-14 items-center gap-3 py-5 hover:bg-slate-200"
-                  >
-                    <RiFileMarkLine />
-                    <h1>MA</h1>
-                  </Link>
-                </AnimateHeight>
-              </>
-            )}
+                  <FaSitemap className="h-5 w-5"/>
+                  <h1>Onsite Report</h1>
+                </Link>
+              </AnimateHeight>
+            </AnimateHeight>
           </div>
-          <div className="flex justify-center items-center gap-3 py-4">
+          <div className="flex justify-center items-center gap-3 mt-5 py-4">
             <img src="/component/logout.svg" alt="logout" className="h-5 " />
             <h1
               className="hover:underline cursor-pointer"

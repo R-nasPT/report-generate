@@ -1,11 +1,16 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import packageJson from "../../package.json";
+import { useAuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const { isAdmin } = useAuthContext();
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -21,15 +26,16 @@ function LoginPage() {
       // console.log(response.data);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("id", response.data.id);
-      const isAdmins = response.data.isAdmin;
+      // const isAdmins = response.data.isAdmin;
 
-      if (isAdmins === "Admin") {
-        window.location = "/admin/template";
-      } else if (isAdmins === "User") {
-        window.location = "/user/homepage";
-      } else {
-        setError("Access Denied: You do not have permission to access.");
-      }
+      // if (isAdmins === "Admin") {
+      //   window.location = "/admin/template";
+      // } else if (isAdmins === "User") {
+      //   window.location = "/user/homepage";
+      // } else {
+      //   setError("Access Denied: You do not have permission to access.");
+      // }
+      window.location = "/user/homepage";
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -37,6 +43,12 @@ function LoginPage() {
       setError("");
     }, 5000);
   };
+
+  useEffect(() => {
+    if (isAdmin) {
+      navigate("/user/homepage");
+    }
+  }, [isAdmin, navigate]);
 
   return (
     <>

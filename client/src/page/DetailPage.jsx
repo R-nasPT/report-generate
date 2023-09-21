@@ -156,7 +156,7 @@ function DetailPage() {
         <div className="p-11 bg-slate-200">
           <div className="flex justify-between">
             <Link
-              to="/user/homepage"
+              to="/user/onsite"
               className=" bg-red-500 hover:bg-red-600 px-5 py-3 rounded-xl text-white"
             >
               Back
