@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { RiArrowDownSLine, RiDraftFill } from "react-icons/ri";
 import { MdCancel, MdSave } from "react-icons/md";
 import { BsFillFileEarmarkPdfFill } from "react-icons/bs";
-import LoadingPage from "../component/LoadingPage";
+import { TiDelete } from "react-icons/ti";
 
 function TotalInputInstallation() {
   const [siteinfo, setSiteinfo] = useState([]);
@@ -29,8 +29,6 @@ function TotalInputInstallation() {
     setValue,
     formState: { errors },
   } = useForm();
-
-  console.log(update);
 
   const { id } = useParams();
 
@@ -55,7 +53,7 @@ function TotalInputInstallation() {
       const response = await axios.get(
         `${packageJson.domain.ipSiteInfo}/siteinfo/${id}`
       );
-      // console.log(response.data);
+      console.log(response.data);
       //-----Site Info
       setValue("stationId", response.data.atmModel.stationId);
       setValue("brand", response.data.atmModel.atmBrandModel.atmBrandName);
@@ -624,10 +622,8 @@ function TotalInputInstallation() {
         response.data.rawData?.workingTime?.officeArrival
       );
       setValue("note", response.data.rawData?.note);
-      // response.data.fileInfo.forEach((file) => {
-      //   setImageList(...imageList, {file});
-      // });
-      console.log(response.data.fileInfo);
+
+      setImageList(response.data.fileInfo);
     } catch (error) {
       console.error(error);
     }
@@ -1070,17 +1066,59 @@ function TotalInputInstallation() {
       );
     }
   };
-  const handleFilePicUpload = (e, queue, name) => {
-    console.log("file", queue);
-    console.log("file", name);
-    console.log(imageList);
-    if (e.target.files[0]) {
-      console.log("file", e.target.files[0]);
+
+  const handleUpload = async (e, queue, name) => {
+    try {
+      console.log(e.target.files[0]);
+      if (e.target.files[0]) {
+        let type = e.target.files[0].name.split(".");
+        const formData = new FormData();
+        formData.append("userProfile", e.target.files[0]);
+        formData.append("cid", status.cid);
+        formData.append("ticketId", status.TicketInfoModel.tkdt_ID);
+        formData.append("name", name);
+        formData.append("queue", queue);
+        console.log(formData);
+        axios.post(`${packageJson.domain.ipSiteInfo}/ftp/addimage`, formData, {
+          headers: { "content-type": "multipart/form-data" },
+        });
+        setImageList((prevImage) =>
+          prevImage.map((item) =>
+            item.queue === queue
+              ? { ...item, fileName: `${name}.${type[1]}` }
+              : item
+          )
+        );
+        console.log("Image uploaded successfully");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleDeleteNamePicture = async (queue) => {
+    console.log(queue);
+    try {
+      let data = {
+        cid: status.cid,
+        ticketId: status.TicketInfoModel.tkdt_ID,
+        name: "",
+        queue: queue,
+      };
+      axios.post(`${packageJson.domain.ipSiteInfo}/ftp/delectimage`, data);
+      setImageList((prevImage) =>
+        prevImage.map((item) =>
+          item.queue === queue ? { ...item, fileName: "" } : item
+        )
+      );
+      console.log("Delete Image successfully");
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     getStatus();
+    console.log(imageList[5]?.fileName !== "");
   }, []);
 
   return (
@@ -1176,88 +1214,219 @@ function TotalInputInstallation() {
                     <h1 className="text-3xl font-bold w-full p-5">Image</h1>
                     <div className="lg:grid lg:grid-cols-3 gap-5 text-center">
                       <div className="flex flex-col gap-3">
-                        <label
-                          htmlFor="file-input"
-                          className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
-                        >
-                          <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
-                            <span className="text-8xl ">+</span>
-                            <p>Upload Photo</p>
+                        {imageList[0]?.fileName !== "" &&
+                        imageList[5]?.fileName !== undefined ? (
+                          <div className="relative">
+                            <img
+                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[0]?.cid}/${imageList[0]?.tikcetId}/${imageList[0]?.fileName}`}
+                              alt="รูปหน้าร้าน"
+                              className="w-[300px] h-[300px]"
+                            />
+                            <TiDelete
+                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                              onClick={() => handleDeleteNamePicture(0)}
+                            />
                           </div>
-                        </label>
-                        <input
-                          type="file"
-                          id="file-input"
-                          className="hidden"
-                          onChange={(e) =>
-                            handleFilePicUpload(e, 1, "storefront")
-                          }
-                        />
+                        ) : (
+                          <>
+                            <label
+                              htmlFor="file-input0"
+                              className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                            >
+                              <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                <span className="text-8xl ">+</span>
+                                <p>Upload Photo</p>
+                              </div>
+                            </label>
+                            <input
+                              type="file"
+                              id="file-input0"
+                              className="hidden"
+                              onChange={(e) => handleUpload(e, 0, "storefront")}
+                            />
+                          </>
+                        )}
                         <p>รูปหน้าร้าน</p>
                       </div>
                       <div className="flex flex-col gap-3">
-                        <label
-                          htmlFor="file-input"
-                          className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
-                        >
-                          <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
-                            <span className="text-8xl ">+</span>
-                            <p>Upload Photo</p>
+                        {imageList[1]?.fileName !== "" &&
+                        imageList[5]?.fileName !== undefined ? (
+                          <div className="relative">
+                            <img
+                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[1]?.cid}/${imageList[1]?.tikcetId}/${imageList[1]?.fileName}`}
+                              alt="หน้าตู้/จุดวางอุปกรณ์"
+                              className="w-[300px] h-[300px]"
+                            />
+                            <TiDelete
+                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                              onClick={() => handleDeleteNamePicture(1)}
+                            />
                           </div>
-                        </label>
-                        <input type="file" id="file-input" className="hidden" />
+                        ) : (
+                          <>
+                            <label
+                              htmlFor="file-input1"
+                              className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                            >
+                              <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                <span className="text-8xl ">+</span>
+                                <p>Upload Photo</p>
+                              </div>
+                            </label>
+                            <input
+                              type="file"
+                              id="file-input1"
+                              className="hidden"
+                              onChange={(e) =>
+                                handleUpload(e, 1, "cabinetFront")
+                              }
+                            />
+                          </>
+                        )}
                         <p>หน้าตู้/จุดวางอุปกรณ์</p>
                       </div>
                       <div className="flex flex-col gap-3">
-                        <label
-                          htmlFor="file-input"
-                          className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
-                        >
-                          <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
-                            <span className="text-8xl ">+</span>
-                            <p>Upload Photo</p>
+                        {imageList[2]?.fileName !== "" &&
+                        imageList[5]?.fileName !== undefined ? (
+                          <div className="relative">
+                            <img
+                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}
+                              alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                              className="w-[300px] h-[300px]"
+                            />
+                            <TiDelete
+                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                              onClick={() => handleDeleteNamePicture(2)}
+                            />
                           </div>
-                        </label>
-                        <input type="file" id="file-input" className="hidden" />
+                        ) : (
+                          <>
+                            <label
+                              htmlFor="file-input2"
+                              className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                            >
+                              <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                <span className="text-8xl ">+</span>
+                                <p>Upload Photo</p>
+                              </div>
+                            </label>
+                            <input
+                              type="file"
+                              id="file-input2"
+                              className="hidden"
+                              onChange={(e) =>
+                                handleUpload(e, 2, "cabinetSide")
+                              }
+                            />
+                          </>
+                        )}
                         <p>ด้านข้างตู้(ซ้าย-ขวา)</p>
                       </div>
                       <div className="flex flex-col gap-3">
-                        <label
-                          htmlFor="file-input"
-                          className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
-                        >
-                          <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
-                            <span className="text-8xl ">+</span>
-                            <p>Upload Photo</p>
+                        {imageList[3]?.fileName !== "" &&
+                        imageList[5]?.fileName !== undefined ? (
+                          <div className="relative">
+                            <img
+                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.tikcetId}/${imageList[3]?.fileName}`}
+                              alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                              className="w-[300px] h-[300px]"
+                            />
+                            <TiDelete
+                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                              onClick={() => handleDeleteNamePicture(3)}
+                            />
                           </div>
-                        </label>
-                        <input type="file" id="file-input" className="hidden" />
+                        ) : (
+                          <>
+                            <label
+                              htmlFor="file-input3"
+                              className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                            >
+                              <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                <span className="text-8xl ">+</span>
+                                <p>Upload Photo</p>
+                              </div>
+                            </label>
+                            <input
+                              type="file"
+                              id="file-input3"
+                              className="hidden"
+                              onChange={(e) => handleUpload(e, 3, "Serial1")}
+                            />
+                          </>
+                        )}
                         <p>รูปอุปกรณ์/Serial</p>
                       </div>
                       <div className="flex flex-col gap-3">
-                        <label
-                          htmlFor="file-input"
-                          className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
-                        >
-                          <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
-                            <span className="text-8xl">+</span>
-                            <p>Upload Photo</p>
+                        {imageList[4]?.fileName !== "" &&
+                        imageList[5]?.fileName !== undefined ? (
+                          <div className="relative">
+                            <img
+                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.tikcetId}/${imageList[4]?.fileName}`}
+                              alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                              className="w-[300px] h-[300px]"
+                            />
+                            <TiDelete
+                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                              onClick={() => handleDeleteNamePicture(4)}
+                            />
                           </div>
-                        </label>
-                        <input type="file" id="file-input" className="hidden" />
+                        ) : (
+                          <>
+                            <label
+                              htmlFor="file-input4"
+                              className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                            >
+                              <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                <span className="text-8xl">+</span>
+                                <p>Upload Photo</p>
+                              </div>
+                            </label>
+                            <input
+                              type="file"
+                              id="file-input4"
+                              className="hidden"
+                              onChange={(e) => handleUpload(e, 4, "Serial2")}
+                            />
+                          </>
+                        )}
                         <p>รูปอุปกรณ์/Serial</p>
                       </div>
                       <div className="flex flex-col gap-3">
-                        <label
-                          htmlFor="file-input"
-                          className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
-                        >
-                          <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
-                            <span className="text-8xl ">+</span>
-                            <p>Upload Photo</p>
+                        {imageList[5]?.fileName !== "" &&
+                        imageList[5]?.fileName !== undefined ? (
+                          <div className="relative">
+                            <img
+                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.tikcetId}/${imageList[5]?.fileName}`}
+                              alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                              className="w-[300px] h-[300px]"
+                            />
+                            <TiDelete
+                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                              onClick={() => handleDeleteNamePicture(5)}
+                            />
                           </div>
-                        </label>
-                        <input type="file" id="file-input" className="hidden" />
+                        ) : (
+                          <>
+                            <label
+                              htmlFor="file-input5"
+                              className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                            >
+                              <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                <span className="text-8xl ">+</span>
+                                <p>Upload Photo</p>
+                              </div>
+                            </label>
+                            <input
+                              type="file"
+                              id="file-input5"
+                              className="hidden"
+                              onChange={(e) =>
+                                handleUpload(e, 5, "behindCabinet")
+                              }
+                            />
+                          </>
+                        )}
                         <p>หลังตู้/จุดวางอุปกรณ์</p>
                       </div>
                     </div>
@@ -1345,9 +1514,12 @@ function TotalInputInstallation() {
               </div>
             </div>
             <div className="flex justify-center gap-5 py-5">
-              <button className="flex items-center text-red-500 gap-1 font-bold bg-red-200 px-3 w-28 h-12 rounded-xl hover:bg-red-300">
+              <Link
+                to="/user/install"
+                className="flex items-center text-red-500 gap-1 font-bold bg-red-200 px-3 w-28 h-12 rounded-xl hover:bg-red-300"
+              >
                 <MdCancel className="h-6 w-7" /> Cancel
-              </button>
+              </Link>
               <button
                 className={`flex items-center gap-1 font-bold px-3 w-28 rounded-xl  ${
                   status.isComplete
