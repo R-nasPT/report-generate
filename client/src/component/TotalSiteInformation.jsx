@@ -218,6 +218,7 @@ function TotalSiteInformation({ props }) {
                   >
                     {router.map((item) => (
                       <option
+                        key={item.productTypeId}
                         value={item.productTypeId}
                         className="text-center"
                       >
@@ -285,7 +286,11 @@ function TotalSiteInformation({ props }) {
                     {...register("atmbrand")}
                   >
                     {atmBrand.map((item) => (
-                      <option value={item.atmBrandId} className="text-center">
+                      <option
+                        key={item.atmBrandId}
+                        value={item.atmBrandId}
+                        className="text-center"
+                      >
                         {item.atmBrandName}
                       </option>
                     ))}
@@ -295,7 +300,11 @@ function TotalSiteInformation({ props }) {
                     {...register("atmtype")}
                   >
                     {atmType.map((item) => (
-                      <option value={item.atmTypeId} className="text-center">
+                      <option
+                        key={item.atmTypeId}
+                        value={item.atmTypeId}
+                        className="text-center"
+                      >
                         {item.atmTypeName}
                       </option>
                     ))}
@@ -337,6 +346,7 @@ function TotalSiteInformation({ props }) {
                       >
                         {provider.map((item) => (
                           <option
+                            key={item.providerId}
                             value={item.providerId}
                             className="text-center"
                           >
@@ -361,7 +371,11 @@ function TotalSiteInformation({ props }) {
                         {...register("apnSimFirst")}
                       >
                         {apn.map((item) => (
-                          <option value={item.apnId} className="text-center">
+                          <option
+                            key={item.apnId}
+                            value={item.apnId}
+                            className="text-center"
+                          >
                             {item.apnName}
                           </option>
                         ))}
@@ -427,6 +441,7 @@ function TotalSiteInformation({ props }) {
                       >
                         {packageData.map((item) => (
                           <option
+                            key={item.packageId}
                             value={item.packageId}
                             className="text-center"
                           >
@@ -560,6 +575,7 @@ function TotalSiteInformation({ props }) {
                       >
                         {provider.map((item) => (
                           <option
+                            key={item.providerId}
                             value={item.providerId}
                             className="text-center"
                           >
@@ -584,7 +600,11 @@ function TotalSiteInformation({ props }) {
                         {...register("apnSimSecond")}
                       >
                         {apn.map((item) => (
-                          <option value={item.apnId} className="text-center">
+                          <option
+                            key={item.apnId}
+                            value={item.apnId}
+                            className="text-center"
+                          >
                             {item.apnName}
                           </option>
                         ))}
@@ -651,6 +671,7 @@ function TotalSiteInformation({ props }) {
                       >
                         {packageData.map((item) => (
                           <option
+                            key={item.packageId}
                             value={item.packageId}
                             className="text-center"
                           >
@@ -791,6 +812,7 @@ function TotalSiteInformation({ props }) {
                       >
                         {provider.map((item) => (
                           <option
+                            key={item.providerId}
                             value={item.providerId}
                             className="text-center"
                           >
@@ -815,7 +837,11 @@ function TotalSiteInformation({ props }) {
                         {...register("apnSimFirst")}
                       >
                         {apn.map((item) => (
-                          <option value={item.apnId} className="text-center">
+                          <option
+                            key={item.apnId}
+                            value={item.apnId}
+                            className="text-center"
+                          >
                             {item.apnName}
                           </option>
                         ))}
@@ -867,6 +893,7 @@ function TotalSiteInformation({ props }) {
                       >
                         {packageData.map((item) => (
                           <option
+                            key={item.packageId}
                             value={item.packageId}
                             className="text-center"
                           >
@@ -911,6 +938,7 @@ function TotalSiteInformation({ props }) {
                       >
                         {provider.map((item) => (
                           <option
+                            key={item.providerId}
                             value={item.providerId}
                             className="text-center"
                           >
@@ -935,7 +963,11 @@ function TotalSiteInformation({ props }) {
                         {...register("apnSimSecond")}
                       >
                         {apn.map((item) => (
-                          <option value={item.apnId} className="text-center">
+                          <option
+                            key={item.apnId}
+                            value={item.apnId}
+                            className="text-center"
+                          >
                             {item.apnName}
                           </option>
                         ))}
@@ -987,6 +1019,7 @@ function TotalSiteInformation({ props }) {
                       >
                         {packageData.map((item) => (
                           <option
+                            key={item.packageId}
                             value={item.packageId}
                             className="text-center"
                           >
@@ -1822,7 +1855,11 @@ function TotalSiteInformation({ props }) {
                     {...register("upsType")}
                   >
                     {upsType.map((item) => (
-                      <option value={item.upsUseId} className="text-center">
+                      <option
+                        key={item.upsUseId}
+                        value={item.upsUseId}
+                        className="text-center"
+                      >
                         {item.upsName}
                       </option>
                     ))}
@@ -2007,6 +2044,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentName.map((item) => (
                             <option
+                              key={item.equipNameId}
                               value={item.equipNameId}
                               className="text-center"
                             >
@@ -2025,6 +2063,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentType.map((item) => (
                             <option
+                              key={item.equipTypeId}
                               value={item.equipTypeId}
                               className="text-center"
                             >
@@ -2043,6 +2082,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentBrand.map((item) => (
                             <option
+                              key={item.equipBrandId}
                               value={item.equipBrandId}
                               className="text-center"
                             >
@@ -2070,6 +2110,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentName.map((item) => (
                             <option
+                              key={item.equipNameId}
                               value={item.equipNameId}
                               className="text-center"
                             >
@@ -2088,6 +2129,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentType.map((item) => (
                             <option
+                              key={item.equipTypeId}
                               value={item.equipTypeId}
                               className="text-center"
                             >
@@ -2106,6 +2148,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentBrand.map((item) => (
                             <option
+                              key={item.equipBrandId}
                               value={item.equipBrandId}
                               className="text-center"
                             >
@@ -2133,6 +2176,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentName.map((item) => (
                             <option
+                              key={item.equipNameId}
                               value={item.equipNameId}
                               className="text-center"
                             >
@@ -2151,6 +2195,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentType.map((item) => (
                             <option
+                              key={item.equipTypeId}
                               value={item.equipTypeId}
                               className="text-center"
                             >
@@ -2169,6 +2214,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentBrand.map((item) => (
                             <option
+                              key={item.equipBrandId}
                               value={item.equipBrandId}
                               className="text-center"
                             >
@@ -2196,6 +2242,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentName.map((item) => (
                             <option
+                              key={item.equipNameId}
                               value={item.equipNameId}
                               className="text-center"
                             >
@@ -2214,6 +2261,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentType.map((item) => (
                             <option
+                              key={item.equipTypeId}
                               value={item.equipTypeId}
                               className="text-center"
                             >
@@ -2232,6 +2280,7 @@ function TotalSiteInformation({ props }) {
                           </option>
                           {equipmentBrand.map((item) => (
                             <option
+                              key={item.equipBrandId}
                               value={item.equipBrandId}
                               className="text-center"
                             >
@@ -2300,7 +2349,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim1name1')}
+                        {...register("sim1name1")}
                       />
                     </div>
                     <div className="flex gap-3">
@@ -2327,13 +2376,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim1name2')}
+                        {...register("sim1name2")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no2')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim1no2")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no2')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim1no2")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2344,13 +2403,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim1name3')}
+                        {...register("sim1name3")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no3')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim1no3")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no3')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim1no3")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2361,13 +2430,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim1name4')}
+                        {...register("sim1name4")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no4')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim1no4")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no4')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim1no4")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2378,13 +2457,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim1name5')}
+                        {...register("sim1name5")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no5')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim1no5")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no5')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim1no5")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2395,13 +2484,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim1name6')}
+                        {...register("sim1name6")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no6')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim1no6")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no6')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim1no6")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2412,13 +2511,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim1name7')}
+                        {...register("sim1name7")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no7')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim1no7")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no7')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim1no7")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2429,13 +2538,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim1name8')}
+                        {...register("sim1name8")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim1no8')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim1no8")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim1no8')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim1no8")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2474,7 +2593,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim2name1')}
+                        {...register("sim2name1")}
                       />
                     </div>
                     <div className="flex gap-3">
@@ -2501,13 +2620,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim2name2')}
+                        {...register("sim2name2")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no2')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim2no2")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no2')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim2no2")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2518,13 +2647,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim2name3')}
+                        {...register("sim2name3")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no3')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim2no3")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no3')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim2no3")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2535,13 +2674,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim2name4')}
+                        {...register("sim2name4")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no4')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim2no4")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no4')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim2no4")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2552,13 +2701,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim2name5')}
+                        {...register("sim2name5")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no5')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim2no5")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no5')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim2no5")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2569,13 +2728,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim2name6')}
+                        {...register("sim2name6")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no6')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim2no6")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no6')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim2no6")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2586,13 +2755,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim2name7')}
+                        {...register("sim2name7")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no7')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim2no7")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no7')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim2no7")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
@@ -2603,13 +2782,23 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        {...register('sim2name8')}
+                        {...register("sim2name8")}
                       />
                     </div>
                     <div className="flex gap-3">
-                      <input type="radio" className="h-6 w-6" value={1} {...register('sim2no8')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={1}
+                        {...register("sim2no8")}
+                      />
                       <span>Pass</span>
-                      <input type="radio" className="h-6 w-6" value={0} {...register('sim2no8')}/>
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        value={0}
+                        {...register("sim2no8")}
+                      />
                       <span>Fail</span>
                       <span>..............................</span>
                     </div>
