@@ -41,9 +41,9 @@ function AuthenticatedApp() {
             <Route path="detailpage/:id" element={<DetailPage />} />
             <Route path="pdf/:id" element={<PDFFile />} />
             <Route path="atmpage/:id" element={<TotalInputInstallation />} />
-            <Route path="pdfcus" element={<PDFCustomerInfo />} />
+            <Route path="pdfcus/:id" element={<PDFCustomerInfo />} />
             <Route path="detailmock" element={<DetailMock />} />
-            <Route path="pdflte" element={<PDFlte />} />
+            <Route path="pdflte/:id" element={<PDFlte />} />
             <Route path="install" element={<Installation />} />
             <Route path="service" element={<Service />} />
           </Route>

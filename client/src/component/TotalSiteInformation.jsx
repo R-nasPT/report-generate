@@ -133,18 +133,20 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    // value={siteinfo.atmModel.stationId}
+                    disabled={status.isComplete}
                     {...register("stationId")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("brand")}
                   />
                   <textarea
                     cols="23"
                     rows="3"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("address")}
                   ></textarea>
                 </div>
@@ -166,16 +168,19 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("contractName")}
                   />
                   <input
                     type="tel"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("tel")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("GPSN", {
                       pattern: /^(-?[0-9.]*$)/,
                     })}
@@ -186,6 +191,7 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("GPSE", {
                       pattern: /^(-?[0-9.]*$)/,
                     })}
@@ -214,6 +220,7 @@ function TotalSiteInformation({ props }) {
                 <div className="flex flex-col gap-6 lg:gap-2">
                   <select
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("routerModel")}
                   >
                     {router.map((item) => (
@@ -229,16 +236,19 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("routerFW")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("routerSN")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("routerIp", {
                       pattern: /^[0-9.]*$/,
                     })}
@@ -249,6 +259,7 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("subnetMask", {
                       pattern: /^[0-9.]*$/,
                     })}
@@ -259,11 +270,13 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("rackSN")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("antenaGain")}
                   />
                 </div>
@@ -283,6 +296,7 @@ function TotalSiteInformation({ props }) {
                 <div className="flex flex-col gap-10 lg:gap-2">
                   <select
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("atmbrand")}
                   >
                     {atmBrand.map((item) => (
@@ -297,6 +311,7 @@ function TotalSiteInformation({ props }) {
                   </select>
                   <select
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("atmtype")}
                   >
                     {atmType.map((item) => (
@@ -312,6 +327,7 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("atmIp", {
                       pattern: /^[0-9.]*$/,
                     })}
@@ -342,6 +358,7 @@ function TotalSiteInformation({ props }) {
                     <div className="grid gap-4 lg:gap-2">
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("providerSimFirst")}
                       >
                         {provider.map((item) => (
@@ -357,6 +374,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("callSimFirst", {
                           pattern: /^[0-9.]*$/,
                         })}
@@ -368,6 +386,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("apnSimFirst")}
                       >
                         {apn.map((item) => (
@@ -383,6 +402,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("ipSimFirst", {
                           pattern: /^[0-9.]*$/,
                         })}
@@ -395,17 +415,20 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("lacSimFirst")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("cellIdSimFirst")}
                       />
                       <label className="flex p-2 gap-3 items-center">
                         <input
                           type="checkbox"
                           className="h-6 w-6"
+                          disabled={status.isComplete}
                           value={true}
                           {...register("switchOverSimFirst")}
                         />
@@ -433,10 +456,12 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("connectionSimFirst")}
                       />
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("packageSimFirst")}
                       >
                         {packageData.map((item) => (
@@ -453,6 +478,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("signalStrengthSimFirst", {
                             pattern: /^(-?[0-9.]*$)/,
                           })}
@@ -474,6 +500,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("pingingTestSimFirst", {
                             min: 0,
                             max: 100,
@@ -491,6 +518,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("averageSimFirst", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -512,6 +540,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("downloadSimFirst", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -533,6 +562,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("UploadSimFirst", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -571,6 +601,7 @@ function TotalSiteInformation({ props }) {
                     <div className="grid gap-5 lg:gap-2">
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("providerSimSecond")}
                       >
                         {provider.map((item) => (
@@ -586,6 +617,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("callSimSecond", {
                           pattern: /^[0-9]*$/,
                         })}
@@ -597,6 +629,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("apnSimSecond")}
                       >
                         {apn.map((item) => (
@@ -612,6 +645,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("ipSimSecond", {
                           pattern: /^[0-9.]*$/,
                         })}
@@ -624,12 +658,14 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("lacSimSecond")}
                       />
 
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("cellIdSimSecond")}
                       />
                       <label className="flex p-2 gap-3 items-center">
@@ -637,6 +673,7 @@ function TotalSiteInformation({ props }) {
                           type="checkbox"
                           value={true}
                           className="h-6 w-6"
+                          disabled={status.isComplete}
                           {...register("switchOverSimSecond")}
                         />
                         <span>Complete</span>
@@ -663,10 +700,12 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("connectionSimSecond")}
                       />
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("packageSimSecond")}
                       >
                         {packageData.map((item) => (
@@ -683,6 +722,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("signalStrengthSimSecond", {
                             pattern: /^(-?[0-9.]*$)/,
                           })}
@@ -704,6 +744,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("pingingTestSimSecond", {
                             min: 0,
                             max: 100,
@@ -721,6 +762,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("averageSimSecond", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -742,6 +784,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("downloadSimSecond", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -763,6 +806,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("UploadSimSecond", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -808,6 +852,7 @@ function TotalSiteInformation({ props }) {
                     <div className="grid gap-2">
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("providerSimFirst")}
                       >
                         {provider.map((item) => (
@@ -823,6 +868,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("callSimFirst", {
                           pattern: /^[0-9.]*$/,
                         })}
@@ -834,6 +880,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("apnSimFirst")}
                       >
                         {apn.map((item) => (
@@ -849,27 +896,32 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("ipSimFirst")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("lacSimFirst")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("cellIdSimFirst")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("connectionSimFirst")}
                       />
                       <div className="flex flex-wrap lg:gap-3 items-center">
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("signalStrengthSimFirst", {
                             pattern: /^(-?[0-9.]*$)/,
                           })}
@@ -889,6 +941,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("packageSimFirst")}
                       >
                         {packageData.map((item) => (
@@ -905,6 +958,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="checkbox"
                           className="h-6 w-6"
+                          disabled={status.isComplete}
                           value={true}
                           {...register("switchOverSimFirst")}
                         />
@@ -934,6 +988,7 @@ function TotalSiteInformation({ props }) {
                     <div className="grid gap-2">
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("providerSimSecond")}
                       >
                         {provider.map((item) => (
@@ -949,6 +1004,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("callSimSecond", {
                           pattern: /^[0-9.]*$/,
                         })}
@@ -960,6 +1016,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("apnSimSecond")}
                       >
                         {apn.map((item) => (
@@ -975,27 +1032,32 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("ipSimSecond")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("lacSimSecond")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("cellIdSimSecond")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("connectionSimSecond")}
                       />
                       <div className="flex flex-wrap lg:gap-3 items-center">
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("signalStrengthSimSecond", {
                             pattern: /^(-?[0-9.]*$)/,
                           })}
@@ -1015,6 +1077,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("packageSimSecond")}
                       >
                         {packageData.map((item) => (
@@ -1031,6 +1094,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="checkbox"
                           className="h-6 w-6"
+                          disabled={status.isComplete}
                           value={true}
                           {...register("switchOverSimSecond")}
                         />
@@ -1061,6 +1125,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize1SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1069,6 +1134,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed1SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1086,6 +1152,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize2SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1094,6 +1161,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed2SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1111,6 +1179,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize3SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1119,6 +1188,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed3SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1136,6 +1206,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize4SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1144,6 +1215,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed4SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1161,6 +1233,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize5SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1169,6 +1242,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed5SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1185,6 +1259,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("downloadAverageSimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1200,6 +1275,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("pingingTestSimFirstDownload", {
                             min: 0,
                             max: 100,
@@ -1217,6 +1293,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("averageSimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1259,6 +1336,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize1SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1267,6 +1345,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed1SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1284,6 +1363,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize2SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1292,6 +1372,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed2SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1309,6 +1390,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize3SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1317,6 +1399,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed3SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1334,6 +1417,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize4SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1342,6 +1426,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed4SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1359,6 +1444,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize5SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1367,6 +1453,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed5SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1383,6 +1470,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("UploadAverageSimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1398,6 +1486,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("pingingTestSimFirstUpload", {
                             min: 0,
                             max: 100,
@@ -1415,6 +1504,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("averageSimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1457,6 +1547,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize1SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1465,6 +1556,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed1SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1482,6 +1574,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize2SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1490,6 +1583,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed2SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1507,6 +1601,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize3SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1515,6 +1610,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed3SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1532,6 +1628,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize4SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1540,6 +1637,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed4SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1557,6 +1655,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize5SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1565,6 +1664,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed5SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1581,6 +1681,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("downloadAverageSimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1596,6 +1697,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("pingingTestSimSecondDownload", {
                             min: 0,
                             max: 100,
@@ -1613,6 +1715,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("averageSimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1655,6 +1758,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize1SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1663,6 +1767,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed1SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1680,6 +1785,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize2SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1688,6 +1794,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed2SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1705,6 +1812,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize3SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1713,6 +1821,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed3SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1730,6 +1839,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize4SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1738,6 +1848,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed4SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1755,6 +1866,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete}
                           {...register("fileSize5SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1763,6 +1875,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete}
                           {...register("speed5SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1779,6 +1892,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("UploadAverageSimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1794,6 +1908,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("pingingTestSimSecondUpload", {
                             min: 0,
                             max: 100,
@@ -1811,6 +1926,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("averageSimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1852,6 +1968,7 @@ function TotalSiteInformation({ props }) {
                 <div className="grid gap-2">
                   <select
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("upsType")}
                   >
                     {upsType.map((item) => (
@@ -1867,27 +1984,32 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("upsSN")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("upsBrand")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("upsModel")}
                   />
                   <input
                     type="date"
                     className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete}
                     {...register("batteryStart")}
                   />
                   <div className="flex flex-wrap lg:gap-3 items-center">
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete}
                       {...register("rate", {
                         pattern: /^[0-9.]*$/,
                       })}
@@ -1901,6 +2023,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete}
                       {...register("load", {
                         min: 0,
                         max: 100,
@@ -1918,6 +2041,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete}
                       {...register("temperature", {
                         pattern: /^[0-9.]*$/,
                       })}
@@ -1947,6 +2071,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete}
                       {...register("ln", {
                         pattern: /^[0-9.]*$/,
                       })}
@@ -1960,6 +2085,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete}
                       {...register("lg", {
                         pattern: /^[0-9.]*$/,
                       })}
@@ -1973,6 +2099,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete}
                       {...register("ng", {
                         pattern: /^[0-9.]*$/,
                       })}
@@ -1988,6 +2115,7 @@ function TotalSiteInformation({ props }) {
                       type="checkbox"
                       value={true}
                       className="h-6 w-6"
+                      disabled={status.isComplete}
                       {...register("bypassMode")}
                     />
                     <span>pass</span>
@@ -1999,6 +2127,7 @@ function TotalSiteInformation({ props }) {
                       type="checkbox"
                       value={true}
                       className="h-6 w-6"
+                      disabled={status.isComplete}
                       {...register("powerFailTest")}
                     />
                     <span>pass</span>
@@ -2010,6 +2139,7 @@ function TotalSiteInformation({ props }) {
                       type="checkbox"
                       value={true}
                       className="h-6 w-6"
+                      disabled={status.isComplete}
                       {...register("commandTest")}
                     />
                     <span>pass</span>
@@ -2037,6 +2167,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Name1")}
                         >
                           <option className="text-center" value="">
@@ -2056,6 +2187,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Type1")}
                         >
                           <option className="text-center" value="">
@@ -2075,6 +2207,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Brand1")}
                         >
                           <option className="text-center" value="">
@@ -2095,6 +2228,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="w-36 border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("Serial1")}
                         />
                       </td>
@@ -2103,6 +2237,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Name2")}
                         >
                           <option className="text-center" value="">
@@ -2122,6 +2257,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Type2")}
                         >
                           <option className="text-center" value="">
@@ -2141,6 +2277,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Brand2")}
                         >
                           <option className="text-center" value="">
@@ -2161,6 +2298,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="w-36 border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("Serial2")}
                         />
                       </td>
@@ -2169,6 +2307,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Name3")}
                         >
                           <option className="text-center" value="">
@@ -2188,6 +2327,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Type3")}
                         >
                           <option className="text-center" value="">
@@ -2207,6 +2347,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Brand3")}
                         >
                           <option className="text-center" value="">
@@ -2227,6 +2368,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="w-36 border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("Serial3")}
                         />
                       </td>
@@ -2235,6 +2377,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Name4")}
                         >
                           <option className="text-center" value="">
@@ -2254,6 +2397,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Type4")}
                         >
                           <option className="text-center" value="">
@@ -2273,6 +2417,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
+                          disabled={status.isComplete}
                           {...register("Brand4")}
                         >
                           <option className="text-center" value="">
@@ -2293,6 +2438,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="w-36 border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("Serial4")}
                         />
                       </td>
@@ -2310,6 +2456,7 @@ function TotalSiteInformation({ props }) {
                   cols="50"
                   rows="5"
                   className="border-[1px] border-black rounded-lg p-1"
+                  disabled={status.isComplete}
                   {...register("note")}
                 ></textarea>
               </div>
@@ -2327,6 +2474,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="radio"
                       className="h-6 w-6"
+                      disabled={status.isComplete}
                       value={1}
                       {...register("sim1")}
                     />
@@ -2336,6 +2484,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="radio"
                       className="h-6 w-6"
+                      disabled={status.isComplete}
                       value={0}
                       {...register("sim1")}
                     />
@@ -2349,6 +2498,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim1name1")}
                       />
                     </div>
@@ -2356,6 +2506,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim1no1")}
                       />
@@ -2363,6 +2514,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim1no1")}
                       />
@@ -2376,6 +2528,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim1name2")}
                       />
                     </div>
@@ -2383,6 +2536,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim1no2")}
                       />
@@ -2390,6 +2544,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim1no2")}
                       />
@@ -2403,6 +2558,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim1name3")}
                       />
                     </div>
@@ -2410,6 +2566,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim1no3")}
                       />
@@ -2417,6 +2574,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim1no3")}
                       />
@@ -2430,6 +2588,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim1name4")}
                       />
                     </div>
@@ -2437,6 +2596,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim1no4")}
                       />
@@ -2444,6 +2604,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim1no4")}
                       />
@@ -2457,6 +2618,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim1name5")}
                       />
                     </div>
@@ -2464,6 +2626,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim1no5")}
                       />
@@ -2471,6 +2634,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim1no5")}
                       />
@@ -2484,6 +2648,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim1name6")}
                       />
                     </div>
@@ -2491,6 +2656,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim1no6")}
                       />
@@ -2498,6 +2664,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim1no6")}
                       />
@@ -2511,6 +2678,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim1name7")}
                       />
                     </div>
@@ -2518,6 +2686,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim1no7")}
                       />
@@ -2525,6 +2694,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim1no7")}
                       />
@@ -2538,6 +2708,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim1name8")}
                       />
                     </div>
@@ -2545,6 +2716,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim1no8")}
                       />
@@ -2552,6 +2724,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim1no8")}
                       />
@@ -2571,6 +2744,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="radio"
                       className="h-6 w-6"
+                      disabled={status.isComplete}
                       value={1}
                       {...register("sim2")}
                     />
@@ -2580,6 +2754,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="radio"
                       className="h-6 w-6"
+                      disabled={status.isComplete}
                       value={0}
                       {...register("sim2")}
                     />
@@ -2593,6 +2768,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim2name1")}
                       />
                     </div>
@@ -2600,6 +2776,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim2no1")}
                       />
@@ -2607,6 +2784,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim2no1")}
                       />
@@ -2620,6 +2798,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim2name2")}
                       />
                     </div>
@@ -2627,6 +2806,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim2no2")}
                       />
@@ -2634,6 +2814,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim2no2")}
                       />
@@ -2647,6 +2828,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim2name3")}
                       />
                     </div>
@@ -2654,6 +2836,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim2no3")}
                       />
@@ -2661,6 +2844,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim2no3")}
                       />
@@ -2674,6 +2858,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim2name4")}
                       />
                     </div>
@@ -2681,6 +2866,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim2no4")}
                       />
@@ -2688,6 +2874,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim2no4")}
                       />
@@ -2701,6 +2888,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim2name5")}
                       />
                     </div>
@@ -2708,6 +2896,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim2no5")}
                       />
@@ -2715,6 +2904,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim2no5")}
                       />
@@ -2728,6 +2918,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim2name6")}
                       />
                     </div>
@@ -2735,6 +2926,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim2no6")}
                       />
@@ -2742,6 +2934,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim2no6")}
                       />
@@ -2755,6 +2948,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim2name7")}
                       />
                     </div>
@@ -2762,6 +2956,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim2no7")}
                       />
@@ -2769,6 +2964,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim2no7")}
                       />
@@ -2782,6 +2978,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
+                        disabled={status.isComplete}
                         {...register("sim2name8")}
                       />
                     </div>
@@ -2789,6 +2986,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={1}
                         {...register("sim2no8")}
                       />
@@ -2796,6 +2994,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
+                        disabled={status.isComplete}
                         value={0}
                         {...register("sim2no8")}
                       />

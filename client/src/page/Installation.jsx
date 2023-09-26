@@ -23,13 +23,13 @@ function Installation() {
   // const key = urlParams.get("key");
   // console.log(key);
 
-  // console.log(siteinfo);
+  console.log(siteinfo);
 
   const fetchData = async () => {
     const response = await axios.get(
       `${packageJson.domain.ipSiteInfo}/siteinfo/`
     );
-    console.log(response.data);
+    // console.log(response.data);
     setSiteinfo(response.data);
   };
 
@@ -75,7 +75,6 @@ function Installation() {
         (item) => item.customerModel.cusGroupType === group
       );
       const filterDetail = filters.filter((item) => {
-        
         return item.customerModel.shortName.includes(customerList);
       });
       setFilterData(filterDetail);
@@ -217,7 +216,17 @@ function Installation() {
                       {index + 1}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.status}
+                      <div className="flex justify-center">
+                        <div
+                          className={`w-6 h-6 border-2  rounded-full ${
+                            data?.isComplete === true
+                              ? "bg-green-500 border-green-300"
+                              : data?.isDraft === true
+                              ? "bg-yellow-300 border-yellow-100"
+                              : "bg-red-500 border-red-300"
+                          }`}
+                        ></div>
+                      </div>
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       {data.cid}

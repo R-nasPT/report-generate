@@ -11,6 +11,7 @@ import { RiArrowDownSLine, RiDraftFill } from "react-icons/ri";
 import { MdCancel, MdSave } from "react-icons/md";
 import { BsFillFileEarmarkPdfFill } from "react-icons/bs";
 import { TiDelete } from "react-icons/ti";
+import Swal from "sweetalert2";
 
 function TotalInputInstallation() {
   const [siteinfo, setSiteinfo] = useState([]);
@@ -20,6 +21,7 @@ function TotalInputInstallation() {
 
   const [status, setStatus] = useState([]);
   const [update, setUpdate] = useState(0);
+  const [rep, setRep] = useState(1);
   const [imageList, setImageList] = useState([]);
   const userId = localStorage.getItem("id");
   const {
@@ -53,7 +55,7 @@ function TotalInputInstallation() {
       const response = await axios.get(
         `${packageJson.domain.ipSiteInfo}/siteinfo/${id}`
       );
-      console.log(response.data);
+      // console.log(response.data);
       //-----Site Info
       setValue("stationId", response.data.atmModel.stationId);
       setValue("brand", response.data.atmModel.atmBrandModel.atmBrandName);
@@ -622,6 +624,138 @@ function TotalInputInstallation() {
         response.data.rawData?.workingTime?.officeArrival
       );
       setValue("note", response.data.rawData?.note);
+      //Test Other SIM 1
+      setValue("sim1", response.data.rawData?.testSimFirstOther?.simtype);
+      setValue(
+        "sim1name1",
+        response.data.rawData?.testSimFirstOther?.data[0]?.name
+      );
+      setValue(
+        "sim1name2",
+        response.data.rawData?.testSimFirstOther?.data[1]?.name
+      );
+      setValue(
+        "sim1name3",
+        response.data.rawData?.testSimFirstOther?.data[2]?.name
+      );
+      setValue(
+        "sim1name4",
+        response.data.rawData?.testSimFirstOther?.data[3]?.name
+      );
+      setValue(
+        "sim1name5",
+        response.data.rawData?.testSimFirstOther?.data[4]?.name
+      );
+      setValue(
+        "sim1name6",
+        response.data.rawData?.testSimFirstOther?.data[5]?.name
+      );
+      setValue(
+        "sim1name7",
+        response.data.rawData?.testSimFirstOther?.data[6]?.name
+      );
+      setValue(
+        "sim1name8",
+        response.data.rawData?.testSimFirstOther?.data[7]?.name
+      );
+      setValue(
+        "sim1no1",
+        response.data.rawData?.testSimFirstOther?.data[0]?.pass
+      );
+      setValue(
+        "sim1no2",
+        response.data.rawData?.testSimFirstOther?.data[1]?.pass
+      );
+      setValue(
+        "sim1no3",
+        response.data.rawData?.testSimFirstOther?.data[2]?.pass
+      );
+      setValue(
+        "sim1no4",
+        response.data.rawData?.testSimFirstOther?.data[3]?.pass
+      );
+      setValue(
+        "sim1no5",
+        response.data.rawData?.testSimFirstOther?.data[4]?.pass
+      );
+      setValue(
+        "sim1no6",
+        response.data.rawData?.testSimFirstOther?.data[5]?.pass
+      );
+      setValue(
+        "sim1no7",
+        response.data.rawData?.testSimFirstOther?.data[6]?.pass
+      );
+      setValue(
+        "sim1no8",
+        response.data.rawData?.testSimFirstOther?.data[7]?.pass
+      );
+      //Test Other SIM 2
+      setValue("sim2", response.data.rawData?.testSimSecondOther?.simtype);
+      setValue(
+        "sim2name1",
+        response.data.rawData?.testSimSecondOther?.data[0]?.name
+      );
+      setValue(
+        "sim2name2",
+        response.data.rawData?.testSimSecondOther?.data[1]?.name
+      );
+      setValue(
+        "sim2name3",
+        response.data.rawData?.testSimSecondOther?.data[2]?.name
+      );
+      setValue(
+        "sim2name4",
+        response.data.rawData?.testSimSecondOther?.data[3]?.name
+      );
+      setValue(
+        "sim2name5",
+        response.data.rawData?.testSimSecondOther?.data[4]?.name
+      );
+      setValue(
+        "sim2name6",
+        response.data.rawData?.testSimSecondOther?.data[5]?.name
+      );
+      setValue(
+        "sim2name7",
+        response.data.rawData?.testSimSecondOther?.data[6]?.name
+      );
+      setValue(
+        "sim2name8",
+        response.data.rawData?.testSimSecondOther?.data[7]?.name
+      );
+      setValue(
+        "sim2no1",
+        response.data.rawData?.testSimSecondOther?.data[0]?.pass
+      );
+      setValue(
+        "sim2no2",
+        response.data.rawData?.testSimSecondOther?.data[1]?.pass
+      );
+      setValue(
+        "sim2no3",
+        response.data.rawData?.testSimSecondOther?.data[2]?.pass
+      );
+      setValue(
+        "sim2no4",
+        response.data.rawData?.testSimSecondOther?.data[3]?.pass
+      );
+      setValue(
+        "sim2no5",
+        response.data.rawData?.testSimSecondOther?.data[4]?.pass
+      );
+      setValue(
+        "sim2no6",
+        response.data.rawData?.testSimSecondOther?.data[5]?.pass
+      );
+      setValue(
+        "sim2no7",
+        response.data.rawData?.testSimSecondOther?.data[6]?.pass
+      );
+      setValue(
+        "sim2no8",
+        response.data.rawData?.testSimSecondOther?.data[7]?.pass
+      );
 
       setImageList(response.data.fileInfo);
     } catch (error) {
@@ -1055,6 +1189,12 @@ function TotalInputInstallation() {
         tempData
       );
       console.log("test", response.data);
+      Swal.fire({
+        icon: "success",
+        title: "Your work has been Draft",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } else {
       let tempData = {
         ticketId: status.TicketInfoModel ? status.TicketInfoModel?.tkdt_ID : "",
@@ -1064,6 +1204,28 @@ function TotalInputInstallation() {
         `${packageJson.domain.ipSiteInfo}/siteinfo/updatesiteinfo`,
         tempData
       );
+      let timerInterval;
+      Swal.fire({
+        title: "Saving!",
+        html: "I will close in <b></b> milliseconds.",
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+          const b = Swal.getHtmlContainer().querySelector("b");
+          timerInterval = setInterval(() => {
+            b.textContent = Swal.getTimerLeft();
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log("I was closed by the timer");
+        }
+      });
     }
   };
 
@@ -1118,7 +1280,7 @@ function TotalInputInstallation() {
 
   useEffect(() => {
     getStatus();
-    console.log(imageList[5]?.fileName !== "");
+    // console.log(imageList[5]?.fileName !== "");
   }, []);
 
   return (
@@ -1143,28 +1305,48 @@ function TotalInputInstallation() {
             <div className="flex gap-3 py-1">
               {status.isComplete === true && (
                 <>
-                  <button className="bg-[#949494] text-white w-40 py-2 rounded-3xl hover:bg-neutral-500 focus:bg-[#1A16D3]">
+                  <button
+                    className={` text-white w-40 py-2 rounded-3xl ${
+                      rep === 1 ? "bg-[#1A16D3]" : "bg-[#949494]"
+                    }`}
+                    onClick={() => setRep(1)}
+                  >
                     Onsite Update
                   </button>
-                  <button className="bg-[#949494] text-white w-40 py-2 rounded-3xl hover:bg-neutral-500 focus:bg-[#1A16D3]">
+                  <button
+                    className={` text-white w-40 py-2 rounded-3xl ${
+                      rep === 2 ? "bg-[#1A16D3]" : "bg-[#949494]"
+                    }`}
+                    onClick={() => setRep(2)}
+                  >
                     Replacement
                   </button>
+                  <Link
+                    to={`http://10.0.0.4/siteinfo/act.aspx?CID=${status.cid}`}
+                    className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
+                  >
+                    <BsFillFileEarmarkPdfFill className="w-5 h-5" />
+                    <p>UAT.</p>
+                  </Link>
+                  {status.customerModel?.cusGroupType === 1 ? (
+                    <Link
+                      to={`/user/pdfcus/${id}`}
+                      className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
+                    >
+                      <BsFillFileEarmarkPdfFill className="w-5 h-5" />
+                      <p>Cus.</p>
+                    </Link>
+                  ) : (
+                    <Link
+                      to={`/user/pdflte/${id}`}
+                      className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
+                    >
+                      <BsFillFileEarmarkPdfFill className="w-5 h-5" />
+                      <p>Onsite</p>
+                    </Link>
+                  )}
                 </>
               )}
-              <Link
-                to="/user/pdfcus"
-                className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
-              >
-                <BsFillFileEarmarkPdfFill className="w-5 h-5" />
-                <p>Cus.</p>
-              </Link>
-              <Link
-                to="/user/pdflte"
-                className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
-              >
-                <BsFillFileEarmarkPdfFill className="w-5 h-5" />
-                <p>Onsite</p>
-              </Link>
             </div>
             <button
               className="bg-sky-200 text-blue-700 font-bold w-24 h-9 rounded-xl hover:bg-sky-300"
@@ -1187,17 +1369,21 @@ function TotalInputInstallation() {
             {/* input content */}
             <div className="flex flex-col gap-5">
               {/* section-1 */}
-              <TotalSiteInformation
-                props={{
-                  boxOne: boxOne,
-                  setBoxOne: setBoxOne,
-                  siteinfo: siteinfo,
-                  register: register,
-                  status,
-                  errors,
-                }}
-              />
-              {/* <Replacement boxOne={boxOne} setBoxOne={setBoxOne} /> */}
+              {rep === 1 ? (
+                <TotalSiteInformation
+                  props={{
+                    boxOne: boxOne,
+                    setBoxOne: setBoxOne,
+                    siteinfo: siteinfo,
+                    register: register,
+                    status,
+                    errors,
+                  }}
+                />
+              ) : (
+                <Replacement boxOne={boxOne} setBoxOne={setBoxOne} />
+              )}
+
               {/* section-2 */}
               <div className="bg-[#EDEDED] p-3 rounded-md">
                 <div
@@ -1469,23 +1655,27 @@ function TotalInputInstallation() {
                             <input
                               type="datetime-local"
                               className="border-[1px] border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("officeDeparture")}
                             />
                             <div className="flex flex-col lg:flex-row  lg:gap-3">
                               <input
                                 type="datetime-local"
                                 className="border-[1px] border-black rounded-lg p-1"
+                                disabled={status.isComplete}
                                 {...register("officeArrival")}
                               />
                             </div>
                             <input
                               type="datetime-local"
                               className="border-[1px] border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("customerSiteArrival")}
                             />
                             <input
                               type="datetime-local"
                               className="border-[1px] border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("customerSiteDeparture")}
                             />
                           </>
@@ -1493,18 +1683,21 @@ function TotalInputInstallation() {
                         <input
                           type="datetime-local"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("customerSiteETA")}
                         />
 
                         <input
                           type="datetime-local"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("workingStart")}
                         />
 
                         <input
                           type="datetime-local"
                           className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete}
                           {...register("workingEnd")}
                         />
                       </div>
