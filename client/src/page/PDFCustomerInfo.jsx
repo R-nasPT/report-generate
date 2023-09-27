@@ -16,9 +16,10 @@ function PDFCustomerInfo() {
 
   const downloadPDF = async () => {
     const element = document.getElementById("element-to-print");
+    const currentDate = new Date().toISOString().split('T')[0];
     const opt = {
       margin: 1,
-      filename: ``,
+      filename: `ATM Report ${currentDate}`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
     };
@@ -285,32 +286,32 @@ function PDFCustomerInfo() {
               <h2 className="font-semibold">Picture</h2>
               <div className="grid grid-cols-3 gap-3 mt-3">
                 <img
-                  src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[0]?.cid}/${imageList[0]?.tikcetId}/${imageList[0]?.fileName}`}
+                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[0]?.cid}/${imageList[0]?.tikcetId}/${imageList[0]?.fileName}`}
                   alt="รูปหน้าร้าน"
                   className="w-52 h-60"
                 />
                 <img
-                  src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[1]?.cid}/${imageList[1]?.tikcetId}/${imageList[1]?.fileName}`}
+                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[1]?.cid}/${imageList[1]?.tikcetId}/${imageList[1]?.fileName}`}
                   alt="หน้าตู้/จุดวางอุปกรณ์"
                   className="w-52 h-60"
                 />
                 <img
-                  src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}
+                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}
                   alt="ด้านข้างตู้(ซ้าย-ขวา)"
                   className="w-52 h-60"
                 />
                 <img
-                  src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.tikcetId}/${imageList[3]?.fileName}`}
+                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.tikcetId}/${imageList[3]?.fileName}`}
                   alt="รูปอุปกรณ์/Serial"
                   className="w-52 h-60"
                 />
                 <img
-                  src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.tikcetId}/${imageList[4]?.fileName}`}
+                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.tikcetId}/${imageList[4]?.fileName}`}
                   alt="รูปอุปกรณ์/Serial"
                   className="w-52 h-60"
                 />
                 <img
-                  src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.tikcetId}/${imageList[5]?.fileName}`}
+                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.tikcetId}/${imageList[5]?.fileName}`}
                   alt="หลังตู้/จุดวางอุปกรณ์"
                   className="w-52 h-60"
                 />

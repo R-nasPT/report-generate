@@ -1390,7 +1390,12 @@ function TotalInputInstallation() {
                   className="flex items-center justify-between bg-[#4F709C] text-white text-2xl font-bold p-2 rounded-md hover:bg-[#213555]"
                   onClick={() => setBoxTwo(!boxTwo)}
                 >
-                  <h1>Image</h1>
+                  <h1>
+                    Image{" "}
+                    <span className="text-yellow-400">
+                      (Open Ticket Before Upload Image Files)
+                    </span>
+                  </h1>
                   <RiArrowDownSLine
                     className={`h-10 w-10 ${boxTwo ? "rotate-180" : ""}`}
                   />
@@ -1404,7 +1409,7 @@ function TotalInputInstallation() {
                         imageList[5]?.fileName !== undefined ? (
                           <div className="relative">
                             <img
-                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[0]?.cid}/${imageList[0]?.tikcetId}/${imageList[0]?.fileName}`}
+                              src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[0]?.cid}/${imageList[0]?.tikcetId}/${imageList[0]?.fileName}`}
                               alt="รูปหน้าร้าน"
                               className="w-[300px] h-[300px]"
                             />
@@ -1439,7 +1444,7 @@ function TotalInputInstallation() {
                         imageList[5]?.fileName !== undefined ? (
                           <div className="relative">
                             <img
-                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[1]?.cid}/${imageList[1]?.tikcetId}/${imageList[1]?.fileName}`}
+                              src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[1]?.cid}/${imageList[1]?.tikcetId}/${imageList[1]?.fileName}`}
                               alt="หน้าตู้/จุดวางอุปกรณ์"
                               className="w-[300px] h-[300px]"
                             />
@@ -1476,7 +1481,7 @@ function TotalInputInstallation() {
                         imageList[5]?.fileName !== undefined ? (
                           <div className="relative">
                             <img
-                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}
+                              src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}
                               alt="ด้านข้างตู้(ซ้าย-ขวา)"
                               className="w-[300px] h-[300px]"
                             />
@@ -1513,7 +1518,7 @@ function TotalInputInstallation() {
                         imageList[5]?.fileName !== undefined ? (
                           <div className="relative">
                             <img
-                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.tikcetId}/${imageList[3]?.fileName}`}
+                              src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.tikcetId}/${imageList[3]?.fileName}`}
                               alt="ด้านข้างตู้(ซ้าย-ขวา)"
                               className="w-[300px] h-[300px]"
                             />
@@ -1548,7 +1553,7 @@ function TotalInputInstallation() {
                         imageList[5]?.fileName !== undefined ? (
                           <div className="relative">
                             <img
-                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.tikcetId}/${imageList[4]?.fileName}`}
+                              src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.tikcetId}/${imageList[4]?.fileName}`}
                               alt="ด้านข้างตู้(ซ้าย-ขวา)"
                               className="w-[300px] h-[300px]"
                             />
@@ -1583,7 +1588,7 @@ function TotalInputInstallation() {
                         imageList[5]?.fileName !== undefined ? (
                           <div className="relative">
                             <img
-                              src={`http://172.17.6.11:3000/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.tikcetId}/${imageList[5]?.fileName}`}
+                              src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.tikcetId}/${imageList[5]?.fileName}`}
                               alt="ด้านข้างตู้(ซ้าย-ขวา)"
                               className="w-[300px] h-[300px]"
                             />
@@ -1637,7 +1642,7 @@ function TotalInputInstallation() {
                     </h1>
                     <div className="flex gap-2 bg-[#E5D283] py-5 pl-5 rounded-xl">
                       <div className="grid gap-[22px] text-right font-bold">
-                        {status.customerModel?.cusGroupType === 1 && (
+                        {status.isComplete !== true && (
                           <>
                             <p>Office Departure :</p>
                             <p>Office Arrival :</p>
@@ -1650,7 +1655,7 @@ function TotalInputInstallation() {
                         <p>Working End :</p>
                       </div>
                       <div className="grid gap-3 lg:gap-2">
-                        {status.customerModel?.cusGroupType === 1 && (
+                        {status.isComplete !== true && (
                           <>
                             <input
                               type="datetime-local"

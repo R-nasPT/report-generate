@@ -126,7 +126,7 @@ function TotalSiteInformation({ props }) {
               <div className="flex gap-2 bg-[#E5D283] py-5 pl-5 rounded-xl">
                 <div className="flex flex-col gap-5 text-right font-bold">
                   <p>Station ID :</p>
-                  <p>Branch :</p>
+                  <p>Branch : (SiteName)</p>
                   <p>Address :</p>
                 </div>
                 <div className="flex flex-col gap-2">

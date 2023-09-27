@@ -6,12 +6,14 @@ import Select from "react-select";
 import LoadingPage from "../component/LoadingPage";
 import { FiFilter } from "react-icons/fi";
 import packageJson from "../../package.json";
+import * as XLSX from "xlsx";
 
 function Installation() {
   const [siteinfo, setSiteinfo] = useState([]);
   const [customer, setCustomer] = useState([]);
 
   const [customerList, setCustomerList] = useState("");
+  const [cidList, setCidList] = useState("");
   const [group, setGroup] = useState("");
   const [filterData, setFilterData] = useState([]);
 
@@ -23,7 +25,7 @@ function Installation() {
   // const key = urlParams.get("key");
   // console.log(key);
 
-  console.log(siteinfo);
+  // console.log(siteinfo);
 
   const fetchData = async () => {
     const response = await axios.get(
@@ -51,11 +53,24 @@ function Installation() {
       label: item.shortName,
     }));
 
+  const cidOptions = siteinfo
+    .sort((a, b) => a.cid.localeCompare(b.cid))
+    .map((item) => {
+      // console.log(item.cid);
+      return {
+        value: item.cid,
+        label: item.cid,
+      };
+    });
+
   const handleSearch = () => {
     const filters = siteinfo.filter((item) => {
-      // console.log(item.customerModel);
-      return item.customerModel.shortName.includes(customerList); //&&
-      // item.customerModel.cusGroupType === group
+      // console.log("install", formatDate(new Date(item.routerInfoModel.installationDate)));
+      // console.log("start", formatDate(startDate));
+      return (
+        item.customerModel.shortName.includes(customerList) &&
+        item.cid.includes(cidList)
+      );
     });
     if (group === "") {
       setFilterData(filters);
@@ -75,7 +90,10 @@ function Installation() {
         (item) => item.customerModel.cusGroupType === group
       );
       const filterDetail = filters.filter((item) => {
-        return item.customerModel.shortName.includes(customerList);
+        return (
+          item.customerModel.shortName.includes(customerList) &&
+          item.cid.includes(cidList)
+        );
       });
       setFilterData(filterDetail);
     }
@@ -83,6 +101,29 @@ function Installation() {
 
   const handleReset = () => {
     window.location.reload();
+  };
+
+  const formatDate = (datestring) => {
+    // console.log(datestring);
+    if (datestring) {
+      const createDate = new Date(datestring);
+      const formattedDate = `${("0" + createDate.getDate()).slice(-2)}/${(
+        "0" +
+        (createDate.getMonth() + 1)
+      ).slice(-2)}/${createDate.getFullYear()}`;
+      return formattedDate;
+    } else {
+      return datestring;
+    }
+  };
+
+  const exportToExcel = () => {
+    const currentDate = new Date().toISOString().split("T")[0];
+    const worksheet = XLSX.utils.json_to_sheet(filterData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    XLSX.writeFile(workbook, `installation_data, ${currentDate}.xlsx`);
   };
 
   useEffect(() => {
@@ -132,13 +173,22 @@ function Installation() {
                 }),
               }}
             />
-            <input
-              type="date"
-              className="border-[1px] border-black rounded-xl px-3"
-            />
-            <input
-              type="date"
-              className="border-[1px] border-black rounded-xl px-3"
+            <Select
+              isSearchable
+              placeholder="--CID--"
+              options={cidOptions}
+              onChange={(selectedOption) => {
+                // console.log(selectedOption);
+                setCidList(selectedOption.label);
+              }}
+              styles={{
+                control: (baseStyles, state) => ({
+                  ...baseStyles,
+                  borderColor: "black",
+                  borderRadius: "12px",
+                  width: "160px",
+                }),
+              }}
             />
             <button
               className="bg-blue-500 text-blue-100 w-20 rounded-2xl hover:bg-blue-600"
@@ -153,35 +203,54 @@ function Installation() {
               Reset
             </button>
           </div>
-          <button className="bg-green-600 text-green-200 w-20 rounded-2xl hover:bg-green-700">
+          <button
+            className="bg-green-600 text-green-200 w-20 rounded-2xl hover:bg-green-700"
+            onClick={exportToExcel}
+          >
             Export
           </button>
         </div>
-        <div className="flex font-bold">
-          <button
-            className={`border-2 w-20 h-10 text-center bg-stone-300 rounded-t-xl ${
-              group === "" ? "bg-white" : "border-black"
-            }`}
-            onClick={() => setGroup("")}
-          >
-            ทั้งหมด
-          </button>
-          <button
-            className={`border-2 w-20 h-10 text-center bg-stone-300 rounded-t-xl ${
-              group === 1 ? "bg-white" : "border-black"
-            }`}
-            onClick={() => setGroup(1)}
-          >
-            ATM
-          </button>
-          <button
-            className={`border-2 w-20 h-10 text-center bg-stone-300 rounded-t-xl ${
-              group === 2 ? "bg-white" : "border-black"
-            }`}
-            onClick={() => setGroup(2)}
-          >
-            LTE
-          </button>
+        <div className="flex justify-between pr-5">
+          <div className="flex font-bold">
+            <button
+              className={`border-2 w-20 h-10 text-center bg-stone-300 rounded-t-xl ${
+                group === "" ? "bg-white" : "border-black"
+              }`}
+              onClick={() => setGroup("")}
+            >
+              ทั้งหมด
+            </button>
+            <button
+              className={`border-2 w-20 h-10 text-center bg-stone-300 rounded-t-xl ${
+                group === 1 ? "bg-white" : "border-black"
+              }`}
+              onClick={() => setGroup(1)}
+            >
+              ATM
+            </button>
+            <button
+              className={`border-2 w-20 h-10 text-center bg-stone-300 rounded-t-xl ${
+                group === 2 ? "bg-white" : "border-black"
+              }`}
+              onClick={() => setGroup(2)}
+            >
+              LTE
+            </button>
+          </div>
+          <div className="flex gap-3">
+            <div className="flex gap-1 items-center">
+              <div className="bg-red-500 w-6 h-6 border-2 border-red-300 rounded-full"></div>
+              <p className="text-xs text-red-500">Not Yet Processed</p>
+            </div>
+            <div className="flex gap-1 items-center">
+              <div className="bg-yellow-300 w-6 h-6 border-2 border-yellow-100 rounded-full"></div>
+              <p className="text-xs text-yellow-500">Draft</p>
+            </div>
+            <div className="flex gap-1 items-center">
+              <div className="bg-green-500 w-6 h-6 border-2 border-green-300 rounded-full"></div>
+              <p className="text-xs text-green-500">Completed</p>
+            </div>
+          </div>
         </div>
         <div className=" overflow-auto max-h-[500px] lg:max-h-[600px]">
           <table className="lg:w-[1290px]">
@@ -235,10 +304,10 @@ function Installation() {
                       {data.TicketInfoModel?.tkdt_ID}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      Lorem ipsum dolor sit amet.
+                      New Installation
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      25/4/2038
+                      {formatDate(data.TicketInfoModel?.tkdt_NTATime)}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       {data.routerInfoModel.installationDate}

@@ -13,9 +13,10 @@ function PDFlte() {
   const { id } = useParams();
   const downloadPDF = async () => {
     const element = document.getElementById("element-to-print");
+    const currentDate = new Date().toISOString().split('T')[0];
     const opt = {
       margin: 1,
-      filename: ``,
+      filename: `LTE Report ${currentDate}`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
     };
@@ -701,15 +702,17 @@ function PDFlte() {
                   </p>
                   <div className="grid grid-cols-2 px-4">
                     <p>Start : </p>
-                    <p>{formatDate(
-                        lteReport.siteinfoReportWorkingTimeModel
-                          ?.workingStart
-                      )}</p>
+                    <p>
+                      {formatDate(
+                        lteReport.siteinfoReportWorkingTimeModel?.workingStart
+                      )}
+                    </p>
                     <p>End : </p>
-                    <p>{formatDate(
-                        lteReport.siteinfoReportWorkingTimeModel
-                          ?.workingEnd
-                      )}</p>
+                    <p>
+                      {formatDate(
+                        lteReport.siteinfoReportWorkingTimeModel?.workingEnd
+                      )}
+                    </p>
                   </div>
                 </div>
               </div>
