@@ -67,6 +67,20 @@ function Service() {
     }
   };
 
+  const formatDate = (datestring) => {
+    // console.log(datestring);
+    if (datestring) {
+      const createDate = new Date(datestring);
+      const date = `${("0" + createDate.getDate()).slice(-2)}`;
+      const month = `${("0" + (createDate.getMonth() + 1)).slice(-2)}`;
+      const year = `${createDate.getFullYear()}`;
+      const formattedDate = `${date}/${month}/${year}`;
+      return formattedDate;
+    } else {
+      return datestring;
+    }
+  };
+
   useEffect(() => {
     if (group === "") {
       setFilterData(siteinfo);
@@ -75,7 +89,6 @@ function Service() {
         (item) => item.customerModel.cusGroupType === group
       );
       const filterDetail = filters.filter((item) => {
-        
         return item.customerModel.shortName.includes(customerList);
       });
       setFilterData(filterDetail);
@@ -223,12 +236,16 @@ function Service() {
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       {data.TicketInfoModel?.tkdt_ID}
+                      {data.TicketInfoLTEModel?.tkdt_ID}
+                      {data.TicketInfoKTBModel?.tkdt_ID}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       Lorem ipsum dolor sit amet.
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      25/4/2038
+                      {formatDate(data.TicketInfoModel?.tkdt_NTATime)}
+                      {formatDate(data.TicketInfoLTEModel?.tkdt_NTATime)}
+                      {formatDate(data.TicketInfoKTBModel?.tkdt_NTATime)}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       {data.routerInfoModel.installationDate}

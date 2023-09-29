@@ -3,8 +3,11 @@ import AnimateHeight from "react-animate-height";
 import { RiArrowDownSLine } from "react-icons/ri";
 import packageJson from "../../package.json";
 import axios from "axios";
+import { useAuthContext } from "../context/AuthContext";
 function TotalSiteInformation({ props }) {
   const { boxOne, setBoxOne, siteinfo, register, status, errors } = props;
+  const { isAdmin } = useAuthContext();
+
   const [equipmentType, setEquipmentType] = useState([]);
   const [equipmentName, setEquipmentName] = useState([]);
   const [equipmentBrand, setEquipmentBrand] = useState([]);
@@ -133,20 +136,20 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("stationId")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("brand")}
                   />
                   <textarea
                     cols="23"
                     rows="3"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("address")}
                   ></textarea>
                 </div>
@@ -168,19 +171,19 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("contractName")}
                   />
                   <input
                     type="tel"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("tel")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("GPSN", {
                       pattern: /^(-?[0-9.]*$)/,
                     })}
@@ -191,7 +194,7 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("GPSE", {
                       pattern: /^(-?[0-9.]*$)/,
                     })}
@@ -220,7 +223,7 @@ function TotalSiteInformation({ props }) {
                 <div className="flex flex-col gap-6 lg:gap-2">
                   <select
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("routerModel")}
                   >
                     {router.map((item) => (
@@ -236,19 +239,19 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("routerFW")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("routerSN")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("routerIp", {
                       pattern: /^[0-9.]*$/,
                     })}
@@ -259,7 +262,7 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("subnetMask", {
                       pattern: /^[0-9.]*$/,
                     })}
@@ -270,13 +273,13 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("rackSN")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("antenaGain")}
                   />
                 </div>
@@ -296,7 +299,7 @@ function TotalSiteInformation({ props }) {
                 <div className="flex flex-col gap-10 lg:gap-2">
                   <select
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("atmbrand")}
                   >
                     {atmBrand.map((item) => (
@@ -311,7 +314,7 @@ function TotalSiteInformation({ props }) {
                   </select>
                   <select
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("atmtype")}
                   >
                     {atmType.map((item) => (
@@ -327,7 +330,7 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("atmIp", {
                       pattern: /^[0-9.]*$/,
                     })}
@@ -358,7 +361,7 @@ function TotalSiteInformation({ props }) {
                     <div className="grid gap-4 lg:gap-2">
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("providerSimFirst")}
                       >
                         {provider.map((item) => (
@@ -374,7 +377,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("callSimFirst", {
                           pattern: /^[0-9.]*$/,
                         })}
@@ -386,7 +389,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("apnSimFirst")}
                       >
                         {apn.map((item) => (
@@ -402,7 +405,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("ipSimFirst", {
                           pattern: /^[0-9.]*$/,
                         })}
@@ -415,20 +418,20 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("lacSimFirst")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("cellIdSimFirst")}
                       />
                       <label className="flex p-2 gap-3 items-center">
                         <input
                           type="checkbox"
                           className="h-6 w-6"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           value={true}
                           {...register("switchOverSimFirst")}
                         />
@@ -456,12 +459,12 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("connectionSimFirst")}
                       />
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("packageSimFirst")}
                       >
                         {packageData.map((item) => (
@@ -478,7 +481,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("signalStrengthSimFirst", {
                             pattern: /^(-?[0-9.]*$)/,
                           })}
@@ -500,7 +503,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("pingingTestSimFirst", {
                             min: 0,
                             max: 100,
@@ -518,7 +521,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("averageSimFirst", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -540,7 +543,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("downloadSimFirst", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -562,7 +565,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("UploadSimFirst", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -601,7 +604,7 @@ function TotalSiteInformation({ props }) {
                     <div className="grid gap-5 lg:gap-2">
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("providerSimSecond")}
                       >
                         {provider.map((item) => (
@@ -617,7 +620,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("callSimSecond", {
                           pattern: /^[0-9]*$/,
                         })}
@@ -629,7 +632,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("apnSimSecond")}
                       >
                         {apn.map((item) => (
@@ -645,7 +648,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("ipSimSecond", {
                           pattern: /^[0-9.]*$/,
                         })}
@@ -658,14 +661,14 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("lacSimSecond")}
                       />
 
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("cellIdSimSecond")}
                       />
                       <label className="flex p-2 gap-3 items-center">
@@ -673,7 +676,7 @@ function TotalSiteInformation({ props }) {
                           type="checkbox"
                           value={true}
                           className="h-6 w-6"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("switchOverSimSecond")}
                         />
                         <span>Complete</span>
@@ -700,12 +703,12 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("connectionSimSecond")}
                       />
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("packageSimSecond")}
                       >
                         {packageData.map((item) => (
@@ -722,7 +725,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("signalStrengthSimSecond", {
                             pattern: /^(-?[0-9.]*$)/,
                           })}
@@ -744,7 +747,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("pingingTestSimSecond", {
                             min: 0,
                             max: 100,
@@ -762,7 +765,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("averageSimSecond", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -784,7 +787,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("downloadSimSecond", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -806,7 +809,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("UploadSimSecond", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -852,7 +855,7 @@ function TotalSiteInformation({ props }) {
                     <div className="grid gap-2">
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("providerSimFirst")}
                       >
                         {provider.map((item) => (
@@ -868,7 +871,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("callSimFirst", {
                           pattern: /^[0-9.]*$/,
                         })}
@@ -880,7 +883,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("apnSimFirst")}
                       >
                         {apn.map((item) => (
@@ -896,32 +899,32 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("ipSimFirst")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("lacSimFirst")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("cellIdSimFirst")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("connectionSimFirst")}
                       />
                       <div className="flex flex-wrap lg:gap-3 items-center">
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("signalStrengthSimFirst", {
                             pattern: /^(-?[0-9.]*$)/,
                           })}
@@ -941,7 +944,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("packageSimFirst")}
                       >
                         {packageData.map((item) => (
@@ -958,7 +961,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="checkbox"
                           className="h-6 w-6"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           value={true}
                           {...register("switchOverSimFirst")}
                         />
@@ -988,7 +991,7 @@ function TotalSiteInformation({ props }) {
                     <div className="grid gap-2">
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("providerSimSecond")}
                       >
                         {provider.map((item) => (
@@ -1004,7 +1007,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("callSimSecond", {
                           pattern: /^[0-9.]*$/,
                         })}
@@ -1016,7 +1019,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("apnSimSecond")}
                       >
                         {apn.map((item) => (
@@ -1032,32 +1035,32 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("ipSimSecond")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("lacSimSecond")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("cellIdSimSecond")}
                       />
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("connectionSimSecond")}
                       />
                       <div className="flex flex-wrap lg:gap-3 items-center">
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("signalStrengthSimSecond", {
                             pattern: /^(-?[0-9.]*$)/,
                           })}
@@ -1077,7 +1080,7 @@ function TotalSiteInformation({ props }) {
                       )}
                       <select
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("packageSimSecond")}
                       >
                         {packageData.map((item) => (
@@ -1094,7 +1097,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="checkbox"
                           className="h-6 w-6"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           value={true}
                           {...register("switchOverSimSecond")}
                         />
@@ -1125,7 +1128,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize1SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1134,7 +1137,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed1SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1152,7 +1155,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize2SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1161,7 +1164,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed2SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1179,7 +1182,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize3SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1188,7 +1191,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed3SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1206,7 +1209,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize4SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1215,7 +1218,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed4SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1233,7 +1236,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize5SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1242,7 +1245,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed5SimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1259,7 +1262,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("downloadAverageSimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1275,7 +1278,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("pingingTestSimFirstDownload", {
                             min: 0,
                             max: 100,
@@ -1293,7 +1296,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("averageSimFirstDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1336,7 +1339,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize1SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1345,7 +1348,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed1SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1363,7 +1366,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize2SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1372,7 +1375,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed2SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1390,7 +1393,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize3SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1399,7 +1402,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed3SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1417,7 +1420,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize4SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1426,7 +1429,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed4SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1444,7 +1447,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize5SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1453,7 +1456,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed5SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1470,7 +1473,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("UploadAverageSimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1486,7 +1489,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("pingingTestSimFirstUpload", {
                             min: 0,
                             max: 100,
@@ -1504,7 +1507,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("averageSimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1547,7 +1550,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize1SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1556,7 +1559,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed1SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1574,7 +1577,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize2SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1583,7 +1586,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed2SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1601,7 +1604,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize3SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1610,7 +1613,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed3SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1628,7 +1631,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize4SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1637,7 +1640,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed4SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1655,7 +1658,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize5SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1664,7 +1667,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed5SimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1681,7 +1684,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("downloadAverageSimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1697,7 +1700,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("pingingTestSimSecondDownload", {
                             min: 0,
                             max: 100,
@@ -1715,7 +1718,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("averageSimSecondDownload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1758,7 +1761,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize1SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1767,7 +1770,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed1SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1785,7 +1788,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize2SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1794,7 +1797,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed2SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1812,7 +1815,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize3SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1821,7 +1824,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed3SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1839,7 +1842,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize4SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1848,7 +1851,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed4SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1866,7 +1869,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("fileSize5SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1875,7 +1878,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("speed5SimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1892,7 +1895,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("UploadAverageSimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1908,7 +1911,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("pingingTestSimSecondUpload", {
                             min: 0,
                             max: 100,
@@ -1926,7 +1929,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("averageSimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
@@ -1968,7 +1971,7 @@ function TotalSiteInformation({ props }) {
                 <div className="grid gap-2">
                   <select
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("upsType")}
                   >
                     {upsType.map((item) => (
@@ -1984,32 +1987,32 @@ function TotalSiteInformation({ props }) {
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("upsSN")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("upsBrand")}
                   />
                   <input
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("upsModel")}
                   />
                   <input
                     type="date"
                     className="border-[1px] border-black rounded-lg p-1"
-                    disabled={status.isComplete}
+                    disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("batteryStart")}
                   />
                   <div className="flex flex-wrap lg:gap-3 items-center">
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       {...register("rate", {
                         pattern: /^[0-9.]*$/,
                       })}
@@ -2023,7 +2026,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       {...register("load", {
                         min: 0,
                         max: 100,
@@ -2041,7 +2044,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       {...register("temperature", {
                         pattern: /^[0-9.]*$/,
                       })}
@@ -2071,7 +2074,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       {...register("ln", {
                         pattern: /^[0-9.]*$/,
                       })}
@@ -2085,7 +2088,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       {...register("lg", {
                         pattern: /^[0-9.]*$/,
                       })}
@@ -2099,7 +2102,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="text"
                       className="border-[1px] border-black rounded-lg p-1"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       {...register("ng", {
                         pattern: /^[0-9.]*$/,
                       })}
@@ -2115,7 +2118,7 @@ function TotalSiteInformation({ props }) {
                       type="checkbox"
                       value={true}
                       className="h-6 w-6"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       {...register("bypassMode")}
                     />
                     <span>pass</span>
@@ -2127,7 +2130,7 @@ function TotalSiteInformation({ props }) {
                       type="checkbox"
                       value={true}
                       className="h-6 w-6"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       {...register("powerFailTest")}
                     />
                     <span>pass</span>
@@ -2139,7 +2142,7 @@ function TotalSiteInformation({ props }) {
                       type="checkbox"
                       value={true}
                       className="h-6 w-6"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       {...register("commandTest")}
                     />
                     <span>pass</span>
@@ -2167,7 +2170,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Name1")}
                         >
                           <option className="text-center" value="">
@@ -2187,7 +2190,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Type1")}
                         >
                           <option className="text-center" value="">
@@ -2207,7 +2210,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Brand1")}
                         >
                           <option className="text-center" value="">
@@ -2228,7 +2231,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="w-36 border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Serial1")}
                         />
                       </td>
@@ -2237,7 +2240,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Name2")}
                         >
                           <option className="text-center" value="">
@@ -2257,7 +2260,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Type2")}
                         >
                           <option className="text-center" value="">
@@ -2277,7 +2280,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Brand2")}
                         >
                           <option className="text-center" value="">
@@ -2298,7 +2301,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="w-36 border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Serial2")}
                         />
                       </td>
@@ -2307,7 +2310,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Name3")}
                         >
                           <option className="text-center" value="">
@@ -2327,7 +2330,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Type3")}
                         >
                           <option className="text-center" value="">
@@ -2347,7 +2350,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Brand3")}
                         >
                           <option className="text-center" value="">
@@ -2368,7 +2371,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="w-36 border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Serial3")}
                         />
                       </td>
@@ -2377,7 +2380,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Name4")}
                         >
                           <option className="text-center" value="">
@@ -2397,7 +2400,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Type4")}
                         >
                           <option className="text-center" value="">
@@ -2417,7 +2420,7 @@ function TotalSiteInformation({ props }) {
                       <td>
                         <select
                           className="border-[1px] border-black rounded-lg w-36 p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Brand4")}
                         >
                           <option className="text-center" value="">
@@ -2438,7 +2441,7 @@ function TotalSiteInformation({ props }) {
                         <input
                           type="text"
                           className="w-36 border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete}
+                          disabled={status.isComplete && isAdmin !== "Admin"}
                           {...register("Serial4")}
                         />
                       </td>
@@ -2456,7 +2459,7 @@ function TotalSiteInformation({ props }) {
                   cols="50"
                   rows="5"
                   className="border-[1px] border-black rounded-lg p-1"
-                  disabled={status.isComplete}
+                  disabled={status.isComplete && isAdmin !== "Admin"}
                   {...register("note")}
                 ></textarea>
               </div>
@@ -2474,7 +2477,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="radio"
                       className="h-6 w-6"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       value={1}
                       {...register("sim1")}
                     />
@@ -2484,7 +2487,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="radio"
                       className="h-6 w-6"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       value={0}
                       {...register("sim1")}
                     />
@@ -2498,7 +2501,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim1name1")}
                       />
                     </div>
@@ -2506,7 +2509,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim1no1")}
                       />
@@ -2514,7 +2517,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim1no1")}
                       />
@@ -2528,7 +2531,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim1name2")}
                       />
                     </div>
@@ -2536,7 +2539,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim1no2")}
                       />
@@ -2544,7 +2547,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim1no2")}
                       />
@@ -2558,7 +2561,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim1name3")}
                       />
                     </div>
@@ -2566,7 +2569,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim1no3")}
                       />
@@ -2574,7 +2577,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim1no3")}
                       />
@@ -2588,7 +2591,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim1name4")}
                       />
                     </div>
@@ -2596,7 +2599,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim1no4")}
                       />
@@ -2604,7 +2607,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim1no4")}
                       />
@@ -2618,7 +2621,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim1name5")}
                       />
                     </div>
@@ -2626,7 +2629,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim1no5")}
                       />
@@ -2634,7 +2637,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim1no5")}
                       />
@@ -2648,7 +2651,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim1name6")}
                       />
                     </div>
@@ -2656,7 +2659,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim1no6")}
                       />
@@ -2664,7 +2667,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim1no6")}
                       />
@@ -2678,7 +2681,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim1name7")}
                       />
                     </div>
@@ -2686,7 +2689,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim1no7")}
                       />
@@ -2694,7 +2697,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim1no7")}
                       />
@@ -2708,7 +2711,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim1name8")}
                       />
                     </div>
@@ -2716,7 +2719,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim1no8")}
                       />
@@ -2724,7 +2727,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim1no8")}
                       />
@@ -2744,7 +2747,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="radio"
                       className="h-6 w-6"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       value={1}
                       {...register("sim2")}
                     />
@@ -2754,7 +2757,7 @@ function TotalSiteInformation({ props }) {
                     <input
                       type="radio"
                       className="h-6 w-6"
-                      disabled={status.isComplete}
+                      disabled={status.isComplete && isAdmin !== "Admin"}
                       value={0}
                       {...register("sim2")}
                     />
@@ -2768,7 +2771,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim2name1")}
                       />
                     </div>
@@ -2776,7 +2779,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim2no1")}
                       />
@@ -2784,7 +2787,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim2no1")}
                       />
@@ -2798,7 +2801,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim2name2")}
                       />
                     </div>
@@ -2806,7 +2809,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim2no2")}
                       />
@@ -2814,7 +2817,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim2no2")}
                       />
@@ -2828,7 +2831,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim2name3")}
                       />
                     </div>
@@ -2836,7 +2839,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim2no3")}
                       />
@@ -2844,7 +2847,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim2no3")}
                       />
@@ -2858,7 +2861,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim2name4")}
                       />
                     </div>
@@ -2866,7 +2869,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim2no4")}
                       />
@@ -2874,7 +2877,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim2no4")}
                       />
@@ -2888,7 +2891,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim2name5")}
                       />
                     </div>
@@ -2896,7 +2899,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim2no5")}
                       />
@@ -2904,7 +2907,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim2no5")}
                       />
@@ -2918,7 +2921,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim2name6")}
                       />
                     </div>
@@ -2926,7 +2929,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim2no6")}
                       />
@@ -2934,7 +2937,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim2no6")}
                       />
@@ -2948,7 +2951,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim2name7")}
                       />
                     </div>
@@ -2956,7 +2959,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim2no7")}
                       />
@@ -2964,7 +2967,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim2no7")}
                       />
@@ -2978,7 +2981,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="text"
                         className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         {...register("sim2name8")}
                       />
                     </div>
@@ -2986,7 +2989,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={1}
                         {...register("sim2no8")}
                       />
@@ -2994,7 +2997,7 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete}
+                        disabled={status.isComplete && isAdmin !== "Admin"}
                         value={0}
                         {...register("sim2no8")}
                       />

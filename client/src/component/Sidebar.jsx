@@ -4,9 +4,10 @@ import { useAuthContext } from "../context/AuthContext";
 import { GiAutoRepair } from "react-icons/gi";
 import { TfiWrite } from "react-icons/tfi";
 import { RiCustomerService2Fill, RiFileMarkLine } from "react-icons/ri";
-import { MdMiscellaneousServices } from "react-icons/md";
+import { MdMiscellaneousServices, MdManageHistory } from "react-icons/md";
 import { TbFileSettings } from "react-icons/tb";
 import { FaSitemap } from "react-icons/fa";
+import { RxCross2 } from "react-icons/rx";
 import AnimateHeight from "react-animate-height";
 
 function Sidebar({ onSidebarToggle }) {
@@ -47,7 +48,7 @@ function Sidebar({ onSidebarToggle }) {
             className="text-2xl px-3 py-2 rounded-lg hover:bg-blue-800"
             onClick={onSidebarToggle}
           >
-            ☰
+            <RxCross2 className=" w-8" />
           </button>
         </div>
         <div className=" py-10 text-center text-blue-800 font-medium h-full">
@@ -74,6 +75,13 @@ function Sidebar({ onSidebarToggle }) {
               >
                 <TfiWrite />
                 <h1>New Install</h1>
+              </Link>
+              <Link
+                to="/user/install-history"
+                className="flex pl-14 items-center gap-2 py-5 hover:bg-slate-200"
+              >
+                <MdManageHistory className="w-5 h-5"/>
+                <h1>New Install History</h1>
               </Link>
             </AnimateHeight>
             <div
@@ -107,7 +115,7 @@ function Sidebar({ onSidebarToggle }) {
                     to="/admin/template"
                     className="flex pl-20 items-center gap-3 py-5 hover:bg-slate-200"
                   >
-                    <TbFileSettings className="h-6 w-6"/>
+                    <TbFileSettings className="h-6 w-6" />
                     <h1>Setting</h1>
                   </Link>
                 )}
@@ -115,7 +123,7 @@ function Sidebar({ onSidebarToggle }) {
                   to="/user/onsite"
                   className="flex pl-20 items-center gap-3 py-5 hover:bg-slate-200"
                 >
-                  <FaSitemap className="h-5 w-5"/>
+                  <FaSitemap className="h-5 w-5" />
                   <h1>Onsite Report</h1>
                 </Link>
               </AnimateHeight>

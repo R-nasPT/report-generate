@@ -32,7 +32,7 @@ function PDFlte() {
       const response = await axios.get(
         `${packageJson.domain.ipSiteInfo}/siteinfo/getreport/${id}`
       );
-      console.log(response.data);
+      // console.log(response.data);
       setLteReport(response.data);
     };
     fetchDataLte();

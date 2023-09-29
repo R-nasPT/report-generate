@@ -8,7 +8,7 @@ import { FiFilter } from "react-icons/fi";
 import packageJson from "../../package.json";
 import * as XLSX from "xlsx";
 
-function Installation() {
+function InstallHistory() {
   const [siteinfo, setSiteinfo] = useState([]);
   const [customer, setCustomer] = useState([]);
 
@@ -25,11 +25,11 @@ function Installation() {
   // const key = urlParams.get("key");
   // console.log(key);
 
-  // console.log(siteinfo);
+//   console.log(siteinfo);
 
   const fetchData = async () => {
     const response = await axios.get(
-      `${packageJson.domain.ipSiteInfo}/siteinfo/`
+      `${packageJson.domain.ipSiteInfo}/siteinfo/history`
     );
     // console.log(response.data);
     setSiteinfo(response.data);
@@ -421,4 +421,4 @@ function Installation() {
   );
 }
 
-export default Installation;
+export default InstallHistory;

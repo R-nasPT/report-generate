@@ -75,7 +75,13 @@ function PDFCustomerInfo() {
     try {
       let data = {
         ticketId:
-          info?.TicketInfoModel != null ? info.TicketInfoModel?.tkdt_ID : "",
+        info.TicketInfoModel !== null
+        ? info?.TicketInfoModel?.tkdt_ID
+        : info.TicketInfoModel !== null
+        ? info?.ticketInfoLTEModel?.tkdt_ID
+        : info.TicketInfoModel !== null
+        ? info?.ticketInfoKTBModel?.tkdt_ID
+        : "",
         cid: info?.cid,
       };
       // console.log(data);
