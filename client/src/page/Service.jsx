@@ -6,6 +6,7 @@ import Select from "react-select";
 import { FiFilter } from "react-icons/fi";
 import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
+import { useAuthContext } from "../context/AuthContext";
 
 function Service() {
   const [siteinfo, setSiteinfo] = useState([]);
@@ -16,6 +17,7 @@ function Service() {
   const [filterData, setFilterData] = useState([]);
 
   const [boxFilter, setBoxFilter] = useState(false);
+  const { formatDate } = useAuthContext();
 
   const navigate = useNavigate();
 
@@ -64,20 +66,6 @@ function Service() {
         (item) => item.customerModel.cusGroupType === group
       );
       setFilterData(filterGroup);
-    }
-  };
-
-  const formatDate = (datestring) => {
-    // console.log(datestring);
-    if (datestring) {
-      const createDate = new Date(datestring);
-      const date = `${("0" + createDate.getDate()).slice(-2)}`;
-      const month = `${("0" + (createDate.getMonth() + 1)).slice(-2)}`;
-      const year = `${createDate.getFullYear()}`;
-      const formattedDate = `${date}/${month}/${year}`;
-      return formattedDate;
-    } else {
-      return datestring;
     }
   };
 

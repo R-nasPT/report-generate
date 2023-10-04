@@ -4,19 +4,24 @@ import html2pdf from "html2pdf.js";
 import axios from "axios";
 import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
+import { useAuthContext } from "../context/AuthContext";
 
 function PDFCustomerInfo() {
   const [status, setStatus] = useState([]);
   const [siteinfo, setSiteinfo] = useState([]);
   const [customerInfo, setCustomerInfo] = useState([]);
   const [imageList, setImageList] = useState([]);
-  const [atmType, setAtmType] = useState([]);
+
+  const { formatDate } = useAuthContext();
+
+  // console.log(siteinfo);
+  // console.log(customerInfo);
 
   const { id } = useParams();
 
   const downloadPDF = async () => {
     const element = document.getElementById("element-to-print");
-    const currentDate = new Date().toISOString().split('T')[0];
+    const currentDate = new Date().toISOString().split("T")[0];
     const opt = {
       margin: 1,
       filename: `ATM Report ${currentDate}`,
@@ -63,9 +68,8 @@ function PDFCustomerInfo() {
         `${packageJson.domain.ipSiteInfo}/siteinfo/checkstaus/${id}`
       );
       setStatus(response.data);
-      if (response.data.isDraft === true) {
-        getSiteinfoReportByCIDAndTicket(response.data);
-      }
+
+      getSiteinfoReportByCIDAndTicket(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -74,14 +78,13 @@ function PDFCustomerInfo() {
   const getSiteinfoReportByCIDAndTicket = async (info) => {
     try {
       let data = {
-        ticketId:
-        info.TicketInfoModel !== null
-        ? info?.TicketInfoModel?.tkdt_ID
-        : info.TicketInfoModel !== null
-        ? info?.ticketInfoLTEModel?.tkdt_ID
-        : info.TicketInfoModel !== null
-        ? info?.ticketInfoKTBModel?.tkdt_ID
-        : "",
+        ticketId: info.TicketInfoModel
+          ? info.TicketInfoModel.tkdt_ID
+          : info.TicketInfoLTEModel
+          ? info.TicketInfoLTEModel.tkdt_ID
+          : info.TicketInfoKTBModel
+          ? info.TicketInfoKTBModel.tkdt_ID
+          : "",
         cid: info?.cid,
       };
       // console.log(data);
@@ -89,6 +92,7 @@ function PDFCustomerInfo() {
         `${packageJson.domain.ipSiteInfo}/siteinfo/report/`,
         data
       );
+      // console.log(response.data);
       setCustomerInfo(response.data.rawData);
       setImageList(response.data.fileInfo);
     } catch (error) {
@@ -107,17 +111,8 @@ function PDFCustomerInfo() {
     }
   };
 
-  const atmTypeList = async () => {
-    const response = await axios.get(
-      `${packageJson.domain.ipSiteInfo}/atminfo/atmtype`
-    );
-    // console.log(response.data);
-    setAtmType(response.data);
-  };
-
   useEffect(() => {
     getStatus();
-    atmTypeList();
     fetchData();
   }, []);
 
@@ -170,120 +165,108 @@ function PDFCustomerInfo() {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3 w-32">
+                    <td className=" border-y-[2px] border-black pb-3 px-3 w-32">
                       Customer
                     </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
+                    <td className=" border-l-[2px] border-t-[2px] border-black pb-3 pl-3">
                       <p className="w-96 break-words">
                         {siteinfo.customerModel?.fullNameThai}
                       </p>
                     </td>
                   </tr>
                   <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
-                      Site Name
-                    </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3 ">
+                    <td className="pb-3 px-3">Site Name</td>
+                    <td className=" border-y-[2px] border-l-[2px] border-black pb-3 pl-3 ">
                       <p className="w-96 break-words">{siteinfo.siteName}</p>
                     </td>
                   </tr>
                   <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
+                    <td className=" border-y-[2px] border-black pb-3 px-3">
                       Station ID
                     </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
+                    <td className=" border-l-[2px] border-black pb-3 pl-3">
                       <p className="w-96 break-words">
-                        {customerInfo.siteInfo?.stationID}
+                        {siteinfo.atmModel?.stationId}
                       </p>
                     </td>
                   </tr>
                   <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
-                      CID
-                    </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
-                      <p className="w-96 break-words">{customerInfo.cid}</p>
+                    <td className=" pb-3 px-3">CID</td>
+                    <td className="border-y-[2px] border-l-[2px] border-black pb-3 pl-3">
+                      <p className="w-96 break-words">{siteinfo.cid}</p>
                     </td>
                   </tr>
                   <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
+                    <td className=" border-y-[2px] border-black pb-3 px-3">
                       Install Date
                     </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
-                      <p className="w-96 break-words">{siteinfo.routerInfoModel?.installationDate}</p>
+                    <td className=" border-l-[2px] border-black pb-3 pl-3">
+                      <p className="w-96 break-words">
+                        {formatDate(siteinfo.routerInfoModel?.installationDate)}
+                      </p>
                     </td>
                   </tr>
                   <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
-                      Install By
-                    </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
-                      <p className="w-96 break-words">{siteinfo.routerInfoModel?.ppEngineer}</p>
+                    <td className="pb-3 px-3">Install By</td>
+                    <td className="border-y-[2px] border-l-[2px] border-black pb-3 pl-3">
+                      <p className="w-96 break-words">
+                        {siteinfo.routerInfoModel?.ppEngineer}
+                      </p>
                     </td>
                   </tr>
                   <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
+                    <td className=" border-y-[2px] border-black pb-3 px-3">
                       Address
                     </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
+                    <td className=" border-l-[2px] border-black pb-3 pl-3">
+                      <p className="w-96 break-words">{siteinfo.address}</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="pb-3 px-3">Contact Person</td>
+                    <td className="border-y-[2px] border-l-[2px] border-black pb-3 pl-3">
                       <p className="w-96 break-words">
-                        {customerInfo.siteInfo?.address}
+                        {siteinfo.contractName}
                       </p>
                     </td>
                   </tr>
                   <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
-                      Contact Person
-                    </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
-                      <p className="w-96 break-words">{siteinfo.contractName}</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
+                    <td className=" border-y-[2px] border-black pb-3 px-3">
                       Tel.
                     </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
+                    <td className=" border-l-[2px] border-black pb-3 pl-3">
+                      <p className="w-96 break-words">{siteinfo.tel}</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="pb-3 px-3">Environment</td>
+                    <td className="border-y-[2px] border-l-[2px] border-black pb-3 pl-3">
                       <p className="w-96 break-words">
-                        {customerInfo.siteUpdate?.tel}
+                        {siteinfo.routerInfoModel?.serialNo}
                       </p>
                     </td>
                   </tr>
                   <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
-                      Environment
-                    </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
-                      <p className="w-96 break-words"></p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
+                    <td className=" border-y-[2px] border-black pb-3 px-3">
                       ATM Type
                     </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
-                      {atmType.map((type) => (
-                        <p className="w-96 break-words" key={type.atmTypeId}>
-                          {type?.atmTypeId === customerInfo.atmInfo?.atmType
-                            ? type.atmTypeName
-                            : ""}
-                        </p>
-                      ))}
+                    <td className=" border-l-[2px] border-black pb-3 pl-3">
+                      {siteinfo.atmModel?.atmTypeModel?.atmTypeName}
                     </td>
                   </tr>
                   <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
-                      ATM Model
-                    </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
-                      <p className="w-96 break-words">{siteinfo.atmDeviceTypeModel?.deviceTypeName}</p>
+                    <td className=" pb-3 px-3">ATM Model</td>
+                    <td className="border-y-[2px] border-l-[2px] border-black pb-3 pl-3">
+                      <p className="w-96 break-words">
+                        {siteinfo.atmModel?.atmBrandModel?.atmBrandName}
+                      </p>
                     </td>
                   </tr>
                   <tr>
-                    <td className=" border-[2px] border-black pb-3 px-3">
+                    <td className=" border-t-[2px] border-black pb-3 px-3">
                       Remark
                     </td>
-                    <td className=" border-[2px] border-black pb-3 pl-3">
+                    <td className=" border-l-[2px] border-black pb-3 pl-3">
                       <p className="w-96 break-words">{customerInfo.note}</p>
                     </td>
                   </tr>

@@ -27,6 +27,20 @@ export function AuthProvider({ children }) {
     navigate("/");
   });
 
+  const formatDate = (datestring) => {
+    // console.log(datestring);
+    if (datestring) {
+      const createDate = new Date(datestring);
+      const date = `${("0" + createDate.getDate()).slice(-2)}`;
+      const month = `${("0" + (createDate.getMonth() + 1)).slice(-2)}`;
+      const year = `${createDate.getFullYear()}`;
+      const formattedDate = `${date}/${month}/${year}`;
+      return formattedDate;
+    } else {
+      return datestring;
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -42,7 +56,7 @@ export function AuthProvider({ children }) {
   }, [logout]);
 
   return (
-    <AuthContext.Provider value={{ isAdmin, isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isAdmin, isLoggedIn, login, logout, formatDate }}>
       {children}
     </AuthContext.Provider>
   );

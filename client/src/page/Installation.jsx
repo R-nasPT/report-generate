@@ -7,6 +7,7 @@ import LoadingPage from "../component/LoadingPage";
 import { FiFilter } from "react-icons/fi";
 import packageJson from "../../package.json";
 import * as XLSX from "xlsx";
+import { useAuthContext } from "../context/AuthContext";
 
 function Installation() {
   const [siteinfo, setSiteinfo] = useState([]);
@@ -16,8 +17,9 @@ function Installation() {
   const [cidList, setCidList] = useState("");
   const [group, setGroup] = useState("");
   const [filterData, setFilterData] = useState([]);
-
   const [boxFilter, setBoxFilter] = useState(false);
+
+  const { formatDate } = useAuthContext();
 
   const navigate = useNavigate();
 
@@ -100,20 +102,6 @@ function Installation() {
 
   const handleReset = () => {
     window.location.reload();
-  };
-
-  const formatDate = (datestring) => {
-    // console.log(datestring);
-    if (datestring) {
-      const createDate = new Date(datestring);
-      const formattedDate = `${("0" + createDate.getDate()).slice(-2)}/${(
-        "0" +
-        (createDate.getMonth() + 1)
-      ).slice(-2)}/${createDate.getFullYear()}`;
-      return formattedDate;
-    } else {
-      return datestring;
-    }
   };
 
   const exportToExcel = () => {

@@ -7,6 +7,7 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingPage from "../component/LoadingPage";
 import packageJson from "../../package.json";
+import { useAuthContext } from "../context/AuthContext";
 
 function DetailPage() {
   const [ticketDetail, setTicketDetail] = useState([]);
@@ -16,6 +17,8 @@ function DetailPage() {
 
   const [showPopup, setShowPopup] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  const { formatDate } = useAuthContext();
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -132,14 +135,6 @@ function DetailPage() {
       );
     }
   };
-
-  const formatDate = (dateString) => {
-    const createDate = new Date(dateString);
-    const formattedDate = `${createDate.getDate()}/${
-      createDate.getMonth() + 1
-    }/${createDate.getFullYear()}`;
-    return formattedDate;
-  }
 
   const handleClosePopup = () => {
     setShowPopup(false);

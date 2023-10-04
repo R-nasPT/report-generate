@@ -1,13 +1,8 @@
 import React from "react";
+import { useAuthContext } from "../context/AuthContext";
 
 const HeaderPDF = ({ ticketDetail }) => {
-  const formatDate = (dateString) => {
-    const createDate = new Date(dateString);
-    const formattedDate = `${createDate.getDate()}/${
-      createDate.getMonth() + 1
-    }/${createDate.getFullYear()}`;
-    return formattedDate;
-  };
+  const { formatDate } = useAuthContext();
 
   return (
     <>

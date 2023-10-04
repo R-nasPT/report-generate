@@ -48,6 +48,21 @@ function TotalInputInstallation() {
       } else {
         fetchData();
       }
+      const hasTicket =
+        response.data.TicketInfoModel?.tkdt_ID === undefined &&
+        response.data.TicketInfoLTEModel?.tkdt_ID === undefined &&
+        response.data.TicketInfoKTBModel?.tkdt_ID === undefined;
+
+      if (hasTicket) {
+        Swal.fire({
+          icon: "error",
+          title: "ข้อผิดพลาด",
+          text: "คุณไม่มี Ticket ในการแก้ไขข้อมูล",
+          confirmButtonText: "&larr; Back",
+        }).then(() => {
+          window.location.href = "/user/install";
+        });
+      }
     } catch (error) {
       console.error(error);
     }
@@ -205,14 +220,13 @@ function TotalInputInstallation() {
   const getSiteinfoReportByCIDAndTicket = async (info) => {
     try {
       let data = {
-        ticketId:
-          info.TicketInfoModel !== null
-            ? info?.TicketInfoModel?.tkdt_ID
-            : info.TicketInfoModel !== null
-            ? info?.TicketInfoLTEModel?.tkdt_ID
-            : info.TicketInfoModel !== null
-            ? info?.TicketInfoKTBModel?.tkdt_ID
-            : "",
+        ticketId: info.TicketInfoModel
+          ? info.TicketInfoModel.tkdt_ID
+          : info.TicketInfoLTEModel
+          ? info.TicketInfoLTEModel.tkdt_ID
+          : info.TicketInfoKTBModel
+          ? info.TicketInfoKTBModel.tkdt_ID
+          : "",
         cid: info?.cid,
       };
       // console.log(data);
@@ -220,16 +234,18 @@ function TotalInputInstallation() {
         `${packageJson.domain.ipSiteInfo}/siteinfo/report/`,
         data
       );
-      // console.log("test", response.data);
+      console.log("test", response.data);
       //Site Information
       setValue("stationId", response.data.rawData.siteInfo?.stationID);
       setValue("brand", response.data.rawData.siteInfo?.branch);
+      setValue("insBy", response.data.rawData.siteInfo?.installBy);
+      setValue("insDate", response.data.rawData.siteInfo?.installDate);
       setValue("address", response.data.rawData.siteInfo?.address);
       //Site Update
-      setValue("contractName", response.data.rawData.siteUpdate?.contractName);
+      setValue("contractName", response.data.rawData.siteUpdate?.contactName);
       setValue("tel", response.data.rawData.siteUpdate?.tel);
-      setValue("GPSN", response.data.rawData.siteUpdate?.GPSN);
-      setValue("GPSE", response.data.rawData.siteUpdate?.GPSE);
+      setValue("GPSN", response.data.rawData.siteUpdate?.gpsN);
+      setValue("GPSE", response.data.rawData.siteUpdate?.gpsE);
       // //-----Router Information
       setValue("routerModel", response.data.rawData.routerInfo?.routerModel);
       setValue("routerFW", response.data.rawData.routerInfo?.routerFW);
@@ -256,58 +272,45 @@ function TotalInputInstallation() {
         "switchOverSimFirst",
         response.data.rawData.simFirst?.switchOverSimFirst
       );
-      //-----Test SIM 1
-      if (status.customerModel?.cusGroupType === 1) {
-        //-----Test SIM 1 ATM
-        setValue(
-          "connectionSimFirst",
-          response.data.rawData?.testSimFirst?.connection
-        );
-        setValue(
-          "packageSimFirst",
-          response.data.rawData?.testSimFirst?.package
-        );
-        setValue(
-          "signalStrengthSimFirst",
-          response.data.rawData?.testSimFirst?.signalStrength
-        );
-        // Test SIM 2 ATM
-        setValue(
-          "connectionSimSecond",
-          response.data.rawData?.testSimSecond?.connection
-        );
+      setValue(
+        "connectionSimFirst",
+        response.data.rawData?.simFirst?.connection
+          ? response.data.rawData?.simFirst?.connection
+          : response.data.rawData?.testSimFirst?.connection
+      );
+      setValue(
+        "connectionSimSecond",
+        response.data.rawData?.testSimSecond?.connection
+          ? response.data.rawData?.testSimSecond?.connection
+          : response.data.rawData?.simSecond?.connection
+      );
 
-        setValue(
-          "packageSimSecond",
-          response.data.rawData?.testSimSecond?.package
-        );
-        setValue(
-          "signalStrengthSimSecond",
-          response.data.rawData?.testSimSecond?.signalStrength
-        );
-      } else {
-        //-----SIM 1 LTE
-        setValue(
-          "connectionSimFirst",
-          response.data.rawData?.simFirst?.connection
-        );
-        setValue("packageSimFirst", response.data.rawData?.simFirst?.package);
-        setValue(
-          "signalStrengthSimFirst",
-          response.data.rawData?.simFirst?.signalStrength
-        );
-        //-----SIM 2 LTE
-        setValue(
-          "connectionSimSecond",
-          response.data.rawData?.simSecond?.connection
-        );
+      setValue(
+        "packageSimSecond",
+        response.data.rawData?.testSimSecond?.package
+          ? response.data.rawData?.testSimSecond?.package
+          : response.data.rawData?.simSecond?.package
+      );
+      setValue(
+        "packageSimFirst",
+        response.data.rawData?.testSimFirst?.package
+          ? response.data.rawData?.testSimFirst?.package
+          : response.data.rawData?.simFirst?.package
+      );
+      setValue(
+        "signalStrengthSimFirst",
+        response.data.rawData?.testSimFirst?.signalStrength
+          ? response.data.rawData?.testSimFirst?.signalStrength
+          : response.data.rawData?.simFirst?.signalStrength
+      );
 
-        setValue("packageSimSecond", response.data.rawData?.simSecond?.package);
-        setValue(
-          "signalStrengthSimSecond",
-          response.data.rawData?.simSecond?.signalStrength
-        );
-      }
+      setValue(
+        "signalStrengthSimSecond",
+        response.data.rawData?.simSecond?.signalStrength
+          ? response.data.rawData?.simSecond?.signalStrength
+          : response.data.rawData?.testSimSecond?.signalStrength
+      );
+
       //-----Test SIM 1 ATM
       setValue(
         "pingingTestSimFirst",
@@ -476,55 +479,55 @@ function TotalInputInstallation() {
       );
       //Test SIM 2 Download
       setValue(
-        "downloadAverageSimSecondUpload",
+        "downloadAverageSimSecondDownload",
         response.data.rawData?.testSimSecond?.downloadAverage
       );
       setValue(
-        "pingingTestSimSecondUpload",
+        "pingingTestSimSecondDownload",
         response.data.rawData?.testSimSecond?.pingingTest
       );
       setValue(
-        "averageSimSecondUpload",
+        "averageSimSecondDownload",
         response.data.rawData?.testSimSecond?.average
       );
       setValue(
-        "fileSize1SimSecondUpload",
+        "fileSize1SimSecondDownload",
         response.data.rawData?.testSimSecond?.test?.[0]?.fileSize
       );
       setValue(
-        "fileSize2SimSecondUpload",
+        "fileSize2SimSecondDownload",
         response.data.rawData?.testSimSecond?.test?.[1].fileSize
       );
       setValue(
-        "fileSize3SimSecondUpload",
+        "fileSize3SimSecondDownload",
         response.data.rawData?.testSimSecond?.test?.[2].fileSize
       );
       setValue(
-        "fileSize4SimSecondUpload",
+        "fileSize4SimSecondDownload",
         response.data.rawData?.testSimSecond?.test?.[3].fileSize
       );
       setValue(
-        "fileSize5SimSecondUpload",
+        "fileSize5SimSecondDownload",
         response.data.rawData?.testSimSecond?.test?.[4].fileSize
       );
       setValue(
-        "speed1SimSecondUpload",
+        "speed1SimSecondDownload",
         response.data.rawData?.testSimSecond?.test?.[0]?.speed
       );
       setValue(
-        "speed2SimSecondUpload",
+        "speed2SimSecondDownload",
         response.data.rawData?.testSimSecond?.test?.[1].speed
       );
       setValue(
-        "speed3SimSecondUpload",
+        "speed3SimSecondDownload",
         response.data.rawData?.testSimSecond?.test?.[2].speed
       );
       setValue(
-        "speed4SimSecondUpload",
+        "speed4SimSecondDownload",
         response.data.rawData?.testSimSecond?.test?.[3].speed
       );
       setValue(
-        "speed5SimSecondUpload",
+        "speed5SimSecondDownload",
         response.data.rawData?.testSimSecond?.test?.[4].speed
       );
       //Test SIM 2 Upload
@@ -773,7 +776,17 @@ function TotalInputInstallation() {
   };
 
   const handleFormSubmit = async (data) => {
-    // console.log(data);
+    // console.log("5555",[{ll:123},{pp:7777}]);
+    console.log(data);
+    // console.log(
+    //   status.TicketInfoModel
+    //     ? status.TicketInfoModel.tkdt_ID
+    //     : status.TicketInfoLTEModel
+    //     ? status.TicketInfoLTEModel.tkdt_ID
+    //     : status.TicketInfoKTBModel
+    //     ? status.TicketInfoKTBModel.tkdt_ID
+    //     : ""
+    // );
     if (update === 1) {
       let tempData = undefined;
       if (status.customerModel.cusGroupType === 1) {
@@ -781,10 +794,12 @@ function TotalInputInstallation() {
           siteInfo: {
             stationID: data.stationId,
             branch: data.brand,
+            installBy: data.insBy,
+            installDate: data.insDate,
             address: data.address,
           },
           siteUpdate: {
-            contactName: data.contactName,
+            contactName: data.contractName,
             tel: data.tel,
             gpsN: data.GPSN,
             gpsE: data.GPSE,
@@ -898,14 +913,13 @@ function TotalInputInstallation() {
           },
           note: data.note,
           cid: status.cid,
-          ticketId:
-            status.TicketInfoModel !== null
-              ? status?.TicketInfoModel?.tkdt_ID
-              : status.TicketInfoModel !== null
-              ? status?.TicketInfoLTEModel?.tkdt_ID
-              : status.TicketInfoModel !== null
-              ? status?.TicketInfoKTBModel?.tkdt_ID
-              : "",
+          ticketId: status.TicketInfoModel
+            ? status.TicketInfoModel.tkdt_ID
+            : status.TicketInfoLTEModel
+            ? status.TicketInfoLTEModel.tkdt_ID
+            : status.TicketInfoKTBModel
+            ? status.TicketInfoKTBModel.tkdt_ID
+            : "",
           userId: userId,
           action: "INS",
         };
@@ -914,10 +928,12 @@ function TotalInputInstallation() {
           siteInfo: {
             stationID: data.stationId,
             branch: data.brand,
+            installBy: data.insBy,
+            installDate: data.insDate,
             address: data.address,
           },
           siteUpdate: {
-            contactName: data.contactName,
+            contactName: data.contractName,
             tel: data.tel,
             gpsN: data.GPSN,
             gpsE: data.GPSE,
@@ -1033,7 +1049,7 @@ function TotalInputInstallation() {
             commandTest: data.commandTest,
           },
           testSimFirstUpload: {
-            downloadAverage: data.downloadAverageSimFirstUpload,
+            downloadAverage: data.downloadAverageSimFirstUpload, 
             pingingTest: data.pingingTestSimFirstUpload,
             average: data.averageSimFirstUpload,
             test: [
@@ -1193,45 +1209,48 @@ function TotalInputInstallation() {
           },
           note: data.note,
           cid: status.cid,
-          ticketId:
-            status.TicketInfoModel !== null
-              ? status?.TicketInfoModel?.tkdt_ID
-              : status.TicketInfoModel !== null
-              ? status?.TicketInfoLTEModel?.tkdt_ID
-              : status.TicketInfoModel !== null
-              ? status?.TicketInfoKTBModel?.tkdt_ID
-              : "",
+          ticketId: status.TicketInfoModel
+            ? status.TicketInfoModel.tkdt_ID
+            : status.TicketInfoLTEModel
+            ? status.TicketInfoLTEModel.tkdt_ID
+            : status.TicketInfoKTBModel
+            ? status.TicketInfoKTBModel.tkdt_ID
+            : "",
           userId: userId,
           action: "INS",
         };
       }
+      // console.log("tempData", tempData);
       const response = await axios.post(
         `${packageJson.domain.ipSiteInfo}/siteinfo/`,
         tempData
       );
-      console.log("test", response.data);
+      // console.log("test", response.data);
       Swal.fire({
         icon: "success",
         title: "Your work has been Draft",
         showConfirmButton: false,
         timer: 1500,
+      }).then(() => {
+        window.location.reload();
       });
     } else {
       let tempData = {
-        ticketId:
-          status.TicketInfoModel !== null
-            ? status?.TicketInfoModel?.tkdt_ID
-            : status.TicketInfoModel !== null
-            ? status?.TicketInfoLTEModel?.tkdt_ID
-            : status.TicketInfoModel !== null
-            ? status?.TicketInfoKTBModel?.tkdt_ID
-            : "",
+        ticketId: status.TicketInfoModel
+          ? status.TicketInfoModel.tkdt_ID
+          : status.TicketInfoLTEModel
+          ? status.TicketInfoLTEModel.tkdt_ID
+          : status.TicketInfoKTBModel
+          ? status.TicketInfoKTBModel.tkdt_ID
+          : "",
         cid: status.cid,
+        action:"INS"
       };
       await axios.post(
         `${packageJson.domain.ipSiteInfo}/siteinfo/updatesiteinfo`,
         tempData
       );
+
       let timerInterval;
       Swal.fire({
         title: "Saving!",
@@ -1267,12 +1286,12 @@ function TotalInputInstallation() {
         formData.append("cid", status.cid);
         formData.append(
           "ticketId",
-          status.TicketInfoModel !== null
-            ? status?.TicketInfoModel?.tkdt_ID
-            : status.TicketInfoModel !== null
-            ? status?.TicketInfoLTEModel?.tkdt_ID
-            : status.TicketInfoModel !== null
-            ? status?.TicketInfoKTBModel?.tkdt_ID
+          status.TicketInfoModel
+            ? status.TicketInfoModel.tkdt_ID
+            : status.TicketInfoLTEModel
+            ? status.TicketInfoLTEModel.tkdt_ID
+            : status.TicketInfoKTBModel
+            ? status.TicketInfoKTBModel.tkdt_ID
             : ""
         );
         formData.append("name", name);
@@ -1300,14 +1319,13 @@ function TotalInputInstallation() {
     try {
       let data = {
         cid: status.cid,
-        ticketId:
-          status.TicketInfoModel !== null
-            ? status?.TicketInfoModel?.tkdt_ID
-            : status.TicketInfoModel !== null
-            ? status?.TicketInfoLTEModel?.tkdt_ID
-            : status.TicketInfoModel !== null
-            ? status?.TicketInfoKTBModel?.tkdt_ID
-            : "",
+        ticketId: status.TicketInfoModel
+          ? status.TicketInfoModel.tkdt_ID
+          : status.TicketInfoLTEModel
+          ? status.TicketInfoLTEModel.tkdt_ID
+          : status.TicketInfoKTBModel
+          ? status.TicketInfoKTBModel.tkdt_ID
+          : "",
         name: "",
         queue: queue,
       };

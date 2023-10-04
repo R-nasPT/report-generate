@@ -18,6 +18,7 @@ import OnsiteReport from "./OnsiteReport";
 import HomePage from "./HomePage";
 import Service from "./Service";
 import InstallHistory from "./InstallHistory";
+import ViewInstall from "./ViewInstall";
 
 function AuthenticatedApp() {
   const { isAdmin } = useAuthContext();
@@ -45,6 +46,7 @@ function AuthenticatedApp() {
             <Route path="pdflte/:id" element={<PDFlte />} />
             <Route path="install" element={<Installation />} />
             <Route path="install-history" element={<InstallHistory />} />
+            <Route path="view-install/:id" element={<ViewInstall />} />
             <Route path="service" element={<Service />} />
           </Route>
         )}

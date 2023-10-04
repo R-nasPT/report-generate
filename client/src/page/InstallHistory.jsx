@@ -7,6 +7,7 @@ import LoadingPage from "../component/LoadingPage";
 import { FiFilter } from "react-icons/fi";
 import packageJson from "../../package.json";
 import * as XLSX from "xlsx";
+import { useAuthContext } from "../context/AuthContext";
 
 function InstallHistory() {
   const [siteinfo, setSiteinfo] = useState([]);
@@ -18,6 +19,7 @@ function InstallHistory() {
   const [filterData, setFilterData] = useState([]);
 
   const [boxFilter, setBoxFilter] = useState(false);
+  const { formatDate } = useAuthContext();
 
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ function InstallHistory() {
   // const key = urlParams.get("key");
   // console.log(key);
 
-//   console.log(siteinfo);
+  //   console.log(siteinfo);
 
   const fetchData = async () => {
     const response = await axios.get(
@@ -100,20 +102,6 @@ function InstallHistory() {
 
   const handleReset = () => {
     window.location.reload();
-  };
-
-  const formatDate = (datestring) => {
-    // console.log(datestring);
-    if (datestring) {
-      const createDate = new Date(datestring);
-      const formattedDate = `${("0" + createDate.getDate()).slice(-2)}/${(
-        "0" +
-        (createDate.getMonth() + 1)
-      ).slice(-2)}/${createDate.getFullYear()}`;
-      return formattedDate;
-    } else {
-      return datestring;
-    }
   };
 
   const exportToExcel = () => {
@@ -246,20 +234,6 @@ function InstallHistory() {
               LTE
             </button>
           </div>
-          <div className="hidden lg:flex gap-3">
-            <div className="flex gap-1 items-center">
-              <div className="bg-red-500 w-6 h-6 border-2 border-red-300 rounded-full"></div>
-              <p className="text-xs text-red-500">Not Yet Processed</p>
-            </div>
-            <div className="flex gap-1 items-center">
-              <div className="bg-yellow-300 w-6 h-6 border-2 border-yellow-100 rounded-full"></div>
-              <p className="text-xs text-yellow-500">Draft</p>
-            </div>
-            <div className="flex gap-1 items-center">
-              <div className="bg-green-500 w-6 h-6 border-2 border-green-300 rounded-full"></div>
-              <p className="text-xs text-green-500">Completed</p>
-            </div>
-          </div>
         </div>
         <div className=" overflow-auto max-h-[500px] lg:max-h-[600px]">
           <table>
@@ -287,7 +261,9 @@ function InstallHistory() {
                 return (
                   <tr
                     className="hover:bg-neutral-200 cursor-pointer"
-                    onClick={() => navigate(`/user/atmpage/${data.siteInfoId}`)}
+                    onClick={() =>
+                      navigate(`/user/view-install/${data.siteInfoId}`)
+                    }
                     key={data.siteInfoId}
                   >
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">

@@ -19,7 +19,7 @@ function TotalSiteInformation({ props }) {
   const [atmType, setAtmType] = useState([]);
   const [apn, setAPN] = useState([]);
   const [upsType, setUpsType] = useState([]);
-
+  
   const equipmentTypeList = async () => {
     const response = await axios.get(
       `${packageJson.domain.ipSiteInfo}/equipment/equiptype`
@@ -130,6 +130,8 @@ function TotalSiteInformation({ props }) {
                 <div className="flex flex-col gap-5 text-right font-bold">
                   <p>Station ID :</p>
                   <p>Branch : (SiteName)</p>
+                  <p>Install by :</p>
+                  <p>Install Date :</p>
                   <p>Address :</p>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -144,6 +146,18 @@ function TotalSiteInformation({ props }) {
                     className="border-[1px] border-black rounded-lg p-1"
                     disabled={status.isComplete && isAdmin !== "Admin"}
                     {...register("brand")}
+                  />
+                  <input
+                    type="text"
+                    className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete && isAdmin !== "Admin"}
+                    {...register("insBy")}
+                  />
+                  <input
+                    type="date"
+                    className="border-[1px] border-black rounded-lg p-1"
+                    disabled={status.isComplete && isAdmin !== "Admin"}
+                    {...register("insDate")}
                   />
                   <textarea
                     cols="23"
@@ -1474,7 +1488,7 @@ function TotalSiteInformation({ props }) {
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
                           disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("UploadAverageSimFirstUpload", {
+                          {...register("downloadAverageSimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
                         />
@@ -1896,7 +1910,7 @@ function TotalSiteInformation({ props }) {
                           type="text"
                           className="border-[1px] border-black rounded-lg p-1"
                           disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("UploadAverageSimSecondUpload", {
+                          {...register("downloadAverageSimSecondUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
                         />
