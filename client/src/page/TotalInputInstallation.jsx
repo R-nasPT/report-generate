@@ -19,6 +19,7 @@ function TotalInputInstallation() {
   const [boxOne, setBoxOne] = useState(false);
   const [boxTwo, setBoxTwo] = useState(false);
   const [boxThree, setBoxThree] = useState(false);
+  const [boxFour, setBoxFour] = useState(false);
 
   const [status, setStatus] = useState([]);
   const [update, setUpdate] = useState(0);
@@ -229,12 +230,12 @@ function TotalInputInstallation() {
           : "",
         cid: info?.cid,
       };
-      // console.log(data);
+      console.log(data);
       const response = await axios.post(
         `${packageJson.domain.ipSiteInfo}/siteinfo/report/`,
         data
       );
-      console.log("test", response.data);
+      // console.log("test", response.data);
       //Site Information
       setValue("stationId", response.data.rawData.siteInfo?.stationID);
       setValue("brand", response.data.rawData.siteInfo?.branch);
@@ -776,7 +777,6 @@ function TotalInputInstallation() {
   };
 
   const handleFormSubmit = async (data) => {
-    // console.log("5555",[{ll:123},{pp:7777}]);
     console.log(data);
     // console.log(
     //   status.TicketInfoModel
@@ -1049,7 +1049,7 @@ function TotalInputInstallation() {
             commandTest: data.commandTest,
           },
           testSimFirstUpload: {
-            downloadAverage: data.downloadAverageSimFirstUpload, 
+            downloadAverage: data.downloadAverageSimFirstUpload,
             pingingTest: data.pingingTestSimFirstUpload,
             average: data.averageSimFirstUpload,
             test: [
@@ -1102,45 +1102,45 @@ function TotalInputInstallation() {
               },
             ],
           },
-          testSimSecondOther: {
-            simtype: data.sim1,
+          testSimFirstOther: {
+            simtype: "1",
             data: [
               {
-                name: data.sim1name1,
+                name: data.sim2name1,
                 pass: data.sim1no1,
               },
               {
-                name: data.sim1name2,
+                name: data.sim2name2,
                 pass: data.sim1no2,
               },
               {
-                name: data.sim1name3,
+                name: data.sim2name3,
                 pass: data.sim1no3,
               },
               {
-                name: data.sim1name4,
+                name: data.sim2name4,
                 pass: data.sim1no4,
               },
               {
-                name: data.sim1name5,
+                name: data.sim2name5,
                 pass: data.sim1no5,
               },
               {
-                name: data.sim1name6,
+                name: data.sim2name6,
                 pass: data.sim1no6,
               },
               {
-                name: data.sim1name7,
+                name: data.sim2name7,
                 pass: data.sim1no7,
               },
               {
-                name: data.sim1name8,
+                name: data.sim2name8,
                 pass: data.sim1no8,
               },
             ],
           },
-          testSimFirstOther: {
-            simtype: data.sim2,
+          testSimSecondOther: {
+            simtype: "0",
             data: [
               {
                 name: data.sim2name1,
@@ -1206,6 +1206,10 @@ function TotalInputInstallation() {
             customerSiteETA: data.customerSiteETA,
             workingStart: data.workingStart,
             workingEnd: data.workingEnd,
+            officeDeparture: data.officeDeparture,
+            officeArrival: data.officeArrival,
+            customerSiteArrival: data.customerSiteArrival,
+            customerSiteDeparture: data.customerSiteDeparture,
           },
           note: data.note,
           cid: status.cid,
@@ -1244,7 +1248,7 @@ function TotalInputInstallation() {
           ? status.TicketInfoKTBModel.tkdt_ID
           : "",
         cid: status.cid,
-        action:"INS"
+        action: "INS",
       };
       await axios.post(
         `${packageJson.domain.ipSiteInfo}/siteinfo/updatesiteinfo`,
@@ -1278,7 +1282,7 @@ function TotalInputInstallation() {
 
   const handleUpload = async (e, queue, name) => {
     try {
-      console.log(e.target.files[0]);
+      // console.log(queue);
       if (e.target.files[0]) {
         let type = e.target.files[0].name.split(".");
         const formData = new FormData();
@@ -1315,7 +1319,7 @@ function TotalInputInstallation() {
     }
   };
   const handleDeleteNamePicture = async (queue) => {
-    console.log(queue);
+    // console.log(queue);
     try {
       let data = {
         cid: status.cid,
@@ -1329,6 +1333,7 @@ function TotalInputInstallation() {
         name: "",
         queue: queue,
       };
+      // console.log(data);
       axios.post(`${packageJson.domain.ipSiteInfo}/ftp/delectimage`, data);
       setImageList((prevImage) =>
         prevImage.map((item) =>
@@ -1427,14 +1432,21 @@ function TotalInputInstallation() {
             <button
               className="bg-sky-200 text-blue-700 font-bold w-24 h-9 rounded-xl hover:bg-sky-300"
               onClick={() => {
-                if (boxOne === true || boxTwo === true || boxThree === true) {
+                if (
+                  boxOne === true ||
+                  boxTwo === true ||
+                  boxThree === true ||
+                  boxFour === true
+                ) {
                   setBoxOne(false);
                   setBoxTwo(false);
                   setBoxThree(false);
+                  setBoxFour(false);
                 } else {
                   setBoxOne(true);
                   setBoxTwo(true);
                   setBoxThree(true);
+                  setBoxFour(true);
                 }
               }}
             >
@@ -1459,6 +1471,7 @@ function TotalInputInstallation() {
               {/* ) : (
                 <Replacement boxOne={boxOne} setBoxOne={setBoxOne} />
               )} */}
+              {/* -------------- picture 1 ----------- */}
               {status.isDraft === true && (
                 <>
                   {/* section-2 */}
@@ -1483,7 +1496,7 @@ function TotalInputInstallation() {
                         <div className="lg:grid lg:grid-cols-3 gap-5 text-center">
                           <div className="flex flex-col gap-3">
                             {imageList[0]?.fileName !== "" &&
-                            imageList[5]?.fileName !== undefined ? (
+                            imageList[0]?.fileName !== undefined ? (
                               <div className="relative">
                                 <img
                                   src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[0]?.cid}/${imageList[0]?.tikcetId}/${imageList[0]?.fileName}`}
@@ -1520,7 +1533,7 @@ function TotalInputInstallation() {
                           </div>
                           <div className="flex flex-col gap-3">
                             {imageList[1]?.fileName !== "" &&
-                            imageList[5]?.fileName !== undefined ? (
+                            imageList[1]?.fileName !== undefined ? (
                               <div className="relative">
                                 <img
                                   src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[1]?.cid}/${imageList[1]?.tikcetId}/${imageList[1]?.fileName}`}
@@ -1555,24 +1568,207 @@ function TotalInputInstallation() {
                             )}
                             <p>หน้าตู้/จุดวางอุปกรณ์</p>
                           </div>
+                          {status.customerModel?.shortName !== "NTC" && (
+                            <>
+                              <div className="flex flex-col gap-3">
+                                {imageList[2]?.fileName !== "" &&
+                                imageList[2]?.fileName !== undefined ? (
+                                  <div className="relative">
+                                    <img
+                                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}
+                                      alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                      className="w-[300px] h-[300px]"
+                                    />
+                                    <TiDelete
+                                      className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                                      onClick={() => handleDeleteNamePicture(2)}
+                                    />
+                                  </div>
+                                ) : (
+                                  <>
+                                    <label
+                                      htmlFor="file-input2"
+                                      className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                                    >
+                                      <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                        <span className="text-8xl ">+</span>
+                                        <p>Upload Photo</p>
+                                      </div>
+                                    </label>
+                                    <input
+                                      type="file"
+                                      id="file-input2"
+                                      className="hidden"
+                                      onChange={(e) =>
+                                        handleUpload(e, 2, "cabinetSide")
+                                      }
+                                    />
+                                  </>
+                                )}
+                                <p>ด้านข้างตู้(ซ้าย-ขวา)</p>
+                              </div>
+                              <div className="flex flex-col gap-3">
+                                {imageList[3]?.fileName !== "" &&
+                                imageList[3]?.fileName !== undefined ? (
+                                  <div className="relative">
+                                    <img
+                                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.tikcetId}/${imageList[3]?.fileName}`}
+                                      alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                      className="w-[300px] h-[300px]"
+                                    />
+                                    <TiDelete
+                                      className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                                      onClick={() => handleDeleteNamePicture(3)}
+                                    />
+                                  </div>
+                                ) : (
+                                  <>
+                                    <label
+                                      htmlFor="file-input3"
+                                      className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                                    >
+                                      <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                        <span className="text-8xl ">+</span>
+                                        <p>Upload Photo</p>
+                                      </div>
+                                    </label>
+                                    <input
+                                      type="file"
+                                      id="file-input3"
+                                      className="hidden"
+                                      onChange={(e) =>
+                                        handleUpload(e, 3, "Serial1")
+                                      }
+                                    />
+                                  </>
+                                )}
+                                <p>รูปอุปกรณ์/Serial</p>
+                              </div>
+                              <div className="flex flex-col gap-3">
+                                {imageList[4]?.fileName !== "" &&
+                                imageList[4]?.fileName !== undefined ? (
+                                  <div className="relative">
+                                    <img
+                                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.tikcetId}/${imageList[4]?.fileName}`}
+                                      alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                      className="w-[300px] h-[300px]"
+                                    />
+                                    <TiDelete
+                                      className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                                      onClick={() => handleDeleteNamePicture(4)}
+                                    />
+                                  </div>
+                                ) : (
+                                  <>
+                                    <label
+                                      htmlFor="file-input4"
+                                      className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                                    >
+                                      <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                        <span className="text-8xl">+</span>
+                                        <p>Upload Photo</p>
+                                      </div>
+                                    </label>
+                                    <input
+                                      type="file"
+                                      id="file-input4"
+                                      className="hidden"
+                                      onChange={(e) =>
+                                        handleUpload(e, 4, "Serial2")
+                                      }
+                                    />
+                                  </>
+                                )}
+                                <p>รูปอุปกรณ์/Serial</p>
+                              </div>
+                              <div className="flex flex-col gap-3">
+                                {imageList[5]?.fileName !== "" &&
+                                imageList[5]?.fileName !== undefined ? (
+                                  <div className="relative">
+                                    <img
+                                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.tikcetId}/${imageList[5]?.fileName}`}
+                                      alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                      className="w-[300px] h-[300px]"
+                                    />
+                                    <TiDelete
+                                      className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                                      onClick={() => handleDeleteNamePicture(5)}
+                                    />
+                                  </div>
+                                ) : (
+                                  <>
+                                    <label
+                                      htmlFor="file-input5"
+                                      className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                                    >
+                                      <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                        <span className="text-8xl ">+</span>
+                                        <p>Upload Photo</p>
+                                      </div>
+                                    </label>
+                                    <input
+                                      type="file"
+                                      id="file-input5"
+                                      className="hidden"
+                                      onChange={(e) =>
+                                        handleUpload(e, 5, "behindCabinet")
+                                      }
+                                    />
+                                  </>
+                                )}
+                                <p>หลังตู้/จุดวางอุปกรณ์</p>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </AnimateHeight>
+                  </div>
+                </>
+              )}
+              {/* -------------- picture 2 ----------- */}
+              {status.isDraft === true && (
+                <>
+                  <div className="bg-[#EDEDED] p-3 rounded-md">
+                    <div
+                      className="flex items-center justify-between bg-[#4F709C] text-white text-2xl font-bold p-2 rounded-md hover:bg-[#213555]"
+                      onClick={() => setBoxThree(!boxThree)}
+                    >
+                      <h1>
+                        Serial Image{" "}
+                        <span className="text-yellow-400">
+                          (Open Ticket Before Upload Image Files)
+                        </span>
+                      </h1>
+                      <RiArrowDownSLine
+                        className={`h-10 w-10 ${boxThree ? "rotate-180" : ""}`}
+                      />
+                    </div>
+                    <AnimateHeight
+                      duration={1000}
+                      height={boxThree ? "auto" : 0}
+                    >
+                      <div className="p-5 flex flex-col items-center text-[#213555]">
+                        <h1 className="text-3xl font-bold w-full p-5">Image</h1>
+                        <div className="lg:grid lg:grid-cols-3 gap-5 text-center">
                           <div className="flex flex-col gap-3">
-                            {imageList[2]?.fileName !== "" &&
-                            imageList[5]?.fileName !== undefined ? (
+                            {imageList[6]?.fileName !== "" &&
+                            imageList[6]?.fileName !== undefined ? (
                               <div className="relative">
                                 <img
-                                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}
-                                  alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[6]?.cid}/${imageList[6]?.tikcetId}/${imageList[6]?.fileName}`}
+                                  alt="Serial Number SIM 1"
                                   className="w-[300px] h-[300px]"
                                 />
                                 <TiDelete
                                   className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
-                                  onClick={() => handleDeleteNamePicture(2)}
+                                  onClick={() => handleDeleteNamePicture(6)}
                                 />
                               </div>
                             ) : (
                               <>
                                 <label
-                                  htmlFor="file-input2"
+                                  htmlFor="file-input6"
                                   className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
                                 >
                                   <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
@@ -1582,34 +1778,34 @@ function TotalInputInstallation() {
                                 </label>
                                 <input
                                   type="file"
-                                  id="file-input2"
+                                  id="file-input6"
                                   className="hidden"
                                   onChange={(e) =>
-                                    handleUpload(e, 2, "cabinetSide")
+                                    handleUpload(e, 6, "serialSim1")
                                   }
                                 />
                               </>
                             )}
-                            <p>ด้านข้างตู้(ซ้าย-ขวา)</p>
+                            <p>Serial Number SIM 1</p>
                           </div>
                           <div className="flex flex-col gap-3">
-                            {imageList[3]?.fileName !== "" &&
-                            imageList[5]?.fileName !== undefined ? (
+                            {imageList[7]?.fileName !== "" &&
+                            imageList[7]?.fileName !== undefined ? (
                               <div className="relative">
                                 <img
-                                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.tikcetId}/${imageList[3]?.fileName}`}
-                                  alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[7]?.cid}/${imageList[7]?.tikcetId}/${imageList[7]?.fileName}`}
+                                  alt="Serial Number SIM 2"
                                   className="w-[300px] h-[300px]"
                                 />
                                 <TiDelete
                                   className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
-                                  onClick={() => handleDeleteNamePicture(3)}
+                                  onClick={() => handleDeleteNamePicture(7)}
                                 />
                               </div>
                             ) : (
                               <>
                                 <label
-                                  htmlFor="file-input3"
+                                  htmlFor="file-input7"
                                   className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
                                 >
                                   <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
@@ -1619,34 +1815,108 @@ function TotalInputInstallation() {
                                 </label>
                                 <input
                                   type="file"
-                                  id="file-input3"
+                                  id="file-input7"
                                   className="hidden"
                                   onChange={(e) =>
-                                    handleUpload(e, 3, "Serial1")
+                                    handleUpload(e, 7, "serialSim2")
                                   }
                                 />
                               </>
                             )}
-                            <p>รูปอุปกรณ์/Serial</p>
+                            <p>Serial Number SIM 2</p>
                           </div>
                           <div className="flex flex-col gap-3">
-                            {imageList[4]?.fileName !== "" &&
-                            imageList[5]?.fileName !== undefined ? (
+                            {imageList[8]?.fileName !== "" &&
+                            imageList[8]?.fileName !== undefined ? (
                               <div className="relative">
                                 <img
-                                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.tikcetId}/${imageList[4]?.fileName}`}
-                                  alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[8]?.cid}/${imageList[8]?.tikcetId}/${imageList[8]?.fileName}`}
+                                  alt="Serial Number Router"
                                   className="w-[300px] h-[300px]"
                                 />
                                 <TiDelete
                                   className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
-                                  onClick={() => handleDeleteNamePicture(4)}
+                                  onClick={() => handleDeleteNamePicture(8)}
                                 />
                               </div>
                             ) : (
                               <>
                                 <label
-                                  htmlFor="file-input4"
+                                  htmlFor="file-input8"
+                                  className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                                >
+                                  <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                    <span className="text-8xl ">+</span>
+                                    <p>Upload Photo</p>
+                                  </div>
+                                </label>
+                                <input
+                                  type="file"
+                                  id="file-input8"
+                                  className="hidden"
+                                  onChange={(e) =>
+                                    handleUpload(e, 8, "serialRouter")
+                                  }
+                                />
+                              </>
+                            )}
+                            <p>Serial Number Router</p>
+                          </div>
+                          <div className="flex flex-col gap-3">
+                            {imageList[9]?.fileName !== "" &&
+                            imageList[9]?.fileName !== undefined ? (
+                              <div className="relative">
+                                <img
+                                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[9]?.cid}/${imageList[9]?.tikcetId}/${imageList[9]?.fileName}`}
+                                  alt="Serial Number Rack"
+                                  className="w-[300px] h-[300px]"
+                                />
+                                <TiDelete
+                                  className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                                  onClick={() => handleDeleteNamePicture(9)}
+                                />
+                              </div>
+                            ) : (
+                              <>
+                                <label
+                                  htmlFor="file-input9"
+                                  className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
+                                >
+                                  <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
+                                    <span className="text-8xl ">+</span>
+                                    <p>Upload Photo</p>
+                                  </div>
+                                </label>
+                                <input
+                                  type="file"
+                                  id="file-input9"
+                                  className="hidden"
+                                  onChange={(e) =>
+                                    handleUpload(e, 9, "serialRack")
+                                  }
+                                />
+                              </>
+                            )}
+                            <p>Serial Number Rack</p>
+                          </div>
+                          <div className="flex flex-col gap-3">
+                            {imageList[10]?.fileName !== "" &&
+                            imageList[10]?.fileName !== undefined ? (
+                              <div className="relative">
+                                <img
+                                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[10]?.cid}/${imageList[10]?.tikcetId}/${imageList[10]?.fileName}`}
+                                  alt="Serial Number UPS"
+                                  className="w-[300px] h-[300px]"
+                                />
+                                <TiDelete
+                                  className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                                  onClick={() => handleDeleteNamePicture(10)}
+                                />
+                              </div>
+                            ) : (
+                              <>
+                                <label
+                                  htmlFor="file-input10"
                                   className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
                                 >
                                   <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
@@ -1656,34 +1926,34 @@ function TotalInputInstallation() {
                                 </label>
                                 <input
                                   type="file"
-                                  id="file-input4"
+                                  id="file-input10"
                                   className="hidden"
                                   onChange={(e) =>
-                                    handleUpload(e, 4, "Serial2")
+                                    handleUpload(e, 10, "Serial2")
                                   }
                                 />
                               </>
                             )}
-                            <p>รูปอุปกรณ์/Serial</p>
+                            <p>Serial Number UPS</p>
                           </div>
                           <div className="flex flex-col gap-3">
-                            {imageList[5]?.fileName !== "" &&
-                            imageList[5]?.fileName !== undefined ? (
+                            {imageList[11]?.fileName !== "" &&
+                            imageList[11]?.fileName !== undefined ? (
                               <div className="relative">
                                 <img
-                                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.tikcetId}/${imageList[5]?.fileName}`}
-                                  alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[11]?.cid}/${imageList[11]?.tikcetId}/${imageList[11]?.fileName}`}
+                                  alt="Serial Number Other"
                                   className="w-[300px] h-[300px]"
                                 />
                                 <TiDelete
                                   className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
-                                  onClick={() => handleDeleteNamePicture(5)}
+                                  onClick={() => handleDeleteNamePicture(11)}
                                 />
                               </div>
                             ) : (
                               <>
                                 <label
-                                  htmlFor="file-input5"
+                                  htmlFor="file-input11"
                                   className="flex flex-col justify-center bg-white text-center font-semibold p-5 w-[300px] h-[300px] text-sky-700"
                                 >
                                   <div className="inline-block transition-transform transform origin-center hover:scale-125 active:scale-[0.8]">
@@ -1693,15 +1963,15 @@ function TotalInputInstallation() {
                                 </label>
                                 <input
                                   type="file"
-                                  id="file-input5"
+                                  id="file-input11"
                                   className="hidden"
                                   onChange={(e) =>
-                                    handleUpload(e, 5, "behindCabinet")
+                                    handleUpload(e, 11, "behindCabinet")
                                   }
                                 />
                               </>
                             )}
-                            <p>หลังตู้/จุดวางอุปกรณ์</p>
+                            <p>Serial Number Other</p>
                           </div>
                         </div>
                       </div>
@@ -1713,14 +1983,14 @@ function TotalInputInstallation() {
               <div className="bg-[#EDEDED] p-3 rounded-md">
                 <div
                   className="flex items-center justify-between bg-[#4F709C] text-white text-2xl font-bold p-2 rounded-md hover:bg-[#213555]"
-                  onClick={() => setBoxThree(!boxThree)}
+                  onClick={() => setBoxFour(!boxFour)}
                 >
                   <h1>Engineer Action</h1>
                   <RiArrowDownSLine
-                    className={`h-10 w-10 ${boxThree ? "rotate-180" : ""}`}
+                    className={`h-10 w-10 ${boxFour ? "rotate-180" : ""}`}
                   />
                 </div>
-                <AnimateHeight duration={1000} height={boxThree ? "auto" : 0}>
+                <AnimateHeight duration={1000} height={boxFour ? "auto" : 0}>
                   <div className="p-5">
                     <h1 className="text-[#213555] font-bold text-2xl">
                       Working Time

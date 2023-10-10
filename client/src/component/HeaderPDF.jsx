@@ -10,10 +10,10 @@ const HeaderPDF = ({ ticketDetail }) => {
         <div className="flex h-20 justify-center gap-6 px-3">
           <img src="/component/logoWhite.PNG" alt="logo" />
           <div className="flex flex-col items-center justify-center gap-3 pb-6 border-[2px] border-black rounded-2xl w-11/12">
-            <h1 className="text-xl font-medium">
+            <h1 className="text-3xl font-medium">
               ::: {ticketDetail.config?.doc_name} :::{" "}
             </h1>
-            <div className="flex text-xs justify-evenly w-full">
+            <div className="flex text-xl justify-evenly w-full">
               <p className="font-medium">
                 Ticket Order :{" "}
                 <span className="text-red-500 font-normal">

@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'thai-sarabun': ['TH Sarabun PSK', 'sans-serif'],
+        'thai-sarabunPSK': ['TH Sarabun PSK', 'sans-serif'],
+        'thai-sarabunNew': ['THsarabun', 'sans-serif'],
       },
     },
   },

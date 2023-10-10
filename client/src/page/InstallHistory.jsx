@@ -33,7 +33,7 @@ function InstallHistory() {
     const response = await axios.get(
       `${packageJson.domain.ipSiteInfo}/siteinfo/history`
     );
-    // console.log(response.data);
+    console.log(response.data);
     setSiteinfo(response.data);
   };
 
@@ -130,7 +130,7 @@ function InstallHistory() {
       <div className="px-2 lg:px-32 py-5">
         <h1 className="py-3 px-5 font-bold shadow-sm shadow-black rounded-md">
           Home / Installation{" "}
-          <span className="text-[#1A16D3]">/ New Install </span>
+          <span className="text-[#1A16D3]">/ New Install History</span>
         </h1>
         <div className="flex justify-end pt-4 px-5 lg:hidden">
           <div
@@ -262,7 +262,7 @@ function InstallHistory() {
                   <tr
                     className="hover:bg-neutral-200 cursor-pointer"
                     onClick={() =>
-                      navigate(`/user/view-install/${data.siteInfoId}`)
+                      navigate(`/user/view-install/${data.cidRef}`)
                     }
                     key={data.siteInfoId}
                   >
@@ -286,9 +286,7 @@ function InstallHistory() {
                       {data.cid}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.TicketInfoModel?.tkdt_ID}
-                      {data.TicketInfoLTEModel?.tkdt_ID}
-                      {data.TicketInfoKTBModel?.tkdt_ID}
+                      {data.taxNo}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       New Installation
@@ -299,7 +297,7 @@ function InstallHistory() {
                       {formatDate(data.TicketInfoKTBModel?.tkdt_NTATime)}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.routerInfoModel.installationDate}
+                      {formatDate(data.routerInfoModel.installationDate)}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       {data.siteName}

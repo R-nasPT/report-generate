@@ -2,10 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-  /* @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@100&display=swap');
-body {
-    font-family: 'Sarabun', sans-serif;
-} */
+@font-face {
+  font-family: "THsarabun";
+  src: url("../public/font/THSarabun.ttf") format('truetype');
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

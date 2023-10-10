@@ -19,7 +19,7 @@ function TotalSiteInformation({ props }) {
   const [atmType, setAtmType] = useState([]);
   const [apn, setAPN] = useState([]);
   const [upsType, setUpsType] = useState([]);
-  
+
   const equipmentTypeList = async () => {
     const response = await axios.get(
       `${packageJson.domain.ipSiteInfo}/equipment/equiptype`
@@ -151,14 +151,20 @@ function TotalSiteInformation({ props }) {
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
                     disabled={status.isComplete && isAdmin !== "Admin"}
-                    {...register("insBy")}
+                    {...register("insBy", { required: true })}
                   />
+                  {errors.insBy && (
+                    <p className="text-red-500 text-xs">กรุณากรอกข้อมูล</p>
+                  )}
                   <input
                     type="date"
                     className="border-[1px] border-black rounded-lg p-1"
                     disabled={status.isComplete && isAdmin !== "Admin"}
-                    {...register("insDate")}
+                    {...register("insDate", { required: true })}
                   />
+                  {errors.insDate && (
+                    <p className="text-red-500 text-xs">กรุณากรอกข้อมูล</p>
+                  )}
                   <textarea
                     cols="23"
                     rows="3"
@@ -2481,544 +2487,482 @@ function TotalSiteInformation({ props }) {
           </div>
           {status.customerModel?.cusGroupType === 2 && (
             <>
-              {/* outsideBox-1 */}
-              <div>
-                <div className="flex lg:gap-3 mt-4">
-                  <h1 className="text-[#213555] font-bold lg:text-2xl">
-                    Test Other SIM 1
-                  </h1>
-                  <label className="flex p-1 gap-3 items-center">
-                    <input
-                      type="radio"
-                      className="h-6 w-6"
-                      disabled={status.isComplete && isAdmin !== "Admin"}
-                      value={1}
-                      {...register("sim1")}
-                    />
-                    <span>Active</span>
-                  </label>
-                  <label className="flex p-1 gap-3 items-center">
-                    <input
-                      type="radio"
-                      className="h-6 w-6"
-                      disabled={status.isComplete && isAdmin !== "Admin"}
-                      value={0}
-                      {...register("sim1")}
-                    />
-                    <span>Back Up</span>
-                  </label>
+              <div className="lg:flex">
+                {/* outsideBox-1 */}
+                <div className="lg:w-1/2">
+                  <div className="flex lg:gap-3 mt-4">
+                    <h1 className="text-[#213555] font-bold lg:text-2xl">
+                      Test Other SIM 1
+                    </h1>
+                    <label className="flex p-1 gap-3 items-center">
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        disabled
+                        value={1}
+                        {...register("sim1")}
+                      />
+                      <span>Active</span>
+                    </label>
+                    <label className="flex p-1 gap-3 items-center">
+                      <input
+                        type="radio"
+                        className="h-6 w-6"
+                        disabled
+                        value={0}
+                        {...register("sim1")}
+                      />
+                      <span>Back Up</span>
+                    </label>
+                  </div>
+                  <div className="grid gap-2 bg-[#E5D283] rounded-s-xl px-7 py-4">
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>1)</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("sim2name1")}
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim1no1")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim1no1")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>2)</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("sim2name2")}
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim1no2")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim1no2")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>3)</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("sim2name3")}
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim1no3")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim1no3")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>4)</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("sim2name4")}
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim1no4")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim1no4")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>5)</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("sim2name5")}
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim1no5")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim1no5")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>6)</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("sim2name6")}
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim1no6")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim1no6")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>7)</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("sim2name7")}
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim1no7")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim1no7")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>8)</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("sim2name8")}
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim1no8")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim1no8")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                  </div>
                 </div>
-                <div className="grid gap-2 bg-[#E5D283] rounded-xl px-7 py-4">
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>1)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim1name1")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
+                {/* outsideBox-2 */}
+                <div className="lg:w-1/2">
+                  <div className="flex lg:gap-3 mt-4">
+                    <h1 className="text-[#213555] font-bold lg:text-2xl">
+                      Test Other SIM 2
+                    </h1>
+                    <label className="flex p-1 gap-3 items-center">
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
+                        disabled
                         value={1}
-                        {...register("sim1no1")}
+                        {...register("sim2")}
                       />
-                      <span>Pass</span>
+                      <span>Active</span>
+                    </label>
+                    <label className="flex p-1 gap-3 items-center">
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
+                        disabled
                         value={0}
-                        {...register("sim1no1")}
+                        {...register("sim2")}
                       />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>2)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim1name2")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim1no2")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim1no2")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>3)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim1name3")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim1no3")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim1no3")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>4)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim1name4")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim1no4")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim1no4")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>5)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim1name5")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim1no5")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim1no5")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>6)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim1name6")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim1no6")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim1no6")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>7)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim1name7")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim1no7")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim1no7")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>8)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim1name8")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim1no8")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim1no8")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                </div>
-              </div>
-              {/* outsideBox-2 */}
-              <div>
-                <div className="flex lg:gap-3 mt-4">
-                  <h1 className="text-[#213555] font-bold lg:text-2xl">
-                    Test Other SIM 2
-                  </h1>
-                  <label className="flex p-1 gap-3 items-center">
-                    <input
-                      type="radio"
-                      className="h-6 w-6"
-                      disabled={status.isComplete && isAdmin !== "Admin"}
-                      value={1}
-                      {...register("sim2")}
-                    />
-                    <span>Active</span>
-                  </label>
-                  <label className="flex p-1 gap-3 items-center">
-                    <input
-                      type="radio"
-                      className="h-6 w-6"
-                      disabled={status.isComplete && isAdmin !== "Admin"}
-                      value={0}
-                      {...register("sim2")}
-                    />
-                    <span>Back Up</span>
-                  </label>
-                </div>
-                <div className="grid gap-2 bg-[#E5D283] rounded-xl px-7 py-4">
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>1)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim2name1")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim2no1")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim2no1")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>2)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim2name2")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim2no2")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim2no2")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>3)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim2name3")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim2no3")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim2no3")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>4)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim2name4")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim2no4")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim2no4")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>5)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim2name5")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim2no5")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim2no5")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>6)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim2name6")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim2no6")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim2no6")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>7)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim2name7")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim2no7")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim2no7")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
-                  <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                    <div className="flex items-center gap-3">
-                      <span>8)</span>
-                      <input
-                        type="text"
-                        className="border-[1px] border-black rounded-lg p-1"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        {...register("sim2name8")}
-                      />
-                    </div>
-                    <div className="flex gap-3">
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={1}
-                        {...register("sim2no8")}
-                      />
-                      <span>Pass</span>
-                      <input
-                        type="radio"
-                        className="h-6 w-6"
-                        disabled={status.isComplete && isAdmin !== "Admin"}
-                        value={0}
-                        {...register("sim2no8")}
-                      />
-                      <span>Fail</span>
-                      <span>..............................</span>
-                    </div>
-                  </label>
+                      <span>Back Up</span>
+                    </label>
+                  </div>
+                  <div className="grid gap-[20px] bg-[#E5D283] rounded-e-xl px-7 py-4">
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>1)</span>
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim2no1")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim2no1")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>2)</span>
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim2no2")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim2no2")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>3)</span>
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim2no3")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim2no3")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>4)</span>
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim2no4")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim2no4")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>5)</span>
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim2no5")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim2no5")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>6)</span>
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim2no6")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim2no6")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>7)</span>
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim2no7")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim2no7")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                    <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                      <div className="flex items-center gap-3">
+                        <span>8)</span>
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={1}
+                          {...register("sim2no8")}
+                        />
+                        <span>Pass</span>
+                        <input
+                          type="radio"
+                          className="h-6 w-6"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          value={0}
+                          {...register("sim2no8")}
+                        />
+                        <span>Fail</span>
+                      </div>
+                    </label>
+                  </div>
                 </div>
               </div>
             </>

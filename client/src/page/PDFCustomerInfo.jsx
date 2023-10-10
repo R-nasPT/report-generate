@@ -14,7 +14,7 @@ function PDFCustomerInfo() {
 
   const { formatDate } = useAuthContext();
 
-  // console.log(siteinfo);
+  // console.log(siteinfo.shortName);
   // console.log(customerInfo);
 
   const { id } = useParams();
@@ -24,7 +24,7 @@ function PDFCustomerInfo() {
     const currentDate = new Date().toISOString().split("T")[0];
     const opt = {
       margin: 1,
-      filename: `ATM Report ${currentDate}`,
+      filename: `ATM Report ${siteinfo.cid} ${currentDate}`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
     };
@@ -135,7 +135,7 @@ function PDFCustomerInfo() {
               className="w-9 h-9 p-2 bg-red-600 hover:bg-red-500 rounded-md"
             />
           </Link>
-          <Link to="/user/mock">
+          <Link to="/user/install">
             <img
               src="/user/home 2.png"
               alt="home"
@@ -151,11 +151,11 @@ function PDFCustomerInfo() {
         </div>
         <div
           id="element-to-print"
-          className="py-6 px-8 bg-white font-thai-sarabun"
+          className="py-6 px-8 bg-white leading-[16px] font-thai-sarabunNew"
         >
           <section className="h-[1040px]">
             <div className="flex flex-col items-center">
-              <table className="text-sm border-[2px] border-black m-3 w-[670px]">
+              <table className="text-[16px] border-[2px] border-black m-3 w-[670px]">
                 <thead className="text-center w-full">
                   <tr>
                     <th colSpan="2" className="pb-3">
@@ -200,10 +200,17 @@ function PDFCustomerInfo() {
                     <td className=" border-y-[2px] border-black pb-3 px-3">
                       Install Date
                     </td>
-                    <td className=" border-l-[2px] border-black pb-3 pl-3">
-                      <p className="w-96 break-words">
-                        {formatDate(siteinfo.routerInfoModel?.installationDate)}
+                    <td className="flex border-l-[2px] border-black pl-3">
+                      <p className="w-1/2 break-words">
+                        {formatDate(siteinfo.routerInfoModel?.installationDate)}{" "}
                       </p>
+                      <span className="border-l-[2px] border-black h-full pb-3 pl-3">
+                        Battery Start:{" "}
+                        {formatDate(siteinfo.upsInfoModel?.batteryStartDate) !==
+                        "aN/aN/NaN"
+                          ? formatDate(siteinfo.upsInfoModel?.batteryStartDate)
+                          : ""}
+                      </span>
                     </td>
                   </tr>
                   <tr>
@@ -241,9 +248,7 @@ function PDFCustomerInfo() {
                   <tr>
                     <td className="pb-3 px-3">Environment</td>
                     <td className="border-y-[2px] border-l-[2px] border-black pb-3 pl-3">
-                      <p className="w-96 break-words">
-                        {siteinfo.routerInfoModel?.serialNo}
-                      </p>
+                      <p className="w-96 break-words"></p>
                     </td>
                   </tr>
                   <tr>
@@ -272,38 +277,56 @@ function PDFCustomerInfo() {
                   </tr>
                 </tbody>
               </table>
-              <h2 className="font-semibold">Picture</h2>
-              <div className="grid grid-cols-3 gap-3 mt-3">
+              <h2 className="font-semibold text-3xl">Picture</h2>
+              <div
+                className={`${
+                  siteinfo.shortName === "NTC"
+                    ? "grid grid-cols-2"
+                    : "grid grid-cols-3"
+                } gap-3 mt-3`}
+              >
                 <img
                   src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[0]?.cid}/${imageList[0]?.tikcetId}/${imageList[0]?.fileName}`}
                   alt="รูปหน้าร้าน"
-                  className="w-52 h-60"
+                  className={`${
+                    siteinfo.shortName === "NTC"
+                      ? "w-[350px] h-[350px]"
+                      : "w-52 h-60"
+                  }`}
                 />
                 <img
                   src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[1]?.cid}/${imageList[1]?.tikcetId}/${imageList[1]?.fileName}`}
                   alt="หน้าตู้/จุดวางอุปกรณ์"
-                  className="w-52 h-60"
+                  className={`${
+                    siteinfo.shortName === "NTC"
+                      ? "w-[350px] h-[350px]"
+                      : "w-52 h-60"
+                  }`}
                 />
-                <img
-                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}
-                  alt="ด้านข้างตู้(ซ้าย-ขวา)"
-                  className="w-52 h-60"
-                />
-                <img
-                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.tikcetId}/${imageList[3]?.fileName}`}
-                  alt="รูปอุปกรณ์/Serial"
-                  className="w-52 h-60"
-                />
-                <img
-                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.tikcetId}/${imageList[4]?.fileName}`}
-                  alt="รูปอุปกรณ์/Serial"
-                  className="w-52 h-60"
-                />
-                <img
-                  src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.tikcetId}/${imageList[5]?.fileName}`}
-                  alt="หลังตู้/จุดวางอุปกรณ์"
-                  className="w-52 h-60"
-                />
+                {siteinfo.shortName !== "NTC" && (
+                  <>
+                    <img
+                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}
+                      alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                      className="w-52 h-60"
+                    />
+                    <img
+                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.tikcetId}/${imageList[3]?.fileName}`}
+                      alt="รูปอุปกรณ์/Serial"
+                      className="w-52 h-60"
+                    />
+                    <img
+                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.tikcetId}/${imageList[4]?.fileName}`}
+                      alt="รูปอุปกรณ์/Serial"
+                      className="w-52 h-60"
+                    />
+                    <img
+                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.tikcetId}/${imageList[5]?.fileName}`}
+                      alt="หลังตู้/จุดวางอุปกรณ์"
+                      className="w-52 h-60"
+                    />
+                  </>
+                )}
               </div>
             </div>
           </section>

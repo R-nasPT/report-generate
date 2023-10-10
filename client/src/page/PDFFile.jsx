@@ -121,12 +121,12 @@ function PDFFile() {
         </div>
         <div
           id="element-to-print"
-          className="py-6 px-8 bg-white font-thai-sarabun"
+          className="py-6 px-8 bg-white font-thai-sarabunNew"
         >
           <HeaderPDF ticketDetail={ticketDetail} />
           <section className="h-[865px]">
             <div className="flex flex-col items-center">
-              <div className="flex flex-col gap-3 text-sm bg-slate-300 border-[3px] border-slate-600 rounded-3xl px-5 pt-5 pb-10 my-5 w-full">
+              <div className="flex flex-col gap-3 text-[20px] bg-slate-300 border-[3px] border-slate-600 rounded-3xl px-5 pt-5 pb-10 my-5 w-full">
                 <p className="font-medium underline">Information : </p>
                 <div className="grid grid-cols-2 gap-1 px-7">
                   <p className="font-medium">

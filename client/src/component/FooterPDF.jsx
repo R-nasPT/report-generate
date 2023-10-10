@@ -5,7 +5,7 @@ function FooterPDF() {
         <>
             <footer >
                 <hr className="w-full mt-1 border-t-4 border-black" />
-                <div className="text-xs p-3">
+                <div className="text-sm pl-3 pt-2">
                     <p className="font-medium">PP Ontime Company Limited</p>
                     <p>1011 Supalai Grand Tower, 16 Floor, Rama 3 Rd., Chong Nonsi, Yannawa, Bangkok. 10120</p>
                     <div className="flex gap-4">

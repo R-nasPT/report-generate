@@ -17,50 +17,43 @@ function ViewInstall() {
   const [boxOne, setBoxOne] = useState(false);
   const [boxTwo, setBoxTwo] = useState(false);
   const [boxThree, setBoxThree] = useState(false);
+  const [boxFour, setBoxFour] = useState(false);
 
   const [status, setStatus] = useState([]);
   const [dataList, setDataList] = useState([]);
   const [imageList, setImageList] = useState([]);
+  const [idList, setIdList] = useState([]);
 
-  const { formatDate } = useAuthContext();
+  const { formatDate, formatDateTime } = useAuthContext();
 
-  // console.log(dataList);
-  // console.log(dataList.simFirst?.ipSimFirst);
+  console.log(idList);
+  console.log(dataList);
 
   const { id } = useParams();
 
   const getStatus = async () => {
     try {
       const response = await axios.get(
-        `${packageJson.domain.ipSiteInfo}/siteinfo/checkstaus/${id}`
+        `${packageJson.domain.ipSiteInfo}/siteinfo/history/${id}`
       );
-      setStatus(response.data);
+      // console.log(response.data);
+      getSiteinfoReportByCIDAndTicket(response.data.siteinfo.siteInfoId);
 
-      getSiteinfoReportByCIDAndTicket(response.data);
+      setIdList(response.data.siteinfo);
+      setDataList(response.data.rawData);
+      setImageList(response.data.fileInfo);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const getSiteinfoReportByCIDAndTicket = async (info) => {
+  const getSiteinfoReportByCIDAndTicket = async (data) => {
     try {
-      let data = {
-        ticketId: info.TicketInfoModel
-          ? info.TicketInfoModel.tkdt_ID
-          : info.TicketInfoLTEModel
-          ? info.TicketInfoLTEModel.tkdt_ID
-          : info.TicketInfoKTBModel
-          ? info.TicketInfoKTBModel.tkdt_ID
-          : "",
-        cid: info?.cid,
-      };
-      // console.log(data);
-      const response = await axios.post(
-        `${packageJson.domain.ipSiteInfo}/siteinfo/report/`,
-        data
+      const response = await axios.get(
+        `${packageJson.domain.ipSiteInfo}/siteinfo/checkstaus/${data}`
       );
-      setDataList(response.data.rawData);
-      setImageList(response.data.fileInfo);
+      console.log(response.data);
+      setStatus(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -84,28 +77,26 @@ function ViewInstall() {
           </Link>{" "}
           /{" "}
           <Link
-            to="/user/install"
+            to="/user/install-history"
             className="hover:underline hover:text-blue-700"
           >
-            Installation / New Install
+            Installation / New Install History
           </Link>{" "}
-          <span className="text-[#E5D283]">/ {status?.cid}</span>
+          <span className="text-[#E5D283]">/ {dataList?.cid}</span>
         </h1>
         <div className="px-5">
           <div className="bg-[#213555] text-white mt-5 flex justify-center gap-10 py-3 px-5 font-bold shadow-sm shadow-black rounded-md lg:text-2xl">
             <h1>
-              CID : <span>{status.cid}</span>
+              CID : <span>{dataList?.cid}</span>
             </h1>
             <h1>
-              Ticket : <span>{status?.TicketInfoModel?.tkdt_ID}</span>
-              <span>{status?.TicketInfoLTEModel?.tkdt_ID}</span>
-              <span>{status?.TicketInfoKTBModel?.tkdt_ID}</span>
+              Ticket : <span>{dataList?.ticketId}</span>
             </h1>
           </div>
           <div className="flex justify-between items-center p-3">
             <div className="flex gap-3 py-1">
               <Link
-                to={`/user/pdfcus/${id}`}
+                to={`/user/pdfcus/${idList?.siteInfoId}`}
                 className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
               >
                 <BsFillFileEarmarkPdfFill className="w-5 h-5" />
@@ -113,7 +104,7 @@ function ViewInstall() {
               </Link>
               {status.customerModel?.cusGroupType === 1 ? (
                 <Link
-                  to={`http://10.0.0.4/siteinfo/act.aspx?CID=${status.cid}`}
+                  to={`http://10.0.0.4/siteinfo/act.aspx?CID=${dataList.cid}`}
                   className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
                 >
                   <BsFillFileEarmarkPdfFill className="w-5 h-5" />
@@ -121,7 +112,7 @@ function ViewInstall() {
                 </Link>
               ) : (
                 <Link
-                  to={`/user/pdflte/${id}`}
+                  to={`/user/pdflte/${idList?.siteInfoId}`}
                   className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
                 >
                   <BsFillFileEarmarkPdfFill className="w-5 h-5" />
@@ -132,14 +123,21 @@ function ViewInstall() {
             <button
               className="bg-sky-200 text-blue-700 font-bold w-24 h-9 rounded-xl hover:bg-sky-300"
               onClick={() => {
-                if (boxOne === true || boxTwo === true || boxThree === true) {
+                if (
+                  boxOne === true ||
+                  boxTwo === true ||
+                  boxThree === true ||
+                  boxFour === true
+                ) {
                   setBoxOne(false);
                   setBoxTwo(false);
                   setBoxThree(false);
+                  setBoxFour(false);
                 } else {
                   setBoxOne(true);
                   setBoxTwo(true);
                   setBoxThree(true);
+                  setBoxFour(true);
                 }
               }}
             >
@@ -175,11 +173,11 @@ function ViewInstall() {
                         <p>Address :</p>
                       </div>
                       <div className="grid gap-7">
-                        <p>{dataList.siteInfo.stationID}</p>
-                        <p>{dataList.siteInfo.branch}</p>
-                        <p>{dataList.siteInfo.installBy}</p>
-                        <p>{formatDate(dataList.siteInfo.installDate)}</p>
-                        <p>{dataList.siteInfo.address}</p>
+                        <p>{dataList.siteInfo?.stationID}</p>
+                        <p>{dataList.siteInfo?.branch}</p>
+                        <p>{dataList.siteInfo?.installBy}</p>
+                        <p>{formatDate(dataList.siteInfo?.installDate)}</p>
+                        <p>{dataList.siteInfo?.address}</p>
                       </div>
                     </div>
                   </div>
@@ -243,9 +241,9 @@ function ViewInstall() {
                         <p>ATM IP :</p>
                       </div>
                       <div className="flex flex-col gap-10 lg:gap-5">
-                        <p className="h-6">{dataList.atmbrand.atmBrandName}</p>
-                        <p className="h-6">{dataList.atmtype.atmTypeName}</p>
-                        <p className="h-6">{dataList.atmInfo.atmIp}</p>
+                        <p className="h-6">{dataList.atmbrand?.atmBrandName}</p>
+                        <p className="h-6">{dataList.atmtype?.atmTypeName}</p>
+                        <p className="h-6">{dataList.atmInfo?.atmIp}</p>
                       </div>
                     </div>
                   </div>
@@ -1033,11 +1031,13 @@ function ViewInstall() {
                         <p>Temperature :</p>
                       </div>
                       <div className="grid gap-5">
-                        <p className="h-6">{dataList.upsType.upsName}</p>
-                        <p className="h-6">{dataList.upsInfo.upsSN}</p>
-                        <p className="h-6">{dataList.upsInfo.upsBrand}</p>
-                        <p className="h-6">{dataList.upsInfo.upsModel}</p>
-                        <p className="h-6">{dataList.upsInfo.batteryStart}</p>
+                        <p className="h-6">{dataList.upsType?.upsName}</p>
+                        <p className="h-6">{dataList.upsInfo?.upsSN}</p>
+                        <p className="h-6">{dataList.upsInfo?.upsBrand}</p>
+                        <p className="h-6">{dataList.upsInfo?.upsModel}</p>
+                        <p className="h-6">
+                          {formatDate(dataList.upsInfo.batteryStart)}
+                        </p>
                         <div className="flex flex-wrap lg:gap-3 items-center">
                           <span>{dataList.upsInfo.rate}</span>
                           KVA
@@ -1203,672 +1203,618 @@ function ViewInstall() {
                 </div>
                 {status.customerModel?.cusGroupType === 2 && (
                   <>
-                    {/* outsideBox-1 */}
-                    <div>
-                      <div className="flex lg:gap-3 mt-4">
-                        <h1 className="text-[#213555] font-bold lg:text-2xl">
-                          Test Other SIM 1
-                        </h1>
-                        <label className="flex p-1 gap-3 items-center">
-                          <span>
-                            {dataList.testSimFirstOther.simtype === "1" ? (
-                              <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                            ) : (
-                              <input
-                                type="radio"
-                                className="h-5 w-5"
-                                disabled
-                              ></input>
-                            )}
-                          </span>
-                          <span>Active</span>
-                        </label>
-                        <label className="flex p-1 gap-3 items-center">
-                          <span>
-                            {dataList.testSimFirstOther.simtype === "0" ? (
-                              <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                            ) : (
-                              <input
-                                type="radio"
-                                className="h-5 w-5"
-                                disabled
-                              ></input>
-                            )}
-                          </span>
-                          <span>Back Up</span>
-                        </label>
+                    <div className="lg:flex">
+                      {/* outsideBox-1 */}
+                      <div className="lg:w-1/2">
+                        <div className="flex lg:gap-3 mt-4">
+                          <h1 className="text-[#213555] font-bold lg:text-2xl">
+                            Test Other SIM 1
+                          </h1>
+                          <label className="flex p-1 gap-3 items-center">
+                            <span>
+                              {dataList.testSimFirstOther.simtype === "1" ? (
+                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                              ) : (
+                                <input
+                                  type="radio"
+                                  className="h-5 w-5"
+                                  disabled
+                                ></input>
+                              )}
+                            </span>
+                            <span>Active</span>
+                          </label>
+                          <label className="flex p-1 gap-3 items-center">
+                            <span>
+                              {dataList.testSimFirstOther.simtype === "0" ? (
+                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                              ) : (
+                                <input
+                                  type="radio"
+                                  className="h-5 w-5"
+                                  disabled
+                                ></input>
+                              )}
+                            </span>
+                            <span>Back Up</span>
+                          </label>
+                        </div>
+                        <div className="grid gap-2 bg-[#E5D283] rounded-s-xl px-7 py-4">
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                            <div className="flex items-center gap-3">
+                              <span>1)</span>
+                              <span className="w-36">
+                                {dataList.testSimSecondOther.data?.[0]?.name}
+                              </span>
+                            </div>
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimFirstOther.data?.[0]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimFirstOther.data?.[0]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                            <div className="flex items-center gap-3">
+                              <span>2)</span>
+                              <span className="w-36">
+                                {dataList.testSimSecondOther.data?.[1]?.name}
+                              </span>
+                            </div>
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimFirstOther.data?.[1]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimFirstOther.data?.[1]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                            <div className="flex items-center gap-3">
+                              <span>3)</span>
+                              <span className="w-36">
+                                {dataList.testSimSecondOther.data?.[2].name}
+                              </span>
+                            </div>
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimFirstOther.data?.[2]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimFirstOther.data?.[2]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                            <div className="flex items-center gap-3">
+                              <span>4)</span>
+                              <span className="w-36">
+                                {dataList.testSimSecondOther.data?.[3].name}
+                              </span>
+                            </div>
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimFirstOther.data?.[3]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimFirstOther.data?.[3]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                            <div className="flex items-center gap-3">
+                              <span>5)</span>
+                              <span className="w-36">
+                                {dataList.testSimSecondOther.data?.[4].name}
+                              </span>
+                            </div>
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimFirstOther.data?.[4]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimFirstOther.data?.[4]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                            <div className="flex items-center gap-3">
+                              <span>6)</span>
+                              <span className="w-36">
+                                {dataList.testSimSecondOther.data?.[5].name}
+                              </span>
+                            </div>
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimFirstOther.data?.[5]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimFirstOther.data?.[5]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                            <div className="flex items-center gap-3">
+                              <span>7)</span>
+                              <span className="w-36">
+                                {dataList.testSimSecondOther.data?.[6].name}
+                              </span>
+                            </div>
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimFirstOther.data?.[6]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimFirstOther.data?.[6]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
+                            <div className="flex items-center gap-3">
+                              <span>8)</span>
+                              <span className="w-36">
+                                {dataList.testSimSecondOther.data?.[7].name}
+                              </span>
+                            </div>
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimFirstOther.data?.[7]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimFirstOther.data?.[7]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                        </div>
                       </div>
-                      <div className="grid gap-2 bg-[#E5D283] rounded-xl px-7 py-4">
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
+                      {/* outsideBox-2 */}
+                      <div className="lg:w-1/2">
+                        <div className="flex lg:gap-3 mt-4">
+                          <h1 className="text-[#213555] font-bold lg:text-2xl">
+                            Test Other SIM 2
+                          </h1>
+                          <label className="flex p-1 gap-3 items-center">
+                            <span>
+                              {dataList.testSimSecondOther.simtype === "1" ? (
+                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                              ) : (
+                                <input
+                                  type="radio"
+                                  className="h-5 w-5"
+                                  disabled
+                                ></input>
+                              )}
+                            </span>
+                            <span>Active</span>
+                          </label>
+                          <label className="flex p-1 gap-3 items-center">
+                            <span>
+                              {dataList.testSimSecondOther.simtype === "0" ? (
+                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                              ) : (
+                                <input
+                                  type="radio"
+                                  className="h-5 w-5"
+                                  disabled
+                                ></input>
+                              )}
+                            </span>
+                            <span>Back Up</span>
+                          </label>
+                        </div>
+                        <div className="grid gap-2 bg-[#E5D283] rounded-e-xl px-7 py-4">
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
                             <span>1)</span>
-                            <span className="w-36">
-                              {dataList.testSimFirstOther.data?.[0]?.name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimFirstOther.data?.[0]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimFirstOther.data?.[0]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimSecondOther.data?.[0]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimSecondOther.data?.[0]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
                             <span>2)</span>
-                            <span className="w-36">
-                              {dataList.testSimFirstOther.data?.[1]?.name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimFirstOther.data?.[1]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimFirstOther.data?.[1]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimSecondOther.data?.[1]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimSecondOther.data?.[1]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
                             <span>3)</span>
-                            <span className="w-36">
-                              {dataList.testSimFirstOther.data?.[2].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimFirstOther.data?.[2]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimFirstOther.data?.[2]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimSecondOther.data?.[2]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimSecondOther.data?.[2]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
                             <span>4)</span>
-                            <span className="w-36">
-                              {dataList.testSimFirstOther.data?.[3].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimFirstOther.data?.[3]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimFirstOther.data?.[3]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimSecondOther.data?.[3]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimSecondOther.data?.[3]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
                             <span>5)</span>
-                            <span className="w-36">
-                              {dataList.testSimFirstOther.data?.[4].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimFirstOther.data?.[4]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimFirstOther.data?.[4]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimSecondOther.data?.[4]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimSecondOther.data?.[4]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
                             <span>6)</span>
-                            <span className="w-36">
-                              {dataList.testSimFirstOther.data?.[5].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimFirstOther.data?.[5]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimFirstOther.data?.[5]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimSecondOther.data?.[5]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimSecondOther.data?.[5]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
                             <span>7)</span>
-                            <span className="w-36">
-                              {dataList.testSimFirstOther.data?.[6].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimFirstOther.data?.[6]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimFirstOther.data?.[6]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimSecondOther.data?.[6]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimSecondOther.data?.[6]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                          <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
                             <span>8)</span>
-                            <span className="w-36">
-                              {dataList.testSimFirstOther.data?.[7].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimFirstOther.data?.[7]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimFirstOther.data?.[7]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                      </div>
-                    </div>
-                    {/* outsideBox-2 */}
-                    <div>
-                      <div className="flex lg:gap-3 mt-4">
-                        <h1 className="text-[#213555] font-bold lg:text-2xl">
-                          Test Other SIM 2
-                        </h1>
-                        <label className="flex p-1 gap-3 items-center">
-                          <span>
-                            {dataList.testSimSecondOther.simtype === "1" ? (
-                              <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                            ) : (
-                              <input
-                                type="radio"
-                                className="h-5 w-5"
-                                disabled
-                              ></input>
-                            )}
-                          </span>
-                          <span>Active</span>
-                        </label>
-                        <label className="flex p-1 gap-3 items-center">
-                          <span>
-                            {dataList.testSimSecondOther.simtype === "0" ? (
-                              <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                            ) : (
-                              <input
-                                type="radio"
-                                className="h-5 w-5"
-                                disabled
-                              ></input>
-                            )}
-                          </span>
-                          <span>Back Up</span>
-                        </label>
-                      </div>
-                      <div className="grid gap-2 bg-[#E5D283] rounded-xl px-7 py-4">
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
-                            <span>1)</span>
-                            <span className="w-36">
-                              {dataList.testSimSecondOther.data?.[0].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimSecondOther.data?.[0]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimSecondOther.data?.[0]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
-                            <span>2)</span>
-                            <span className="w-36">
-                              {dataList.testSimSecondOther.data?.[1].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimSecondOther.data?.[1]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimSecondOther.data?.[1]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
-                            <span>3)</span>
-                            <span className="w-36">
-                              {dataList.testSimSecondOther.data?.[2].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimSecondOther.data?.[2]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimSecondOther.data?.[2]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
-                            <span>4)</span>
-                            <span className="w-36">
-                              {dataList.testSimSecondOther.data?.[3].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimSecondOther.data?.[3]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimSecondOther.data?.[3]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
-                            <span>5)</span>
-                            <span className="w-36">
-                              {dataList.testSimSecondOther.data?.[4].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimSecondOther.data?.[4]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimSecondOther.data?.[4]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
-                            <span>6)</span>
-                            <span className="w-36">
-                              {dataList.testSimSecondOther.data?.[5].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimSecondOther.data?.[5]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimSecondOther.data?.[5]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
-                            <span>7)</span>
-                            <span className="w-36">
-                              {dataList.testSimSecondOther.data?.[6].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimSecondOther.data?.[6]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimSecondOther.data?.[6]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
-                        <label className="grid gap-2 lg:flex lg:items-center lg:gap-5">
-                          <div className="flex items-center gap-3">
-                            <span>8)</span>
-                            <span className="w-36">
-                              {dataList.testSimSecondOther.data?.[7].name}
-                            </span>
-                          </div>
-                          <div className="flex gap-3">
-                            <span>
-                              {dataList.testSimSecondOther.data?.[7]?.pass ===
-                              "1" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Pass</span>
-                            <span>
-                              {dataList.testSimSecondOther.data?.[7]?.pass ===
-                              "0" ? (
-                                <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                              ) : (
-                                <input
-                                  type="radio"
-                                  className="h-5 w-5"
-                                  disabled
-                                ></input>
-                              )}
-                            </span>
-                            <span>Fail</span>
-                            <span>..............................</span>
-                          </div>
-                        </label>
+                            <div className="flex gap-3">
+                              <span>
+                                {dataList.testSimSecondOther.data?.[7]?.pass ===
+                                "1" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Pass</span>
+                              <span>
+                                {dataList.testSimSecondOther.data?.[7]?.pass ===
+                                "0" ? (
+                                  <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
+                                ) : (
+                                  <input
+                                    type="radio"
+                                    className="h-5 w-5"
+                                    disabled
+                                  ></input>
+                                )}
+                              </span>
+                              <span>Fail</span>
+                            </div>
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </>
@@ -1877,17 +1823,13 @@ function ViewInstall() {
             </div>
 
             {/* section-2 */}
+            {/*-------- picture 1 ------ */}
             <div className="bg-[#EDEDED] p-3 rounded-md">
               <div
                 className="flex items-center justify-between bg-[#4F709C] text-white text-2xl font-bold p-2 rounded-md hover:bg-[#213555]"
                 onClick={() => setBoxTwo(!boxTwo)}
               >
-                <h1>
-                  Image{" "}
-                  <span className="text-yellow-400">
-                    (Open Ticket Before Upload Image Files)
-                  </span>
-                </h1>
+                <h1>Image</h1>
                 <RiArrowDownSLine
                   className={`h-10 w-10 ${boxTwo ? "rotate-180" : ""}`}
                 />
@@ -1930,19 +1872,68 @@ function ViewInstall() {
                 </div>
               </AnimateHeight>
             </div>
-
-            {/* section-3 */}
+            {/*-------- picture 2 ------ */}
             <div className="bg-[#EDEDED] p-3 rounded-md">
               <div
                 className="flex items-center justify-between bg-[#4F709C] text-white text-2xl font-bold p-2 rounded-md hover:bg-[#213555]"
                 onClick={() => setBoxThree(!boxThree)}
               >
-                <h1>Engineer Action</h1>
+                <h1>Serial Image</h1>
                 <RiArrowDownSLine
                   className={`h-10 w-10 ${boxThree ? "rotate-180" : ""}`}
                 />
               </div>
               <AnimateHeight duration={1000} height={boxThree ? "auto" : 0}>
+                <div className="p-5 flex flex-col items-center text-[#213555]">
+                  <h1 className="text-3xl font-bold w-full p-5">Image</h1>
+                  <div className="lg:grid lg:grid-cols-3 grid gap-5 text-center">
+                    <img
+                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[6]?.cid}/${imageList[6]?.tikcetId}/${imageList[6]?.fileName}`}
+                      alt="Serial Number SIM 1"
+                      className="w-[300px] h-[300px]"
+                    />
+                    <img
+                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[7]?.cid}/${imageList[7]?.tikcetId}/${imageList[7]?.fileName}`}
+                      alt="Serial Number SIM 2"
+                      className="w-[300px] h-[300px]"
+                    />
+                    <img
+                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[8]?.cid}/${imageList[8]?.tikcetId}/${imageList[8]?.fileName}`}
+                      alt="Serial Number Router"
+                      className="w-[300px] h-[300px]"
+                    />
+                    <img
+                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[9]?.cid}/${imageList[9]?.tikcetId}/${imageList[9]?.fileName}`}
+                      alt="Serial Number Rack"
+                      className="w-[300px] h-[300px]"
+                    />
+                    <img
+                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[10]?.cid}/${imageList[10]?.tikcetId}/${imageList[10]?.fileName}`}
+                      alt="Serial Number UPS"
+                      className="w-[300px] h-[300px]"
+                    />
+                    <img
+                      src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[11]?.cid}/${imageList[11]?.tikcetId}/${imageList[11]?.fileName}`}
+                      alt="Serial Number Other"
+                      className="w-[300px] h-[300px]"
+                    />
+                  </div>
+                </div>
+              </AnimateHeight>
+            </div>
+
+            {/* section-3 */}
+            <div className="bg-[#EDEDED] p-3 rounded-md">
+              <div
+                className="flex items-center justify-between bg-[#4F709C] text-white text-2xl font-bold p-2 rounded-md hover:bg-[#213555]"
+                onClick={() => setBoxFour(!boxFour)}
+              >
+                <h1>Engineer Action</h1>
+                <RiArrowDownSLine
+                  className={`h-10 w-10 ${boxFour ? "rotate-180" : ""}`}
+                />
+              </div>
+              <AnimateHeight duration={1000} height={boxFour ? "auto" : 0}>
                 <div className="p-5">
                   <h1 className="text-[#213555] font-bold text-2xl">
                     Working Time
@@ -1957,24 +1948,32 @@ function ViewInstall() {
                       <p>Working Start :</p>
                       <p>Working End :</p>
                     </div>
-                    <div className="grid gap-3 lg:gap-2">
+                    <div className="grid gap-3 lg:gap-6">
                       <p className="h-6">
-                        {dataList.workingTime.officeDeparture}
+                        {formatDateTime(dataList.workingTime.officeDeparture)}
                       </p>
                       <p className="h-6">
-                        {dataList.workingTime.officeArrival}
+                        {formatDateTime(dataList.workingTime.officeArrival)}
                       </p>
                       <p className="h-6">
-                        {dataList.workingTime.customerSiteArrival}
+                        {formatDateTime(
+                          dataList.workingTime.customerSiteArrival
+                        )}
                       </p>
                       <p className="h-6">
-                        {dataList.workingTime.customerSiteDeparture}
+                        {formatDateTime(
+                          dataList.workingTime.customerSiteDeparture
+                        )}
                       </p>
                       <p className="h-6">
-                        {dataList.workingTime.customerSiteETA}
+                        {formatDateTime(dataList.workingTime.customerSiteETA)}
                       </p>
-                      <p className="h-6">{dataList.workingTime.workingStart}</p>
-                      <p className="h-6">{dataList.workingTime.workingEnd}</p>
+                      <p className="h-6">
+                        {formatDateTime(dataList.workingTime.workingStart)}
+                      </p>
+                      <p className="h-6">
+                        {formatDateTime(dataList.workingTime.workingEnd)}
+                      </p>
                     </div>
                   </div>
                 </div>

@@ -67,7 +67,7 @@ function Installation() {
 
   const handleSearch = () => {
     const filters = siteinfo.filter((item) => {
-      // console.log("start", formatDate(startDate));
+      // console.log("item", item);
       return (
         item.customerModel.shortName.includes(customerList) &&
         item.cid.includes(cidList)
