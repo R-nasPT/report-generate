@@ -69,7 +69,7 @@ export function AuthProvider({ children }) {
   const timeMinusSeven = (time) => {
       const date = new Date(time);
       date.setHours(date.getHours() - 7);
-      console.log(date);
+      // console.log(date);
       return date.toISOString()
   };
 

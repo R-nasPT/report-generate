@@ -152,7 +152,7 @@ function InstallHistory() {
                 setCustomerList(selectedOption.label);
               }}
               styles={{
-                control: (baseStyles, state) => ({
+                control: (baseStyles) => ({
                   ...baseStyles,
                   borderColor: "black",
                   borderRadius: "12px",
@@ -262,7 +262,7 @@ function InstallHistory() {
                   <tr
                     className="hover:bg-neutral-200 cursor-pointer"
                     onClick={() =>
-                      navigate(`/user/view-install/${data.cidRef}`)
+                      navigate(`/public/view-install/${data.cidRef}`)
                     }
                     key={data.siteInfoId}
                   >

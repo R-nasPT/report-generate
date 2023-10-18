@@ -19,6 +19,7 @@ import HomePage from "./HomePage";
 import Service from "./Service";
 import InstallHistory from "./InstallHistory";
 import ViewInstall from "./ViewInstall";
+import PDFlteHistory from "./PDFlteHistory";
 
 function AuthenticatedApp() {
   const { isAdmin } = useAuthContext();
@@ -40,16 +41,19 @@ function AuthenticatedApp() {
             <Route path="homepage" element={<HomePage />} />
             <Route path="onsite" element={<OnsiteReport />} />
             <Route path="detailpage/:id" element={<DetailPage />} />
-            <Route path="pdf/:id" element={<PDFFile />} />
             <Route path="atmpage/:id" element={<TotalInputInstallation />} />
-            <Route path="pdfcus/:id" element={<PDFCustomerInfo />} />
-            <Route path="pdflte/:id" element={<PDFlte />} />
             <Route path="install" element={<Installation />} />
             <Route path="install-history" element={<InstallHistory />} />
-            <Route path="view-install/:id" element={<ViewInstall />} />
             <Route path="service" element={<Service />} />
+            <Route path="pdf/:id" element={<PDFFile />} />
+            <Route path="pdflte/:id" element={<PDFlte />} />
           </Route>
         )}
+        <Route path="public">
+          <Route path="view-install/:id" element={<ViewInstall />} />
+          <Route path="pdflte-history/:id" element={<PDFlteHistory />} />
+          <Route path="pdfcus/:id" element={<PDFCustomerInfo />} />
+        </Route>
       </Route>
     </Routes>
   );

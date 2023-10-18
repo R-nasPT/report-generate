@@ -351,13 +351,8 @@ function TotalSiteInformation({ props }) {
                     type="text"
                     className="border-[1px] border-black rounded-lg p-1"
                     disabled={status.isComplete && isAdmin !== "Admin"}
-                    {...register("atmIp", {
-                      pattern: /^[0-9.]*$/,
-                    })}
+                    {...register("atmIp")}
                   />
-                  {errors.atmIp && (
-                    <p className="text-red-500 text-xs">เฉพาะตัวเลขเท่านั้น</p>
-                  )}
                 </div>
               </div>
             </div>
@@ -869,6 +864,10 @@ function TotalSiteInformation({ props }) {
                       <p>Cell ID :</p>
                       <p>Connection :</p>
                       <p>Signal Strength :</p>
+                      <p>Pinging Test (256 Bytes):</p>
+                      <p>Average :</p>
+                      <p>Pinging Test (1410 Bytes):</p>
+                      <p>Average :</p>
                       <p>Package :</p>
                       <p>Switch Over :</p>
                     </div>
@@ -950,7 +949,7 @@ function TotalSiteInformation({ props }) {
                           })}
                         />
                         <span>
-                          mbps(
+                          dBm(
                           <span className="text-red-500 font-bold">
                             &gt;-91dbm
                           </span>
@@ -958,6 +957,86 @@ function TotalSiteInformation({ props }) {
                         </span>
                       </div>
                       {errors.signalStrengthSimFirst && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลขเท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("pingingTestSimFirstDownload", {
+                            min: 0,
+                            max: 100,
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>% Success</span>
+                      </div>
+                      {errors.pingingTestSimFirstDownload && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลข 0-100 เท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("averageSimFirstDownload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>
+                          mbps(
+                          <span className="text-red-500 font-bold">
+                            &lt;400 ms
+                          </span>
+                          )
+                        </span>
+                      </div>
+                      {errors.averageSimFirstDownload && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลขเท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("pingingTestSimFirstUpload", {
+                            min: 0,
+                            max: 100,
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>% Success</span>
+                      </div>
+                      {errors.pingingTestSimFirstUpload && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลข 0-100 เท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("averageSimFirstUpload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>
+                          mbps(
+                          <span className="text-red-500 font-bold">
+                            &lt;400 ms
+                          </span>
+                          )
+                        </span>
+                      </div>
+                      {errors.averageSimFirstUpload && (
                         <p className="text-red-500 text-xs">
                           เฉพาะตัวเลขเท่านั้น
                         </p>
@@ -1005,6 +1084,10 @@ function TotalSiteInformation({ props }) {
                       <p>Cell ID :</p>
                       <p>Connection :</p>
                       <p>Signal Strength :</p>
+                      <p>Pinging Test (256 Bytes):</p>
+                      <p>Average :</p>
+                      <p>Pinging Test (1410 Bytes):</p>
+                      <p>Average :</p>
                       <p>Package :</p>
                       <p>Switch Over :</p>
                     </div>
@@ -1086,7 +1169,7 @@ function TotalSiteInformation({ props }) {
                           })}
                         />
                         <span>
-                          mbps(
+                          dBm(
                           <span className="text-red-500 font-bold">
                             &gt;-91dbm
                           </span>
@@ -1094,6 +1177,86 @@ function TotalSiteInformation({ props }) {
                         </span>
                       </div>
                       {errors.signalStrengthSimSecond && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลขเท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("pingingTestSimSecondDownload", {
+                            min: 0,
+                            max: 100,
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>% Success</span>
+                      </div>
+                      {errors.pingingTestSimSecondDownload && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลข 0-100 เท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("averageSimSecondDownload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>
+                          mbps(
+                          <span className="text-red-500 font-bold">
+                            &lt;400 ms
+                          </span>
+                          )
+                        </span>
+                      </div>
+                      {errors.averageSimSecondDownload && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลขเท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("pingingTestSimSecondUpload", {
+                            min: 0,
+                            max: 100,
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>% Success</span>
+                      </div>
+                      {errors.pingingTestSimSecondUpload && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลข 0-100 เท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("averageSimSecondUpload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>
+                          mbps(
+                          <span className="text-red-500 font-bold">
+                            &lt;400 ms
+                          </span>
+                          )
+                        </span>
+                      </div>
+                      {errors.averageSimSecondUpload && (
                         <p className="text-red-500 text-xs">
                           เฉพาะตัวเลขเท่านั้น
                         </p>
@@ -1123,6 +1286,7 @@ function TotalSiteInformation({ props }) {
                         />
                         <span>Complete</span>
                       </label>
+                      
                     </div>
                   </div>
                 </div>
@@ -1139,8 +1303,6 @@ function TotalSiteInformation({ props }) {
                       <p>Test 4 :</p>
                       <p>Test 5 :</p>
                       <p>Download Average :</p>
-                      <p>Pinging Test :</p>
-                      <p>Average :</p>
                     </div>
                     <div className="grid gap-2">
                       <div className="flex flex-wrap lg:gap-3 items-center">
@@ -1294,261 +1456,10 @@ function TotalSiteInformation({ props }) {
                           เฉพาะตัวเลขเท่านั้น
                         </p>
                       )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("pingingTestSimFirstDownload", {
-                            min: 0,
-                            max: 100,
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>% Success</span>
-                      </div>
-                      {errors.pingingTestSimFirstDownload && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลข 0-100 เท่านั้น
-                        </p>
-                      )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("averageSimFirstDownload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>
-                          mbps(
-                          <span className="text-red-500 font-bold">
-                            &lt;400 ms
-                          </span>
-                          )
-                        </span>
-                      </div>
-                      {errors.averageSimFirstDownload && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลขเท่านั้น
-                        </p>
-                      )}
                     </div>
                   </div>
                 </div>
                 {/*------ LTE Box-4 --------*/}
-                <div>
-                  <h1 className="text-[#213555] font-bold lg:text-2xl">
-                    Test SIM 1 Upload
-                  </h1>
-                  <div className="flex gap-2 bg-[#E5D283] py-5 lg:pl-5 rounded-xl">
-                    <div className="grid gap-5 text-right font-bold">
-                      <p>Test 1 :</p>
-                      <p>Test 2 :</p>
-                      <p>Test 3 :</p>
-                      <p>Test 4 :</p>
-                      <p>Test 5 :</p>
-                      <p>Download Average :</p>
-                      <p>Pinging Test :</p>
-                      <p>Average :</p>
-                    </div>
-                    <div className="grid gap-2">
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <span>File size</span>
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("fileSize1SimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>Mb</span>
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("speed1SimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>mbps</span>
-                      </div>
-                      {(errors.fileSize1SimFirstUpload ||
-                        errors.speed1SimFirstUpload) && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลขเท่านั้น
-                        </p>
-                      )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <span>File size</span>
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("fileSize2SimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>Mb</span>
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("speed2SimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>mbps</span>
-                      </div>
-                      {(errors.fileSize2SimFirstUpload ||
-                        errors.speed2SimFirstUpload) && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลขเท่านั้น
-                        </p>
-                      )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <span>File size</span>
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("fileSize3SimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>Mb</span>
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("speed3SimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>mbps</span>
-                      </div>
-                      {(errors.fileSize3SimFirstUpload ||
-                        errors.speed3SimFirstUpload) && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลขเท่านั้น
-                        </p>
-                      )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <span>File size</span>
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("fileSize4SimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>Mb</span>
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("speed4SimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>mbps</span>
-                      </div>
-                      {(errors.fileSize4SimFirstUpload ||
-                        errors.speed4SimFirstUpload) && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลขเท่านั้น
-                        </p>
-                      )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <span>File size</span>
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1 w-12"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("fileSize5SimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>Mb</span>
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1 w-14"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("speed5SimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>mbps</span>
-                      </div>
-                      {(errors.fileSize5SimFirstUpload ||
-                        errors.speed5SimFirstUpload) && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลขเท่านั้น
-                        </p>
-                      )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("downloadAverageSimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>mbps</span>
-                      </div>
-                      {errors.UploadAverageSimFirstUpload && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลขเท่านั้น
-                        </p>
-                      )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("pingingTestSimFirstUpload", {
-                            min: 0,
-                            max: 100,
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>% Success</span>
-                      </div>
-                      {errors.pingingTestSimFirstUpload && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลข 0-100 เท่านั้น
-                        </p>
-                      )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("averageSimFirstUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>
-                          mbps(
-                          <span className="text-red-500 font-bold">
-                            &lt;400 ms
-                          </span>
-                          )
-                        </span>
-                      </div>
-                      {errors.averageSimFirstUpload && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลขเท่านั้น
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                {/*------ LTE Box-5 --------*/}
                 <div>
                   <h1 className="text-[#213555] font-bold lg:text-2xl">
                     Test SIM 2 Download
@@ -1561,8 +1472,6 @@ function TotalSiteInformation({ props }) {
                       <p>Test 4 :</p>
                       <p>Test 5 :</p>
                       <p>Download Average :</p>
-                      <p>Pinging Test :</p>
-                      <p>Average :</p>
                     </div>
                     <div className="grid gap-2">
                       <div className="flex flex-wrap lg:gap-3 items-center">
@@ -1716,46 +1625,176 @@ function TotalSiteInformation({ props }) {
                           เฉพาะตัวเลขเท่านั้น
                         </p>
                       )}
+                    </div>
+                  </div>
+                </div>
+                {/*------ LTE Box-5 --------*/}
+                <div>
+                  <h1 className="text-[#213555] font-bold lg:text-2xl">
+                    Test SIM 1 Upload
+                  </h1>
+                  <div className="flex gap-2 bg-[#E5D283] py-5 lg:pl-5 rounded-xl">
+                    <div className="grid gap-5 text-right font-bold">
+                      <p>Test 1 :</p>
+                      <p>Test 2 :</p>
+                      <p>Test 3 :</p>
+                      <p>Test 4 :</p>
+                      <p>Test 5 :</p>
+                      <p>Download Average :</p>
+                    </div>
+                    <div className="grid gap-2">
                       <div className="flex flex-wrap lg:gap-3 items-center">
+                        <span>File size</span>
                         <input
                           type="text"
-                          className="border-[1px] border-black rounded-lg p-1"
+                          className="border-[1px] border-black rounded-lg p-1 w-12"
                           disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("pingingTestSimSecondDownload", {
-                            min: 0,
-                            max: 100,
+                          {...register("fileSize1SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
                         />
-                        <span>% Success</span>
-                      </div>
-                      {errors.pingingTestSimSecondDownload && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลข 0-100 เท่านั้น
-                        </p>
-                      )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <span>Mb</span>
                         <input
                           type="text"
-                          className="border-[1px] border-black rounded-lg p-1"
+                          className="border-[1px] border-black rounded-lg p-1 w-14"
                           disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("averageSimSecondDownload", {
+                          {...register("speed1SimFirstUpload", {
                             pattern: /^[0-9.]*$/,
                           })}
                         />
-                        <span>
-                          mbps(
-                          <span className="text-red-500 font-bold">
-                            &lt;400 ms
-                          </span>
-                          )
-                        </span>
+                        <span>mbps</span>
                       </div>
-                      {errors.averageSimSecondDownload && (
+                      {(errors.fileSize1SimFirstUpload ||
+                        errors.speed1SimFirstUpload) && (
                         <p className="text-red-500 text-xs">
                           เฉพาะตัวเลขเท่านั้น
                         </p>
                       )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <span>File size</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("fileSize2SimFirstUpload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>Mb</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("speed2SimFirstUpload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>mbps</span>
+                      </div>
+                      {(errors.fileSize2SimFirstUpload ||
+                        errors.speed2SimFirstUpload) && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลขเท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <span>File size</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("fileSize3SimFirstUpload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>Mb</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("speed3SimFirstUpload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>mbps</span>
+                      </div>
+                      {(errors.fileSize3SimFirstUpload ||
+                        errors.speed3SimFirstUpload) && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลขเท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <span>File size</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("fileSize4SimFirstUpload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>Mb</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("speed4SimFirstUpload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>mbps</span>
+                      </div>
+                      {(errors.fileSize4SimFirstUpload ||
+                        errors.speed4SimFirstUpload) && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลขเท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <span>File size</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1 w-12"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("fileSize5SimFirstUpload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>Mb</span>
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1 w-14"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("speed5SimFirstUpload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>mbps</span>
+                      </div>
+                      {(errors.fileSize5SimFirstUpload ||
+                        errors.speed5SimFirstUpload) && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลขเท่านั้น
+                        </p>
+                      )}
+                      <div className="flex flex-wrap lg:gap-3 items-center">
+                        <input
+                          type="text"
+                          className="border-[1px] border-black rounded-lg p-1"
+                          disabled={status.isComplete && isAdmin !== "Admin"}
+                          {...register("downloadAverageSimFirstUpload", {
+                            pattern: /^[0-9.]*$/,
+                          })}
+                        />
+                        <span>mbps</span>
+                      </div>
+                      {errors.UploadAverageSimFirstUpload && (
+                        <p className="text-red-500 text-xs">
+                          เฉพาะตัวเลขเท่านั้น
+                        </p>
+                      )}
+                      
                     </div>
                   </div>
                 </div>
@@ -1772,8 +1811,6 @@ function TotalSiteInformation({ props }) {
                       <p>Test 4 :</p>
                       <p>Test 5 :</p>
                       <p>Download Average :</p>
-                      <p>Pinging Test :</p>
-                      <p>Average :</p>
                     </div>
                     <div className="grid gap-2">
                       <div className="flex flex-wrap lg:gap-3 items-center">
@@ -1927,52 +1964,67 @@ function TotalSiteInformation({ props }) {
                           เฉพาะตัวเลขเท่านั้น
                         </p>
                       )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("pingingTestSimSecondUpload", {
-                            min: 0,
-                            max: 100,
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>% Success</span>
-                      </div>
-                      {errors.pingingTestSimSecondUpload && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลข 0-100 เท่านั้น
-                        </p>
-                      )}
-                      <div className="flex flex-wrap lg:gap-3 items-center">
-                        <input
-                          type="text"
-                          className="border-[1px] border-black rounded-lg p-1"
-                          disabled={status.isComplete && isAdmin !== "Admin"}
-                          {...register("averageSimSecondUpload", {
-                            pattern: /^[0-9.]*$/,
-                          })}
-                        />
-                        <span>
-                          mbps(
-                          <span className="text-red-500 font-bold">
-                            &lt;400 ms
-                          </span>
-                          )
-                        </span>
-                      </div>
-                      {errors.averageSimSecondUpload && (
-                        <p className="text-red-500 text-xs">
-                          เฉพาะตัวเลขเท่านั้น
-                        </p>
-                      )}
                     </div>
                   </div>
                 </div>
               </>
             )}
             {/* box-9 */}
+            <div>
+              <h1 className="text-[#213555] font-bold lg:text-2xl">Test UPS</h1>
+              <div className="flex gap-2 bg-[#E5D283] py-5 lg:pl-10 rounded-xl">
+                <div className="flex flex-col gap-9 lg:gap-5 text-right font-bold">
+                  <p>L - N :</p>
+                  <p>L - G :</p>
+                  <p>N - G :</p>
+                </div>
+                <div className="flex flex-col lg:gap-2">
+                  <div className="flex flex-wrap lg:gap-3 items-center">
+                    <input
+                      type="text"
+                      className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete && isAdmin !== "Admin"}
+                      {...register("ln", {
+                        pattern: /^[0-9.]*$/,
+                      })}
+                    />
+                    Volt
+                  </div>
+                  {errors.ln && (
+                    <p className="text-red-500 text-xs">เฉพาะตัวเลขเท่านั้น</p>
+                  )}
+                  <div className="flex flex-wrap lg:gap-3 items-center">
+                    <input
+                      type="text"
+                      className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete && isAdmin !== "Admin"}
+                      {...register("lg", {
+                        pattern: /^[0-9.]*$/,
+                      })}
+                    />
+                    Volt
+                  </div>
+                  {errors.lg && (
+                    <p className="text-red-500 text-xs">เฉพาะตัวเลขเท่านั้น</p>
+                  )}
+                  <div className="flex flex-wrap lg:gap-3 items-center">
+                    <input
+                      type="text"
+                      className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete && isAdmin !== "Admin"}
+                      {...register("ng", {
+                        pattern: /^[0-9.]*$/,
+                      })}
+                    />
+                    Volt
+                  </div>
+                  {errors.ng && (
+                    <p className="text-red-500 text-xs">เฉพาะตัวเลขเท่านั้น</p>
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* box-10 */}
             <div>
               <h1 className="text-[#213555] font-bold lg:text-2xl">
                 UPS Information
@@ -1987,6 +2039,9 @@ function TotalSiteInformation({ props }) {
                   <p>Rate :</p>
                   <p>Load :</p>
                   <p>Temperature :</p>
+                  <p>Bypass Mode :</p>
+                  <p>Power Fail Test :</p>
+                  <p>Command Test :</p>
                 </div>
                 <div className="grid gap-2">
                   <select
@@ -2074,65 +2129,6 @@ function TotalSiteInformation({ props }) {
                   {errors.temperature && (
                     <p className="text-red-500 text-xs">เฉพาะตัวเลขเท่านั้น</p>
                   )}
-                </div>
-              </div>
-            </div>
-            {/* box-10 */}
-            <div>
-              <h1 className="text-[#213555] font-bold lg:text-2xl">Test UPS</h1>
-              <div className="flex gap-2 bg-[#E5D283] py-5 lg:pl-10 rounded-xl">
-                <div className="flex flex-col gap-9 lg:gap-5 text-right font-bold">
-                  <p>L - N :</p>
-                  <p>L - G :</p>
-                  <p>N - G :</p>
-                  <p>Bypass Mode :</p>
-                  <p>Power Fail Test :</p>
-                  <p>Command Test :</p>
-                </div>
-                <div className="flex flex-col lg:gap-2">
-                  <div className="flex flex-wrap lg:gap-3 items-center">
-                    <input
-                      type="text"
-                      className="border-[1px] border-black rounded-lg p-1"
-                      disabled={status.isComplete && isAdmin !== "Admin"}
-                      {...register("ln", {
-                        pattern: /^[0-9.]*$/,
-                      })}
-                    />
-                    Volt
-                  </div>
-                  {errors.ln && (
-                    <p className="text-red-500 text-xs">เฉพาะตัวเลขเท่านั้น</p>
-                  )}
-                  <div className="flex flex-wrap lg:gap-3 items-center">
-                    <input
-                      type="text"
-                      className="border-[1px] border-black rounded-lg p-1"
-                      disabled={status.isComplete && isAdmin !== "Admin"}
-                      {...register("lg", {
-                        pattern: /^[0-9.]*$/,
-                      })}
-                    />
-                    Volt
-                  </div>
-                  {errors.lg && (
-                    <p className="text-red-500 text-xs">เฉพาะตัวเลขเท่านั้น</p>
-                  )}
-                  <div className="flex flex-wrap lg:gap-3 items-center">
-                    <input
-                      type="text"
-                      className="border-[1px] border-black rounded-lg p-1"
-                      disabled={status.isComplete && isAdmin !== "Admin"}
-                      {...register("ng", {
-                        pattern: /^[0-9.]*$/,
-                      })}
-                    />
-                    Volt
-                  </div>
-                  {errors.ng && (
-                    <p className="text-red-500 text-xs">เฉพาะตัวเลขเท่านั้น</p>
-                  )}
-                  <br className="lg:hidden" />
                   <label className="flex p-1 gap-3 items-center">
                     <input
                       type="checkbox"
@@ -2498,7 +2494,6 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled
                         value={1}
                         {...register("sim1")}
                       />
@@ -2508,7 +2503,6 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled
                         value={0}
                         {...register("sim1")}
                       />
@@ -2760,7 +2754,6 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled
                         value={1}
                         {...register("sim2")}
                       />
@@ -2770,7 +2763,6 @@ function TotalSiteInformation({ props }) {
                       <input
                         type="radio"
                         className="h-6 w-6"
-                        disabled
                         value={0}
                         {...register("sim2")}
                       />

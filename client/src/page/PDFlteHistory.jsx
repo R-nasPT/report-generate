@@ -7,18 +7,36 @@ import LoadingPage from "../component/LoadingPage";
 import { ImCheckmark } from "react-icons/im";
 import { useAuthContext } from "../context/AuthContext";
 
-function PDFlte() {
-  const [lteReport, setLteReport] = useState();
-  const { formatDateTime, timeMinusSeven } = useAuthContext();
+function PDFlteHistory() {
+  const [idList, setIdList] = useState([]);
+  const [dataList, setDataList] = useState([]);
 
-  // console.log(lteReport);
+  // console.log(dataList);
+
+  const { isAdmin, formatDateTime } = useAuthContext();
+
+  // console.log(dataList.testSimSecondOther?.data);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `${packageJson.domain.ipSiteInfo}/siteinfo/history/${id}`
+      );
+      // console.log(response.data);
+      setIdList(response.data.siteinfo);
+      setDataList(response.data.rawData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const { id } = useParams();
   const downloadPDF = async () => {
     const element = document.getElementById("element-to-print");
     const currentDate = new Date().toISOString().split("T")[0];
     const opt = {
       margin: 1,
-      filename: `LTE Report ${lteReport?.cid} ${currentDate}`,
+      filename: `LTE Report ${dataList?.cid} ${currentDate}`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
     };
@@ -29,38 +47,35 @@ function PDFlte() {
       console.error("Error generating PDF:", error);
     }
   };
+
   useEffect(() => {
-    const fetchDataLte = async () => {
-      const response = await axios.get(
-        `${packageJson.domain.ipSiteInfo}/siteinfo/getreport/${id}`
-      );
-      // console.log(response.data);
-      setLteReport(response.data);
-    };
-    fetchDataLte();
+    fetchData();
   }, []);
 
-  if (lteReport === undefined) return <LoadingPage />;
+  if (dataList.length === 0) return <LoadingPage />;
 
   return (
+    // <></>
     <>
       <div>
         <div className="py-8 px-96 bg-slate-300 ">
           <div className="flex gap-3 mb-2">
-            <Link to={`/user/atmpage/${id}`}>
+            <Link to={`/public/view-install/${id}`}>
               <img
                 src="/component/back.png"
                 alt="pdf"
                 className="w-9 h-9 p-2 bg-red-600 hover:bg-red-500 rounded-md"
               />
             </Link>
-            <Link to="/user/install">
-              <img
-                src="/user/home 2.png"
-                alt="home"
-                className="w-9 h-9 p-2 bg-blue-500 hover:bg-blue-400 rounded-md"
-              />
-            </Link>
+            {isAdmin && (
+              <Link to="/user/homepage">
+                <img
+                  src="/user/home 2.png"
+                  alt="home"
+                  className="w-9 h-9 p-2 bg-blue-500 hover:bg-blue-400 rounded-md"
+                />
+              </Link>
+            )}
             <img
               src="/component/download.png"
               alt="pdf"
@@ -117,31 +132,31 @@ function PDFlte() {
               {/* 2 */}
               <div className="flex border-x-[1px] border-black">
                 <p className="px-2 border-r-[1px] border-black w-1/2">
-                  Customer : {lteReport?.customerModel?.fullNameThai}
+                  Customer : {idList?.customerModel?.fullNameThai}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/4">
-                  CID : {lteReport?.cid}
+                  CID : {idList?.cid}
                 </p>
                 <p className="pl-2 w-1/4">
                   {" "}
-                  Station ID : {lteReport?.atmModel?.stationId}
+                  Station ID : {dataList.siteInfo?.stationID}
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 3 */}
               <div className="flex border-[1px] border-black">
                 <p className="px-2 border-r-[1px] border-black w-1/3">
-                  Branch : {lteReport?.siteName}
+                  Branch : {dataList.siteInfo?.branch}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/3">
-                  Contact Name : {lteReport?.contractName}
+                  Contact Name : {dataList.siteUpdate.contactName}
                 </p>
-                <p className="pl-2">TEL. : {lteReport?.tel}</p>
+                <p className="pl-2">TEL. : {dataList.siteUpdate.tel}</p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 4 */}
               <div className="flex border-x-[1px] border-b-[1px] border-black">
-                <p className="px-2"> Address : {lteReport?.address}</p>
+                <p className="px-2"> Address : {dataList.siteInfo?.address}</p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* Router */}
@@ -167,32 +182,25 @@ function PDFlte() {
                       <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                     </div>
                   </div>
-                  <p>
-                    {
-                      lteReport?.routerInfoModel?.productTypeModel
-                        ?.productTypeName
-                    }
-                  </p>
+                  <p>{dataList.routerModel?.productTypeName}</p>
                 </div>
                 <p className="px-2">
-                  Router S/N : {lteReport?.routerInfoModel?.serialNo}
+                  Router S/N : {dataList.routerInfo.routerSN}
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 6 */}
               <div className="flex border-x-[1px] border-black">
                 <p className="px-2 border-r-[1px] border-black w-1/4">
-                  Router IP : {lteReport?.routerInfoModel?.network}
+                  Router IP : {dataList.routerInfo.routerIp}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/4">
-                  Subnet Mask : {lteReport?.routerInfoModel?.mask}
+                  Subnet Mask : {dataList.routerInfo.subnetMask}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/4">
-                  Router F/W : {lteReport?.routerInfoModel?.firmwareVersion}
+                  Router F/W : {dataList.routerInfo.routerFW}
                 </p>
-                <p className="pl-2">
-                  Rack S/N : {lteReport?.otherInfoModel?.rackSerialNo}
-                </p>
+                <p className="pl-2">Rack S/N : {dataList.routerInfo.rackSN}</p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 7 */}
@@ -224,15 +232,15 @@ function PDFlte() {
                       <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                     </div>
                   </div>
-                  <p>{lteReport?.otherInfoModel?.antennaGain} dBi.</p>
+                  <p>{dataList.routerInfo.antenaGain} dBi.</p>
                 </div>
                 <p className="px-2">
                   {" "}
-                  GPS N : {lteReport?.GPSNo} ,
+                  GPS N : {dataList.siteUpdate.gpsN} ,
                   <span className="text-white">
                     ..................................
                   </span>{" "}
-                  E : {lteReport?.GPSE}
+                  E : {dataList.siteUpdate.gpsE}
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
@@ -241,87 +249,79 @@ function PDFlte() {
               {/* 8 */}
               <div className="flex border-[1px] border-black">
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  SIM#1 Calling : {lteReport?.aisInfoModel?.aisCalling}
+                  SIM#1 Calling : {dataList.simFirst.callSimFirst}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/6">
-                  APN : {lteReport?.aisInfoModel?.aisApnModel?.aisApnName}
+                  APN : {dataList.apnSimFirst.aisApnName}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  LAC : {lteReport?.aisInfoModel?.aisLac}
+                  LAC : {dataList.simFirst.lacSimFirst}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  Cell ID : {lteReport?.aisInfoModel?.aisCallId}
+                  Cell ID : {dataList.simFirst.cellIdSimFirst}
                 </p>
                 <p className="pl-2 w-1/5">
-                  Connection Type :{" "}
-                  {lteReport?.aisInfoModel?.aisConnectionServiceType}
+                  Connection Type : {dataList.simFirst.connection}
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 9 */}
               <div className="flex border-x-[1px] border-black">
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  SIM#1 IP : {lteReport?.aisInfoModel?.aisIp}.
+                  SIM#1 IP : {dataList.simFirst.ipSimFirst}.
                 </p>
                 <div className="flex w-1/6 border-r-[1px] border-black">
                   <div className="flex gap-2 px-2 ">
                     <p>Provider :</p>
-                    <p>
-                      {lteReport?.aisInfoModel?.providerModel?.providerName}
-                    </p>
+                    <p>{dataList.providerSimFirst.providerName}</p>
                   </div>
                 </div>
                 <p className="px-2 border-r-[1px] border-black w-1/4">
-                  Signal Strength.....{lteReport?.aisInfoModel?.aisSignal}
+                  Signal Strength.....{dataList.simFirst.signalStrength}
                   .....dBm ({">"}
                   -91 dBm){" "}
                 </p>
                 <p className="px-2">
-                  Packet SIM :{" "}
-                  {lteReport?.aisInfoModel?.packageModel?.packageName}.
+                  Packet SIM : {dataList.packageSimFirst.packageName}.
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 10 */}
               <div className="flex border-[1px] border-black">
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  SIM#2 Calling : {lteReport?.dtacInfoModel?.dtacCalling}
+                  SIM#2 Calling : {dataList.simSecond.callSimSecond}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/6">
-                  APN : {lteReport?.dtacInfoModel?.dtacApnModel?.dtacApnName}
+                  APN : {dataList.apnSimSecond.dtacApnName}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  LAC : {lteReport?.dtacInfoModel?.dtacLac}
+                  LAC : {dataList.simSecond.lacSimSecond}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  Cell ID : {lteReport?.dtacInfoModel?.dtacCallId}
+                  Cell ID : {dataList.simSecond.cellIdSimSecond}
                 </p>
                 <p className="pl-2 w-1/5">
-                  Connection Type :{" "}
-                  {lteReport?.dtacInfoModel?.dtacConnectionServiceType}
+                  Connection Type : {dataList.simSecond.connection}
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 11 */}
               <div className="flex border-x-[1px] border-b-[1px] border-black">
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  SIM#2 IP : {lteReport?.dtacInfoModel?.dtacIp}.
+                  SIM#2 IP : {dataList.simSecond.ipSimSecond}.
                 </p>
                 <div className="flex w-1/6 border-r-[1px] border-black">
                   <div className="flex gap-2 px-2">
                     <p>Provider :</p>
-                    <p>
-                      {lteReport?.dtacInfoModel?.providerModel?.providerName}
-                    </p>
+                    <p>{dataList.providerSimSecond.providerName}</p>
                   </div>
                 </div>
                 <p className="px-2 border-r-[1px] border-black w-1/4">
-                  Signal Strength.....{lteReport?.dtacInfoModel?.dtacSignal}
+                  Signal Strength.....{dataList.simSecond.signalStrength}
                   .....dBm ({">"}-91 dBm){" "}
                 </p>
                 <p className="px-2">
-                  Packet SIM :{" "}
-                  {lteReport?.dtacInfoModel?.packageModel?.packageName}
+                  Packet SIM : {dataList.packageSimSecond.packageName}
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
@@ -333,49 +333,46 @@ function PDFlte() {
               <div className="flex border-[1px] border-black font-extrabold">
                 <p className="px-3 border-r-[1px] border-black w-1/2">
                   SIM#1 Ping Test (256 bytes) .....
-                  {lteReport?.testAisInfoDownloadModel?.pingingTest}.....%
-                  success Average.....
-                  {lteReport?.testAisInfoDownloadModel?.average}.....ms ({"<"}
+                  {dataList.testSimFirst?.pingingTest}.....% success Average.....
+                  {dataList.testSimFirst?.average}.....ms ({"<"}
                   400 ms)
                 </p>
                 <p className="px-3 ">
                   SIM#2 Ping Test (256 bytes) .....
-                  {lteReport?.testDtacInfoDownloadModel?.pingingTest}.....%
-                  success Average .....
-                  {lteReport?.testDtacInfoDownloadModel?.average}.....ms ({"<"}
-                  400 ms)
+                  {dataList.testSimSecond?.pingingTest}.....% success Average
+                  .....
+                  {dataList.testSimSecond?.average}.....ms ({"<"}400 ms)
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 13 */}
-              <div className="flex border-x-[1px] border-black font-extrabold">
+              <div className="flex border-x-[1px] border-b-[1px] border-black font-extrabold">
                 <p className="px-3 border-r-[1px] border-black w-1/2">
-                  {" "}
                   SIM#1 Ping Test (1410 bytes) .....
-                  {lteReport?.testAisInfoUploadModel?.pingingTest}.....% success
+                  {dataList.testSimFirstUpload?.pingingTest}.....% success
                   Average.....
-                  {lteReport?.testAisInfoUploadModel?.average}.....ms ({"<"}
+                  {dataList.testSimFirstUpload?.average}.....ms ({"<"}
                   400 ms)
                 </p>
                 <p className="px-3 ">
                   SIM#2 Ping Test (1410 bytes) .....
-                  {lteReport?.testDtacInfoUploadModel?.pingingTest}.....%
-                  success Average.....
-                  {lteReport?.testDtacInfoUploadModel?.average}.....ms ({"<"}
+                  {dataList.testSimSecondUpload?.pingingTest}.....% success
+                  Average.....
+                  {dataList.testSimSecondUpload?.average}.....ms ({"<"}
                   400 ms)
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 14 */}
-              <div className="flex border-[1px] border-black font-extrabold">
+              <div className="flex border-x-[1px] border-b-[1px] border-black font-extrabold">
                 <p className="px-3 border-r-[1px] border-black w-1/2">
                   SIM#1 Max Bandwidth (Download) : .....
-                  {lteReport?.testAisInfoDownloadModel?.downloadAverage}
+                  {dataList.testSimFirst?.downloadAverage}
                   .....Mbps (&gt;512 kbps)
                 </p>
                 <p className="px-3 ">
                   SIM#2 Max Bandwidth (Download) : .....
-                  {lteReport?.testDtacInfoDownloadModel?.downloadAverage}
+                  {dataList.testSimSecond?.downloadAverage}
                   .....Mbps ({">"}512 kbps)
                 </p>
                 <div className="pb-3 text-white">.</div>
@@ -384,13 +381,13 @@ function PDFlte() {
               <div className="flex border-x-[1px] border-b-[1px] border-black font-extrabold">
                 <p className="px-3 border-r-[1px] border-black w-1/2">
                   SIM#1 Max Bandwidth (Upload) : .....
-                  {lteReport?.testAisInfoUploadModel?.downloadAverage}.....Mbps
+                  {dataList.testSimFirstUpload.downloadAverage}.....Mbps
                   (&gt;512 kbps)
                 </p>
                 <p className="px-3 ">
                   SIM#2 Max Bandwidth (Upload) : .....
-                  {lteReport?.testDtacInfoUploadModel?.downloadAverage}.....Mbps
-                  ({">"}512 kbps)
+                  {dataList.testSimSecondUpload.downloadAverage}.....Mbps ({">"}
+                  512 kbps)
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
@@ -407,135 +404,125 @@ function PDFlte() {
                     <div className="flex flex-col gap-1 mb-1 items-center">
                       <p>
                         1).File size.....
-                        {lteReport?.testAisInfoDownloadModel?.fileSize1}.....Mb
-                        .....
-                        {lteReport?.testAisInfoDownloadModel?.speed1}
+                        {dataList.testSimFirst.test[0]?.fileSize}.....Mb .....
+                        {dataList.testSimFirst.test[0]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         2).File size.....
-                        {lteReport?.testAisInfoDownloadModel?.fileSize2}.....Mb
-                        .....
-                        {lteReport?.testAisInfoDownloadModel?.speed2}
+                        {dataList.testSimFirst.test[1]?.fileSize}.....Mb .....
+                        {dataList.testSimFirst.test[1]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         3).File size.....
-                        {lteReport?.testAisInfoDownloadModel?.fileSize3}.....Mb
-                        .....
-                        {lteReport?.testAisInfoDownloadModel?.speed3}
+                        {dataList.testSimFirst.test[2]?.fileSize}.....Mb .....
+                        {dataList.testSimFirst.test[2]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         4).File size.....
-                        {lteReport?.testAisInfoDownloadModel?.fileSize4}.....Mb
-                        .....
-                        {lteReport?.testAisInfoDownloadModel?.speed4}
+                        {dataList.testSimFirst.test[3]?.fileSize}.....Mb .....
+                        {dataList.testSimFirst.test[3]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         5).File size.....
-                        {lteReport?.testAisInfoDownloadModel?.fileSize5}.....Mb
-                        .....
-                        {lteReport?.testAisInfoDownloadModel?.speed5}
+                        {dataList.testSimFirst.test[4]?.fileSize}.....Mb .....
+                        {dataList.testSimFirst.test[4]?.speed}
                         .....Mbps
                       </p>
                     </div>
                     <p className="pl-9 font-extrabold">
                       Download Average .....
-                      {lteReport?.testAisInfoDownloadModel?.downloadAverage}
+                      {dataList.testSimFirst.downloadAverage}
                       .....Mbps
                     </p>
                   </div>
-                  <div className="w-1/2 pb-1 ">
+                  <div className="pb-1 w-1/2">
                     <p className="font-extrabold pl-2 pb-3 bg-slate-200">
                       SIM#1 Upload :
                     </p>
                     <div className="flex flex-col gap-1 mb-1 items-center">
                       <p>
                         1).File size.....
-                        {lteReport?.testAisInfoUploadModel?.fileSize1}.....Mb
-                        .....
-                        {lteReport?.testAisInfoUploadModel?.speed1}.....Mbps
+                        {dataList.testSimFirstUpload.test[0]?.fileSize}.....Mb
+                        .....{dataList.testSimFirstUpload.test[0]?.speed}
+                        .....Mbps
                       </p>
                       <p>
                         2).File size.....
-                        {lteReport?.testAisInfoUploadModel?.fileSize2}.....Mb
-                        .....
-                        {lteReport?.testAisInfoUploadModel?.speed2}.....Mbps
+                        {dataList.testSimFirstUpload.test[1]?.fileSize}.....Mb
+                        .....{dataList.testSimFirstUpload.test[1]?.speed}
+                        .....Mbps
                       </p>
                       <p>
                         3).File size.....
-                        {lteReport?.testAisInfoUploadModel?.fileSize3}.....Mb
-                        .....
-                        {lteReport?.testAisInfoUploadModel?.speed3}.....Mbps
+                        {dataList.testSimFirstUpload.test[2]?.fileSize}.....Mb
+                        .....{dataList.testSimFirstUpload.test[2]?.speed}
+                        .....Mbps
                       </p>
                       <p>
                         4).File size.....
-                        {lteReport?.testAisInfoUploadModel?.fileSize4}.....Mb
-                        .....
-                        {lteReport?.testAisInfoUploadModel?.speed4}.....Mbps
+                        {dataList.testSimFirstUpload.test[3]?.fileSize}.....Mb
+                        .....{dataList.testSimFirstUpload.test[3]?.speed}
+                        .....Mbps
                       </p>
                       <p>
                         5).File size.....
-                        {lteReport?.testAisInfoUploadModel?.fileSize5}.....Mb
-                        .....
-                        {lteReport?.testAisInfoUploadModel?.speed5}.....Mbps
+                        {dataList.testSimFirstUpload.test[4]?.fileSize}.....Mb
+                        .....{dataList.testSimFirstUpload.test[4]?.speed}
+                        .....Mbps
                       </p>
                     </div>
                     <p className="pl-9 font-extrabold">
                       Upload Average .....
-                      {lteReport?.testAisInfoUploadModel?.downloadAverage}
+                      {dataList.testSimFirstUpload.downloadAverage}
                       .....Mbps
                     </p>
                   </div>
                 </div>
                 {/* 16.2 */}
                 <div className="flex w-1/2">
-                  <div className="border-r-[1px] pb-3 border-black w-1/2">
+                  <div className=" border-r-[1px] pb-3 border-black w-1/2 ">
                     <p className="font-extrabold pl-2 pb-3 bg-slate-200">
                       SIM#2 Download :
                     </p>
                     <div className="flex flex-col gap-1 mb-1 items-center">
                       <p>
                         1).File size.....
-                        {lteReport?.testDtacInfoDownloadModel?.fileSize1}.....Mb
-                        .....
-                        {lteReport?.testDtacInfoDownloadModel?.speed1}
+                        {dataList.testSimSecond.test[0]?.fileSize}.....Mb .....
+                        {dataList.testSimSecond.test[0]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         2).File size.....
-                        {lteReport?.testDtacInfoDownloadModel?.fileSize2}.....Mb
-                        .....
-                        {lteReport?.testDtacInfoDownloadModel?.speed2}
+                        {dataList.testSimSecond.test[1]?.fileSize}.....Mb .....
+                        {dataList.testSimSecond.test[1]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         3).File size.....
-                        {lteReport?.testDtacInfoDownloadModel?.fileSize3}.....Mb
-                        .....
-                        {lteReport?.testDtacInfoDownloadModel?.speed3}
+                        {dataList.testSimSecond.test[2]?.fileSize}.....Mb .....
+                        {dataList.testSimSecond.test[2]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         4).File size.....
-                        {lteReport?.testDtacInfoDownloadModel?.fileSize4}.....Mb
-                        .....
-                        {lteReport?.testDtacInfoDownloadModel?.speed4}
+                        {dataList.testSimSecond.test[3]?.fileSize}.....Mb .....
+                        {dataList.testSimSecond.test[3]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         5).File size.....
-                        {lteReport?.testDtacInfoDownloadModel?.fileSize5}.....Mb
-                        .....
-                        {lteReport?.testDtacInfoDownloadModel?.speed5}
+                        {dataList.testSimSecond.test[4]?.fileSize}.....Mb .....
+                        {dataList.testSimSecond.test[4]?.speed}
                         .....Mbps
                       </p>
                     </div>
                     <p className="pl-9 font-extrabold">
                       Download Average .....
-                      {lteReport?.testDtacInfoDownloadModel?.downloadAverage}
+                      {dataList.testSimSecond.downloadAverage}
                       .....Mbps
                     </p>
                   </div>
@@ -546,38 +533,38 @@ function PDFlte() {
                     <div className="flex flex-col gap-1 mb-1 items-center">
                       <p>
                         1).File size.....
-                        {lteReport?.testDtacInfoUploadModel?.fileSize1}.....Mb
-                        .....{lteReport?.testDtacInfoUploadModel?.speed1}
+                        {dataList.testSimSecondUpload.test[0]?.fileSiz}.....Mb
+                        .....{dataList.testSimSecondUpload.test[0]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         2).File size.....
-                        {lteReport?.testDtacInfoUploadModel?.fileSize2}.....Mb
-                        .....{lteReport?.testDtacInfoUploadModel?.speed2}
+                        {dataList.testSimSecondUpload.test[1]?.fileSiz}.....Mb
+                        .....{dataList.testSimSecondUpload.test[1]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         3).File size.....
-                        {lteReport?.testDtacInfoUploadModel?.fileSize3}.....Mb
-                        .....{lteReport?.testDtacInfoUploadModel?.speed3}
+                        {dataList.testSimSecondUpload.test[2]?.fileSiz}.....Mb
+                        .....{dataList.testSimSecondUpload.test[2]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         4).File size.....
-                        {lteReport?.testDtacInfoUploadModel?.fileSize4}.....Mb
-                        .....{lteReport?.testDtacInfoUploadModel?.speed4}
+                        {dataList.testSimSecondUpload.test[3]?.fileSiz}.....Mb
+                        .....{dataList.testSimSecondUpload.test[3]?.speed}
                         .....Mbps
                       </p>
                       <p>
                         5).File size.....
-                        {lteReport?.testDtacInfoUploadModel?.fileSize5}.....Mb
-                        .....{lteReport?.testDtacInfoUploadModel?.speed5}
+                        {dataList.testSimSecondUpload.test[4]?.fileSiz}.....Mb
+                        .....{dataList.testSimSecondUpload.test[4]?.speed}
                         .....Mbps
                       </p>
                     </div>
                     <p className="pl-9 font-extrabold">
                       Upload Average .....
-                      {lteReport?.testDtacInfoUploadModel?.downloadAverage}
+                      {dataList.testSimSecondUpload.downloadAverage}
                       .....Mbps
                     </p>
                   </div>
@@ -593,7 +580,7 @@ function PDFlte() {
                     Application
                   </p>
                   <div className="px-4 grid gap-[7px]">
-                    {lteReport?.testAisInfoOtherModels.map((item, index) => (
+                    {dataList.testSimSecondOther.data.map((item, index) => (
                       <p key={index}>
                         {index + 1}) {item?.name}
                       </p>
@@ -607,7 +594,7 @@ function PDFlte() {
                     <p>SIM#1</p>
                     <div className="flex items-end pt-2">
                       <div className="border-[1px] border-black p-1 rounded-sm relative">
-                        {lteReport.testAisInfoOtherModels?.[0].simtype === 1 ? (
+                        {dataList.testSimFirstOther?.simtype === "1" ? (
                           <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                         ) : (
                           ""
@@ -617,7 +604,7 @@ function PDFlte() {
                     <p>Active</p>
                     <div className="flex items-center pt-2">
                       <div className="border-[1px] border-black p-1 rounded-sm relative">
-                        {lteReport.testAisInfoOtherModels?.[0].simtype === 0 ? (
+                        {dataList.testSimFirstOther?.simtype === "0" ? (
                           <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                         ) : (
                           ""
@@ -626,7 +613,7 @@ function PDFlte() {
                     </div>
                     <p>Back Up</p>
                   </div>
-                  {lteReport?.testAisInfoOtherModels.map((item, index) => (
+                  {dataList.testSimFirstOther.data.map((item, index) => (
                     <div
                       key={index}
                       className="grid grid-cols-2 px-4 border-r-[1px]"
@@ -634,7 +621,7 @@ function PDFlte() {
                       <div className="flex gap-2">
                         <div className="flex items-center pt-2">
                           <div className="border-[1px] border-black p-1 rounded-sm relative">
-                            {item?.pass === true ? (
+                            {item?.pass === "1" ? (
                               <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                             ) : (
                               ""
@@ -646,7 +633,7 @@ function PDFlte() {
                       <div className="flex gap-2">
                         <div className="flex items-center pt-2">
                           <div className="border-[1px] border-black p-1 rounded-sm relative">
-                            {item?.pass === false ? (
+                            {item?.pass === "0" ? (
                               <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                             ) : (
                               ""
@@ -663,9 +650,8 @@ function PDFlte() {
                   <div className="flex gap-[2px] px-4 font-extrabold bg-slate-200 pb-1">
                     <p>SIM#2</p>
                     <div className="flex items-center pt-2">
-                      <div className="border-[1px] border-black p-1 rounded-sm relative">
-                        {lteReport.testDtacInfoOtherModels?.[0].simtype ===
-                        1 ? (
+                      <div className="border-[1px] border-black p-1 rounded-sm">
+                        {dataList.testSimSecondOther?.simtype === "1" ? (
                           <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                         ) : (
                           ""
@@ -675,8 +661,7 @@ function PDFlte() {
                     <p>Active</p>
                     <div className="flex items-center pt-2">
                       <div className="border-[1px] border-black p-1 rounded-sm relative">
-                        {lteReport.testDtacInfoOtherModels?.[0].simtype ===
-                        0 ? (
+                        {dataList.testSimSecondOther?.simtype === "0" ? (
                           <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                         ) : (
                           ""
@@ -685,12 +670,12 @@ function PDFlte() {
                     </div>
                     <p>Back Up</p>
                   </div>
-                  {lteReport?.testDtacInfoOtherModels.map((item, index) => (
+                  {dataList.testSimSecondOther.data.map((item, index) => (
                     <div key={index} className="grid grid-cols-2 px-5">
                       <div className="flex gap-2">
                         <div className="flex items-center pt-2">
                           <div className="border-[1px] border-black p-1 rounded-sm relative">
-                            {item?.pass === true ? (
+                            {item?.pass === "1" ? (
                               <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                             ) : (
                               ""
@@ -702,7 +687,7 @@ function PDFlte() {
                       <div className="flex gap-2">
                         <div className="flex items-center pt-2">
                           <div className="border-[1px] border-black p-1 rounded-sm relative">
-                            {item?.pass === false ? (
+                            {item?.pass === "0" ? (
                               <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                             ) : (
                               ""
@@ -720,23 +705,13 @@ function PDFlte() {
                     <div className="flex gap-4 pb-2">
                       <p className="font-semibold">Office Departure :</p>
                       <p>
-                        {formatDateTime(
-                          timeMinusSeven(
-                            lteReport?.siteinfoReportWorkingTimeModel
-                              ?.officeDeparture
-                          )
-                        )}
+                        {formatDateTime(dataList.workingTime.officeDeparture)}
                       </p>
                     </div>
                     <div className="flex gap-7 pb-2">
                       <p className="font-semibold">Office Arrival :</p>
                       <p>
-                        {formatDateTime(
-                          timeMinusSeven(
-                            lteReport?.siteinfoReportWorkingTimeModel
-                              ?.officeArrival
-                          )
-                        )}
+                        {formatDateTime(dataList.workingTime.officeArrival)}
                       </p>
                     </div>
                   </div>
@@ -746,29 +721,18 @@ function PDFlte() {
                       <div className="grid grid-cols-2 px-3 pb-3">
                         <p>ETA : </p>
                         <p>
-                          {formatDateTime(
-                            timeMinusSeven(
-                              lteReport?.siteinfoReportWorkingTimeModel
-                                ?.customerSiteETA
-                            )
-                          )}
+                          {formatDateTime(dataList.workingTime.customerSiteETA)}
                         </p>
                         <p>Arrival : </p>
                         <p>
                           {formatDateTime(
-                            timeMinusSeven(
-                              lteReport?.siteinfoReportWorkingTimeModel
-                                ?.customerSiteArrival
-                            )
+                            dataList.workingTime.customerSiteArrival
                           )}
                         </p>
                         <p>Departure : </p>
                         <p>
                           {formatDateTime(
-                            timeMinusSeven(
-                              lteReport?.siteinfoReportWorkingTimeModel
-                                ?.customerSiteDeparture
-                            )
+                            dataList.workingTime.customerSiteDeparture
                           )}
                         </p>
                       </div>
@@ -778,28 +742,16 @@ function PDFlte() {
                       <div className="grid grid-cols-2 px-4">
                         <p>Start : </p>
                         <p>
-                          {formatDateTime(
-                            timeMinusSeven(
-                              lteReport?.siteinfoReportWorkingTimeModel
-                                ?.workingStart
-                            )
-                          )}
+                          {formatDateTime(dataList.workingTime.workingStart)}
                         </p>
                         <p>End : </p>
-                        <p>
-                          {formatDateTime(
-                            timeMinusSeven(
-                              lteReport?.siteinfoReportWorkingTimeModel
-                                ?.workingEnd
-                            )
-                          )}
-                        </p>
+                        <p>{formatDateTime(dataList.workingTime.workingEnd)}</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              {/* --------- */}
+              {/* ------ */}
               <div className="flex flex-col pt-3 gap-7 ">
                 <div className="flex justify-around">
                   <div className="text-right">
@@ -858,4 +810,4 @@ function PDFlte() {
   );
 }
 
-export default PDFlte;
+export default PDFlteHistory;

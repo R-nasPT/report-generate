@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { RiArrowDownSLine } from "react-icons/ri";
+import { MdBrowserUpdated } from "react-icons/md";
 import {
   BsFillFileEarmarkPdfFill,
   BsXCircleFill,
@@ -12,6 +13,7 @@ import axios from "axios";
 import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
 import { useAuthContext } from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 function ViewInstall() {
   const [boxOne, setBoxOne] = useState(false);
@@ -24,10 +26,10 @@ function ViewInstall() {
   const [imageList, setImageList] = useState([]);
   const [idList, setIdList] = useState([]);
 
-  const { formatDate, formatDateTime } = useAuthContext();
+  const { isAdmin, formatDate, formatDateTime } = useAuthContext();
 
-  console.log(idList);
-  console.log(dataList);
+  // console.log(idList);
+  // console.log(dataList);
 
   const { id } = useParams();
 
@@ -52,11 +54,42 @@ function ViewInstall() {
       const response = await axios.get(
         `${packageJson.domain.ipSiteInfo}/siteinfo/checkstaus/${data}`
       );
-      console.log(response.data);
+      // console.log(response.data);
       setStatus(response.data);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const updateToSiteinfo = async () => {
+    const data = { cid: idList.cid, siteinfoReportHistoryId: id };
+    await axios.post(
+      `${packageJson.domain.ipSiteInfo}/siteinfo/selecthistory`,
+      data
+    );
+
+    let timerInterval;
+    Swal.fire({
+      title: "Up Report to Siteinfo!",
+      html: "I will close in <b></b> milliseconds.",
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+        const b = Swal.getHtmlContainer().querySelector("b");
+        timerInterval = setInterval(() => {
+          b.textContent = Swal.getTimerLeft();
+        }, 100);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log("I was closed by the timer");
+      }
+    });
   };
 
   useEffect(() => {
@@ -69,19 +102,23 @@ function ViewInstall() {
     <>
       <div className="lg:px-32 lg:py-5">
         <h1 className="py-3 px-5 font-bold shadow-sm shadow-black rounded-md">
-          <Link
-            to="/user/homepage"
-            className="hover:underline hover:text-blue-700"
-          >
-            Home
-          </Link>{" "}
-          /{" "}
-          <Link
-            to="/user/install-history"
-            className="hover:underline hover:text-blue-700"
-          >
-            Installation / New Install History
-          </Link>{" "}
+          {isAdmin && (
+            <>
+              <Link
+                to="/user/homepage"
+                className="hover:underline hover:text-blue-700"
+              >
+                Home
+              </Link>{" "}
+              /{" "}
+              <Link
+                to="/user/install-history"
+                className="hover:underline hover:text-blue-700"
+              >
+                Installation / New Install History
+              </Link>{" "}
+            </>
+          )}
           <span className="text-[#E5D283]">/ {dataList?.cid}</span>
         </h1>
         <div className="px-5">
@@ -96,7 +133,7 @@ function ViewInstall() {
           <div className="flex justify-between items-center p-3">
             <div className="flex gap-3 py-1">
               <Link
-                to={`/user/pdfcus/${idList?.siteInfoId}`}
+                to={`/public/pdfcus/${idList?.siteInfoId}`}
                 className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
               >
                 <BsFillFileEarmarkPdfFill className="w-5 h-5" />
@@ -112,13 +149,19 @@ function ViewInstall() {
                 </Link>
               ) : (
                 <Link
-                  to={`/user/pdflte/${idList?.siteInfoId}`}
+                  to={`/public/pdflte-history/${id}`}
                   className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
                 >
                   <BsFillFileEarmarkPdfFill className="w-5 h-5" />
                   <p>UAT.</p>
                 </Link>
               )}
+              <button
+                className="flex items-center bg-sky-500 px-3  py-2 gap-2 rounded-lg text-white hover:bg-sky-400"
+                onClick={() => updateToSiteinfo()}
+              >
+                <MdBrowserUpdated className="w-6 h-6" /> Up Report to Siteinfo
+              </button>
             </div>
             <button
               className="bg-sky-200 text-blue-700 font-bold w-24 h-9 rounded-xl hover:bg-sky-300"
@@ -172,12 +215,14 @@ function ViewInstall() {
                         <p>Install Date :</p>
                         <p>Address :</p>
                       </div>
-                      <div className="grid gap-7">
-                        <p>{dataList.siteInfo?.stationID}</p>
-                        <p>{dataList.siteInfo?.branch}</p>
-                        <p>{dataList.siteInfo?.installBy}</p>
-                        <p>{formatDate(dataList.siteInfo?.installDate)}</p>
-                        <p>{dataList.siteInfo?.address}</p>
+                      <div className="grid gap-5">
+                        <p className="h-6">{dataList.siteInfo?.stationID}</p>
+                        <p className="h-6">{dataList.siteInfo?.branch}</p>
+                        <p className="h-6">{dataList.siteInfo?.installBy}</p>
+                        <p className="h-6">
+                          {formatDate(dataList.siteInfo?.installDate)}
+                        </p>
+                        <p className="h-6">{dataList.siteInfo?.address}</p>
                       </div>
                     </div>
                   </div>
@@ -506,6 +551,10 @@ function ViewInstall() {
                             <p>Cell ID :</p>
                             <p>Connection :</p>
                             <p>Signal Strength :</p>
+                            <p>Pinging Test (256 Bytes):</p>
+                            <p>Average :</p>
+                            <p>Pinging Test (1410 Bytes):</p>
+                            <p>Average :</p>
                             <p>Package :</p>
                             <p>Switch Over :</p>
                           </div>
@@ -534,9 +583,39 @@ function ViewInstall() {
                             <div className="flex flex-wrap lg:gap-3 items-center">
                               <span>{dataList.simFirst.signalStrength}</span>
                               <span>
-                                mbps(
+                                dBm(
                                 <span className="text-red-500 font-bold">
                                   &gt;-91dbm
+                                </span>
+                                )
+                              </span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>{dataList.testSimFirst.pingingTest}</span>
+                              <span>% Success</span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>{dataList.testSimFirst.average}</span>
+                              <span>
+                                mbps(
+                                <span className="text-red-500 font-bold">
+                                  &lt;400 ms
+                                </span>
+                                )
+                              </span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>
+                                {dataList.testSimFirstUpload.pingingTest}
+                              </span>
+                              <span>% Success</span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>{dataList.testSimFirstUpload.average}</span>
+                              <span>
+                                mbps(
+                                <span className="text-red-500 font-bold">
+                                  &lt;400 ms
                                 </span>
                                 )
                               </span>
@@ -573,6 +652,10 @@ function ViewInstall() {
                             <p>Cell ID :</p>
                             <p>Connection :</p>
                             <p>Signal Strength :</p>
+                            <p>Pinging Test (256 Bytes):</p>
+                            <p>Average :</p>
+                            <p>Pinging Test (1410 Bytes):</p>
+                            <p>Average :</p>
                             <p>Package :</p>
                             <p>Switch Over :</p>
                           </div>
@@ -601,9 +684,41 @@ function ViewInstall() {
                             <div className="flex flex-wrap lg:gap-3 items-center">
                               <span>{dataList.simSecond.signalStrength}</span>
                               <span>
-                                mbps(
+                                dBm(
                                 <span className="text-red-500 font-bold">
                                   &gt;-91dbm
+                                </span>
+                                )
+                              </span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>{dataList.testSimSecond.pingingTest}</span>
+                              <span>% Success</span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>{dataList.testSimSecond.average}</span>
+                              <span>
+                                mbps(
+                                <span className="text-red-500 font-bold">
+                                  &lt;400 ms
+                                </span>
+                                )
+                              </span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>
+                                {dataList.testSimSecondUpload.pingingTest}
+                              </span>
+                              <span>% Success</span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>
+                                {dataList.testSimSecondUpload.average}
+                              </span>
+                              <span>
+                                mbps(
+                                <span className="text-red-500 font-bold">
+                                  &lt;400 ms
                                 </span>
                                 )
                               </span>
@@ -638,8 +753,6 @@ function ViewInstall() {
                             <p>Test 4 :</p>
                             <p>Test 5 :</p>
                             <p>Download Average :</p>
-                            <p>Pinging Test :</p>
-                            <p>Average :</p>
                           </div>
                           <div className="grid gap-2">
                             <div className="flex flex-wrap lg:gap-3 items-center">
@@ -703,121 +816,10 @@ function ViewInstall() {
                               </span>
                               <span>mbps</span>
                             </div>
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimFirst.pingingTest}</span>
-                              <span>% Success</span>
-                            </div>
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimFirst.average}</span>
-                              <span>
-                                mbps(
-                                <span className="text-red-500 font-bold">
-                                  &lt;400 ms
-                                </span>
-                                )
-                              </span>
-                            </div>
                           </div>
                         </div>
                       </div>
                       {/*------ LTE Box-4 --------*/}
-                      <div>
-                        <h1 className="text-[#213555] font-bold lg:text-2xl">
-                          Test SIM 1 Upload
-                        </h1>
-                        <div className="flex gap-2 bg-[#E5D283] py-5 lg:pl-5 rounded-xl">
-                          <div className="grid gap-5 text-right font-bold">
-                            <p>Test 1 :</p>
-                            <p>Test 2 :</p>
-                            <p>Test 3 :</p>
-                            <p>Test 4 :</p>
-                            <p>Test 5 :</p>
-                            <p>Download Average :</p>
-                            <p>Pinging Test :</p>
-                            <p>Average :</p>
-                          </div>
-                          <div className="grid gap-2">
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>File size</span>
-                              <span>
-                                {dataList.testSimFirstUpload.test[0]?.fileSize}
-                              </span>
-                              <span>Mb</span>
-                              <span>
-                                {dataList.testSimFirstUpload.test[0]?.speed}
-                              </span>
-                              <span>mbps</span>
-                            </div>
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>File size</span>
-                              <span>
-                                {dataList.testSimFirstUpload.test[1]?.fileSize}
-                              </span>
-                              <span>Mb</span>
-                              <span>
-                                {dataList.testSimFirstUpload.test[1]?.speed}
-                              </span>
-                              <span>mbps</span>
-                            </div>
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>File size</span>
-                              <span>
-                                {dataList.testSimFirstUpload.test[2]?.fileSize}
-                              </span>
-                              <span>Mb</span>
-                              <span>
-                                {dataList.testSimFirstUpload.test[2]?.speed}
-                              </span>
-                              <span>mbps</span>
-                            </div>
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>File size</span>
-                              <span>
-                                {dataList.testSimFirstUpload.test[3]?.fileSize}
-                              </span>
-                              <span>Mb</span>
-                              <span>
-                                {dataList.testSimFirstUpload.test[3]?.speed}
-                              </span>
-                              <span>mbps</span>
-                            </div>
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>File size</span>
-                              <span>
-                                {dataList.testSimFirstUpload.test[4]?.fileSize}
-                              </span>
-                              <span>Mb</span>
-                              <span>
-                                {dataList.testSimFirstUpload.test[4]?.speed}
-                              </span>
-                              <span>mbps</span>
-                            </div>
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>
-                                {dataList.testSimFirstUpload.downloadAverage}
-                              </span>
-                              <span>mbps</span>
-                            </div>
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>
-                                {dataList.testSimFirstUpload.pingingTest}
-                              </span>
-                              <span>% Success</span>
-                            </div>
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimFirstUpload.average}</span>
-                              <span>
-                                mbps(
-                                <span className="text-red-500 font-bold">
-                                  &lt;400 ms
-                                </span>
-                                )
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/*------ LTE Box-5 --------*/}
                       <div>
                         <h1 className="text-[#213555] font-bold lg:text-2xl">
                           Test SIM 2 Download
@@ -830,8 +832,6 @@ function ViewInstall() {
                             <p>Test 4 :</p>
                             <p>Test 5 :</p>
                             <p>Download Average :</p>
-                            <p>Pinging Test :</p>
-                            <p>Average :</p>
                           </div>
                           <div className="grid gap-2">
                             <div className="flex flex-wrap lg:gap-3 items-center">
@@ -895,23 +895,89 @@ function ViewInstall() {
                               </span>
                               <span>mbps</span>
                             </div>
+                          </div>
+                        </div>
+                      </div>
+                      {/*------ LTE Box-5 --------*/}
+                      <div>
+                        <h1 className="text-[#213555] font-bold lg:text-2xl">
+                          Test SIM 1 Upload
+                        </h1>
+                        <div className="flex gap-2 bg-[#E5D283] py-5 lg:pl-5 rounded-xl">
+                          <div className="grid gap-5 text-right font-bold">
+                            <p>Test 1 :</p>
+                            <p>Test 2 :</p>
+                            <p>Test 3 :</p>
+                            <p>Test 4 :</p>
+                            <p>Test 5 :</p>
+                            <p>Download Average :</p>
+                          </div>
+                          <div className="grid gap-2">
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimSecond.pingingTest}</span>
-                              <span>% Success</span>
+                              <span>File size</span>
+                              <span>
+                                {dataList.testSimFirstUpload.test[0]?.fileSize}
+                              </span>
+                              <span>Mb</span>
+                              <span>
+                                {dataList.testSimFirstUpload.test[0]?.speed}
+                              </span>
+                              <span>mbps</span>
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimSecond.average}</span>
+                              <span>File size</span>
                               <span>
-                                mbps(
-                                <span className="text-red-500 font-bold">
-                                  &lt;400 ms
-                                </span>
-                                )
+                                {dataList.testSimFirstUpload.test[1]?.fileSize}
                               </span>
+                              <span>Mb</span>
+                              <span>
+                                {dataList.testSimFirstUpload.test[1]?.speed}
+                              </span>
+                              <span>mbps</span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>File size</span>
+                              <span>
+                                {dataList.testSimFirstUpload.test[2]?.fileSize}
+                              </span>
+                              <span>Mb</span>
+                              <span>
+                                {dataList.testSimFirstUpload.test[2]?.speed}
+                              </span>
+                              <span>mbps</span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>File size</span>
+                              <span>
+                                {dataList.testSimFirstUpload.test[3]?.fileSize}
+                              </span>
+                              <span>Mb</span>
+                              <span>
+                                {dataList.testSimFirstUpload.test[3]?.speed}
+                              </span>
+                              <span>mbps</span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>File size</span>
+                              <span>
+                                {dataList.testSimFirstUpload.test[4]?.fileSize}
+                              </span>
+                              <span>Mb</span>
+                              <span>
+                                {dataList.testSimFirstUpload.test[4]?.speed}
+                              </span>
+                              <span>mbps</span>
+                            </div>
+                            <div className="flex flex-wrap lg:gap-3 items-center">
+                              <span>
+                                {dataList.testSimFirstUpload.downloadAverage}
+                              </span>
+                              <span>mbps</span>
                             </div>
                           </div>
                         </div>
                       </div>
+
                       {/*------ LTE Box-6 --------*/}
                       <div>
                         <h1 className="text-[#213555] font-bold lg:text-2xl">
@@ -925,8 +991,6 @@ function ViewInstall() {
                             <p>Test 4 :</p>
                             <p>Test 5 :</p>
                             <p>Download Average :</p>
-                            <p>Pinging Test :</p>
-                            <p>Average :</p>
                           </div>
                           <div className="grid gap-2">
                             <div className="flex flex-wrap lg:gap-3 items-center">
@@ -990,24 +1054,6 @@ function ViewInstall() {
                               </span>
                               <span>mbps</span>
                             </div>
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>
-                                {dataList.testSimSecondUpload.pingingTest}
-                              </span>
-                              <span>% Success</span>
-                            </div>
-                            <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>
-                                {dataList.testSimSecondUpload.average}
-                              </span>
-                              <span>
-                                mbps(
-                                <span className="text-red-500 font-bold">
-                                  &lt;400 ms
-                                </span>
-                                )
-                              </span>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -1020,7 +1066,7 @@ function ViewInstall() {
                       UPS Information
                     </h1>
                     <div className="flex gap-2 bg-[#E5D283] py-5 lg:pl-5 rounded-xl">
-                      <div className="grid gap-5 text-right font-bold">
+                      <div className="grid gap-3 text-right font-bold">
                         <p>UPS Type :</p>
                         <p>UPS S/N :</p>
                         <p>UPS Brand :</p>
@@ -1029,8 +1075,11 @@ function ViewInstall() {
                         <p>Rate :</p>
                         <p>Load :</p>
                         <p>Temperature :</p>
+                        <p>Bypass Mode :</p>
+                        <p>Power Fail Test :</p>
+                        <p>Command Test :</p>
                       </div>
-                      <div className="grid gap-5">
+                      <div className="grid gap-7">
                         <p className="h-6">{dataList.upsType?.upsName}</p>
                         <p className="h-6">{dataList.upsInfo?.upsSN}</p>
                         <p className="h-6">{dataList.upsInfo?.upsBrand}</p>
@@ -1048,39 +1097,6 @@ function ViewInstall() {
                         <div className="flex flex-wrap lg:gap-3 items-center">
                           <span>{dataList.upsInfo.temperature}</span>C
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* box-10 */}
-                  <div>
-                    <h1 className="text-[#213555] font-bold lg:text-2xl">
-                      Test UPS
-                    </h1>
-                    <div className="flex gap-2 bg-[#E5D283] py-5 lg:pl-10 rounded-xl">
-                      <div className="grid gap-9 lg:gap-4 text-right font-bold">
-                        <p>L - N :</p>
-                        <p>L - G :</p>
-                        <p>N - G :</p>
-                        <p>Bypass Mode :</p>
-                        <p>Power Fail Test :</p>
-                        <p>Command Test :</p>
-                      </div>
-                      <div className="grid gap-7 lg:gap-5">
-                        <div className="flex flex-wrap lg:gap-3 items-center">
-                          <span>{dataList.testUps.ln}</span>
-                          Volt
-                        </div>
-
-                        <div className="flex flex-wrap lg:gap-3 items-center">
-                          <span>{dataList.testUps.lg}</span>
-                          Volt
-                        </div>
-
-                        <div className="flex flex-wrap lg:gap-3 items-center">
-                          <span>{dataList.testUps.ng}</span>
-                          Volt
-                        </div>
-
                         <label className="flex p-1 gap-3 items-center">
                           <span>
                             {dataList.testUps.bypassMode === "true" ? (
@@ -1111,6 +1127,35 @@ function ViewInstall() {
                           </span>
                           <span>pass</span>
                         </label>
+                      </div>
+                    </div>
+                  </div>
+                  {/* box-10 */}
+                  <div>
+                    <h1 className="text-[#213555] font-bold lg:text-2xl">
+                      Test UPS
+                    </h1>
+                    <div className="flex gap-2 bg-[#E5D283] py-5 lg:pl-10 rounded-xl">
+                      <div className="grid gap-9 lg:gap-4 text-right font-bold">
+                        <p>L - N :</p>
+                        <p>L - G :</p>
+                        <p>N - G :</p>
+                      </div>
+                      <div className="grid gap-7 lg:gap-5">
+                        <div className="flex flex-wrap lg:gap-3 items-center">
+                          <span>{dataList.testUps.ln}</span>
+                          Volt
+                        </div>
+
+                        <div className="flex flex-wrap lg:gap-3 items-center">
+                          <span>{dataList.testUps.lg}</span>
+                          Volt
+                        </div>
+
+                        <div className="flex flex-wrap lg:gap-3 items-center">
+                          <span>{dataList.testUps.ng}</span>
+                          Volt
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1850,22 +1895,22 @@ function ViewInstall() {
                     />
                     <img
                       src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}
-                      alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                      alt="หน้าร้านด้านขวา"
                       className="w-[300px] h-[300px]"
                     />
                     <img
                       src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.tikcetId}/${imageList[3]?.fileName}`}
-                      alt="รูปอุปกรณ์/Serial"
+                      alt="หน้าร้านด้านซ้าย"
                       className="w-[300px] h-[300px]"
                     />
                     <img
                       src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.tikcetId}/${imageList[4]?.fileName}`}
-                      alt="รูปอุปกรณ์/Serial"
+                      alt="จุดวางอุปกรณ์/จุดติดตั้ง"
                       className="w-[300px] h-[300px]"
                     />
                     <img
                       src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.tikcetId}/${imageList[5]?.fileName}`}
-                      alt="หลังตู้/จุดวางอุปกรณ์"
+                      alt="จุดวางอุปกรณ์/จุดติดตั้ง"
                       className="w-[300px] h-[300px]"
                     />
                   </div>

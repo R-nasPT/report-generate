@@ -74,7 +74,7 @@ function TotalInputInstallation() {
       const response = await axios.get(
         `${packageJson.domain.ipSiteInfo}/siteinfo/${id}`
       );
-      // console.log(response.data.siteName);
+      // console.log(response.data);
       //-----Site Info
       setValue("stationId", response.data.atmModel.stationId);
       setValue("brand", response.data.siteName);
@@ -87,7 +87,7 @@ function TotalInputInstallation() {
       setValue("routerModel", response.data.routerInfoModel.productTypeId);
       setValue("routerFW", response.data.routerInfoModel.firmwareVersion);
       setValue("routerSN", response.data.routerInfoModel.serialNo);
-      setValue("routerIp", response.data.routerInfoModel.network);
+      setValue("routerIp", response.data.routerInfoModel.gateway);
       setValue("subnetMask", response.data.routerInfoModel.mask);
       setValue("rackSN", response.data.otherInfoModel.rackSerialNo);
       setValue("antenaGain", response.data.otherInfoModel.antennaGain);
@@ -230,7 +230,7 @@ function TotalInputInstallation() {
           : "",
         cid: info?.cid,
       };
-      console.log(data);
+      // console.log(data);
       const response = await axios.post(
         `${packageJson.domain.ipSiteInfo}/siteinfo/report/`,
         data
@@ -1103,7 +1103,7 @@ function TotalInputInstallation() {
             ],
           },
           testSimFirstOther: {
-            simtype: "1",
+            simtype: data.sim1,
             data: [
               {
                 name: data.sim2name1,
@@ -1140,7 +1140,7 @@ function TotalInputInstallation() {
             ],
           },
           testSimSecondOther: {
-            simtype: "0",
+            simtype: data.sim2,
             data: [
               {
                 name: data.sim2name1,
@@ -1403,7 +1403,7 @@ function TotalInputInstallation() {
                   </button> */}
 
                   <Link
-                    to={`/user/pdfcus/${id}`}
+                    to={`/public/pdfcus/${id}`}
                     className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
                   >
                     <BsFillFileEarmarkPdfFill className="w-5 h-5" />
@@ -1568,7 +1568,7 @@ function TotalInputInstallation() {
                             )}
                             <p>หน้าตู้/จุดวางอุปกรณ์</p>
                           </div>
-                          {status.customerModel?.shortName !== "NTC" && (
+                          {status.customerModel?.shortName !== "KTB" && (
                             <>
                               <div className="flex flex-col gap-3">
                                 {imageList[2]?.fileName !== "" &&
@@ -1576,7 +1576,7 @@ function TotalInputInstallation() {
                                   <div className="relative">
                                     <img
                                       src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}
-                                      alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                      alt="หน้าร้านด้านขวา"
                                       className="w-[300px] h-[300px]"
                                     />
                                     <TiDelete
@@ -1605,7 +1605,7 @@ function TotalInputInstallation() {
                                     />
                                   </>
                                 )}
-                                <p>ด้านข้างตู้(ซ้าย-ขวา)</p>
+                                <p>หน้าร้านด้านขวา</p>
                               </div>
                               <div className="flex flex-col gap-3">
                                 {imageList[3]?.fileName !== "" &&
@@ -1613,7 +1613,7 @@ function TotalInputInstallation() {
                                   <div className="relative">
                                     <img
                                       src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.tikcetId}/${imageList[3]?.fileName}`}
-                                      alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                      alt="หน้าร้านด้านซ้าย"
                                       className="w-[300px] h-[300px]"
                                     />
                                     <TiDelete
@@ -1642,7 +1642,7 @@ function TotalInputInstallation() {
                                     />
                                   </>
                                 )}
-                                <p>รูปอุปกรณ์/Serial</p>
+                                <p>หน้าร้านด้านซ้าย</p>
                               </div>
                               <div className="flex flex-col gap-3">
                                 {imageList[4]?.fileName !== "" &&
@@ -1650,7 +1650,7 @@ function TotalInputInstallation() {
                                   <div className="relative">
                                     <img
                                       src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.tikcetId}/${imageList[4]?.fileName}`}
-                                      alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                      alt="จุดวางอุปกรณ์/จุดติดตั้ง"
                                       className="w-[300px] h-[300px]"
                                     />
                                     <TiDelete
@@ -1679,7 +1679,7 @@ function TotalInputInstallation() {
                                     />
                                   </>
                                 )}
-                                <p>รูปอุปกรณ์/Serial</p>
+                                <p>จุดวางอุปกรณ์/จุดติดตั้ง</p>
                               </div>
                               <div className="flex flex-col gap-3">
                                 {imageList[5]?.fileName !== "" &&
@@ -1687,7 +1687,7 @@ function TotalInputInstallation() {
                                   <div className="relative">
                                     <img
                                       src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.tikcetId}/${imageList[5]?.fileName}`}
-                                      alt="ด้านข้างตู้(ซ้าย-ขวา)"
+                                      alt="จุดวางอุปกรณ์/จุดติดตั้ง"
                                       className="w-[300px] h-[300px]"
                                     />
                                     <TiDelete
@@ -1716,7 +1716,7 @@ function TotalInputInstallation() {
                                     />
                                   </>
                                 )}
-                                <p>หลังตู้/จุดวางอุปกรณ์</p>
+                                <p>จุดวางอุปกรณ์/จุดติดตั้ง</p>
                               </div>
                             </>
                           )}
