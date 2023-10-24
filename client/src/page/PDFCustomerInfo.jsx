@@ -14,8 +14,8 @@ function PDFCustomerInfo() {
 
   const { isAdmin, formatDate } = useAuthContext();
 
-  // console.log(siteinfo.shortName);
-  console.log(siteinfo.upsInfoModel?.batteryStartDate);
+  // console.log(siteinfo);
+  // console.log(siteinfo.routerInfoModel?.installationDate);
 
   const { id } = useParams();
 

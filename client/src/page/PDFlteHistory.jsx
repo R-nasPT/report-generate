@@ -89,7 +89,7 @@ function PDFlteHistory() {
           >
             <section className="h-[1060px] text-[13px] font-thai-sarabunNew">
               <div className="flex justify-between">
-                <img src="/user/Logo-pp2.png" alt="logo" width={250} />
+                <img src="/user/Logo-pp4.jpg" alt="logo" width={250} />
                 <div className="text-right text-[13px]">
                   <p>
                     1011 Supalai Grand Tower, 16th Floor, Rama 3 Road.,

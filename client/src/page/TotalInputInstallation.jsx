@@ -1600,7 +1600,7 @@ function TotalInputInstallation() {
                                       id="file-input2"
                                       className="hidden"
                                       onChange={(e) =>
-                                        handleUpload(e, 2, "cabinetSide")
+                                        handleUpload(e, 2, "cabinetRight")
                                       }
                                     />
                                   </>
@@ -1637,7 +1637,7 @@ function TotalInputInstallation() {
                                       id="file-input3"
                                       className="hidden"
                                       onChange={(e) =>
-                                        handleUpload(e, 3, "Serial1")
+                                        handleUpload(e, 3, "cabinetLeft")
                                       }
                                     />
                                   </>
@@ -1674,7 +1674,7 @@ function TotalInputInstallation() {
                                       id="file-input4"
                                       className="hidden"
                                       onChange={(e) =>
-                                        handleUpload(e, 4, "Serial2")
+                                        handleUpload(e, 4, "InstallPoint")
                                       }
                                     />
                                   </>
@@ -1929,7 +1929,7 @@ function TotalInputInstallation() {
                                   id="file-input10"
                                   className="hidden"
                                   onChange={(e) =>
-                                    handleUpload(e, 10, "Serial2")
+                                    handleUpload(e, 10, "SerialUps")
                                   }
                                 />
                               </>
@@ -1966,7 +1966,7 @@ function TotalInputInstallation() {
                                   id="file-input11"
                                   className="hidden"
                                   onChange={(e) =>
-                                    handleUpload(e, 11, "behindCabinet")
+                                    handleUpload(e, 11, "SerialOther")
                                   }
                                 />
                               </>
