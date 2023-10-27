@@ -7,7 +7,7 @@ import LoadingPage from "../component/LoadingPage";
 import { FiFilter } from "react-icons/fi";
 import packageJson from "../../package.json";
 import * as XLSX from "xlsx";
-import { useAuthContext } from "../context/AuthContext";
+import { formatDate } from "../utils/dateUtils";
 
 function Installation() {
   const [siteinfo, setSiteinfo] = useState([]);
@@ -19,7 +19,6 @@ function Installation() {
   const [filterData, setFilterData] = useState([]);
   const [boxFilter, setBoxFilter] = useState(false);
 
-  const { formatDate } = useAuthContext();
 
   const navigate = useNavigate();
 

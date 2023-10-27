@@ -7,7 +7,7 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingPage from "../component/LoadingPage";
 import packageJson from "../../package.json";
-import { useAuthContext } from "../context/AuthContext";
+import { formatDate } from "../utils/dateUtils";
 
 function DetailPage() {
   const [ticketDetail, setTicketDetail] = useState([]);
@@ -18,7 +18,6 @@ function DetailPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
 
-  const { formatDate } = useAuthContext();
 
   const navigate = useNavigate();
   const { id } = useParams();

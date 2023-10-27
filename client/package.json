@@ -7,10 +7,15 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
+    "chart.js": "^4.4.0",
     "html2pdf.js": "^0.10.1",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
+    "react-animate-height": "^3.2.2",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.46.1",
+    "react-icons": "^4.10.1",
     "react-router-dom": "^6.14.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.4",
@@ -20,7 +25,7 @@
   },
   "domain": {
     "ipSiteInfo": "http://172.13.0.190:3062/api/v1",
-    "ipbackend": "http://localhost:4000",
+    "ipbackend": "http://172.13.0.190:4000",
     "ipftp": "http://172.13.0.190:3001"
   },
   "scripts": {

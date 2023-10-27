@@ -1,8 +1,7 @@
 import React from "react";
-import { useAuthContext } from "../context/AuthContext";
+import { formatDate } from "../utils/dateUtils";
 
 const HeaderPDF = ({ ticketDetail }) => {
-  const { formatDate } = useAuthContext();
 
   return (
     <>

@@ -5,6 +5,7 @@ import axios from "axios";
 import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
 import { useAuthContext } from "../context/AuthContext";
+import { formatDate } from "../utils/dateUtils";
 
 function PDFCustomerInfo() {
   const [status, setStatus] = useState([]);
@@ -12,7 +13,7 @@ function PDFCustomerInfo() {
   const [customerInfo, setCustomerInfo] = useState([]);
   const [imageList, setImageList] = useState([]);
 
-  const { isAdmin, formatDate } = useAuthContext();
+  const { isAdmin } = useAuthContext();
 
   // console.log(siteinfo);
   // console.log(siteinfo.routerInfoModel?.installationDate);
@@ -216,7 +217,7 @@ function PDFCustomerInfo() {
                           <span>LINK :</span>
                         )}
                       <span>
-                        {formatDate(siteinfo.routerInfoModel?.installationDate)}{" "}
+                        {formatDate(siteinfo.routerInfoModel?.installationDate)}{" "} 
                       </span>
                       {siteinfo.upsInfoModel?.batteryStartDate !== undefined &&
                         siteinfo.upsInfoModel?.batteryStartDate !== null &&

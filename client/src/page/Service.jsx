@@ -6,7 +6,7 @@ import Select from "react-select";
 import { FiFilter } from "react-icons/fi";
 import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
-import { useAuthContext } from "../context/AuthContext";
+import { formatDate } from "../utils/dateUtils";
 
 function Service() {
   const [siteinfo, setSiteinfo] = useState([]);
@@ -17,7 +17,6 @@ function Service() {
   const [filterData, setFilterData] = useState([]);
 
   const [boxFilter, setBoxFilter] = useState(false);
-  const { formatDate } = useAuthContext();
 
   const navigate = useNavigate();
 

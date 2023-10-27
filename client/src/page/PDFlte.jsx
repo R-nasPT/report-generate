@@ -5,11 +5,10 @@ import axios from "axios";
 import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
 import { ImCheckmark } from "react-icons/im";
-import { useAuthContext } from "../context/AuthContext";
+import { formatDateTime, timeMinusSeven } from "../utils/dateUtils";
 
 function PDFlte() {
   const [lteReport, setLteReport] = useState();
-  const { formatDateTime, timeMinusSeven } = useAuthContext();
 
   // console.log(lteReport);
   const { id } = useParams();

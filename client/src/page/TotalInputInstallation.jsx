@@ -777,512 +777,516 @@ function TotalInputInstallation() {
   };
 
   const handleFormSubmit = async (data) => {
-    console.log(data);
-    // console.log(
-    //   status.TicketInfoModel
-    //     ? status.TicketInfoModel.tkdt_ID
-    //     : status.TicketInfoLTEModel
-    //     ? status.TicketInfoLTEModel.tkdt_ID
-    //     : status.TicketInfoKTBModel
-    //     ? status.TicketInfoKTBModel.tkdt_ID
-    //     : ""
-    // );
-    if (update === 1) {
-      let tempData = undefined;
-      if (status.customerModel.cusGroupType === 1) {
-        tempData = {
-          siteInfo: {
-            stationID: data.stationId,
-            branch: data.brand,
-            installBy: data.insBy,
-            installDate: data.insDate,
-            address: data.address,
-          },
-          siteUpdate: {
-            contactName: data.contractName,
-            tel: data.tel,
-            gpsN: data.GPSN,
-            gpsE: data.GPSE,
-          },
-          routerInfo: {
-            routerModel: data.routerModel,
-            routerFW: data.routerFW,
-            routerSN: data.routerSN,
-            routerIp: data.routerIp,
-            subnetMask: data.subnetMask,
-            rackSN: data.rackSN,
-            antenaGain: data.antenaGain,
-          },
-          atmInfo: {
-            atmbrand: data.atmbrand,
-            atmtype: data.atmtype,
-            atmIp: data.atmIp,
-          },
-          simFirst: {
-            provider: data.providerSimFirst,
-            callSimFirst: data.callSimFirst,
-            apnSimFirst: data.apnSimFirst,
-            ipSimFirst: data.ipSimFirst,
-            lacSimFirst: data.lacSimFirst,
-            cellIdSimFirst: data.cellIdSimFirst,
-            switchOverSimFirst: data.switchOverSimFirst,
-          },
-          testSimFirst: {
-            connection: data.connectionSimFirst,
-            package: data.packageSimFirst,
-            signalStrength: data.signalStrengthSimFirst,
-            pingingTest: data.pingingTestSimFirst,
-            average: data.averageSimFirst,
-            download: data.downloadSimFirst,
-            Upload: data.UploadSimFirst,
-          },
-          simSecond: {
-            provider: data.providerSimSecond,
-            callSimSecond: data.callSimSecond,
-            apnSimSecond: data.apnSimSecond,
-            ipSimSecond: data.ipSimSecond,
-            lacSimSecond: data.lacSimSecond,
-            cellIdSimSecond: data.cellIdSimSecond,
-            switchOverSimSecond: data.switchOverSimSecond,
-          },
-          testSimSecond: {
-            connection: data.connectionSimSecond,
-            package: data.packageSimSecond,
-            signalStrength: data.signalStrengthSimSecond,
-            pingingTest: data.pingingTestSimSecond,
-            average: data.averageSimSecond,
-            download: data.downloadSimSecond,
-            Upload: data.UploadSimSecond,
-          },
-          upsInfo: {
-            upsType: data.upsType,
-            upsSN: data.upsSN,
-            upsBrand: data.upsBrand,
-            upsModel: data.upsModel,
-            batteryStart: data.batteryStart,
-            rate: data.rate,
-            load: data.load,
-            temperature: data.temperature,
-          },
-          testUps: {
-            ln: data.ln,
-            lg: data.lg,
-            ng: data.ng,
-            bypassMode: data.bypassMode,
-            powerFailTest: data.powerFailTest,
-            commandTest: data.commandTest,
-          },
-          testSimFirstUpload: null,
-          testSimSecondUpload: null,
-          testSimSecondOther: null,
-          testSimFirstOther: null,
-          otherInfo: [
-            {
-              name: data.Name1,
-              type: data.Type1,
-              brand: data.Brand1,
-              serial: data.Serial1,
+    try {
+      // console.log(data);
+      // console.log(
+      //   status.TicketInfoModel
+      //     ? status.TicketInfoModel.tkdt_ID
+      //     : status.TicketInfoLTEModel
+      //     ? status.TicketInfoLTEModel.tkdt_ID
+      //     : status.TicketInfoKTBModel
+      //     ? status.TicketInfoKTBModel.tkdt_ID
+      //     : ""
+      // );
+      if (update === 1) {
+        let tempData = undefined;
+        if (status.customerModel.cusGroupType === 1) {
+          tempData = {
+            siteInfo: {
+              stationID: data.stationId,
+              branch: data.brand,
+              installBy: data.insBy,
+              installDate: data.insDate,
+              address: data.address,
             },
-            {
-              name: data.Name2,
-              type: data.Type2,
-              brand: data.Brand2,
-              serial: data.Serial2,
+            siteUpdate: {
+              contactName: data.contractName,
+              tel: data.tel,
+              gpsN: data.GPSN,
+              gpsE: data.GPSE,
             },
-            {
-              name: data.Name3,
-              type: data.Type3,
-              brand: data.Brand3,
-              serial: data.Serial3,
+            routerInfo: {
+              routerModel: data.routerModel,
+              routerFW: data.routerFW,
+              routerSN: data.routerSN,
+              routerIp: data.routerIp,
+              subnetMask: data.subnetMask,
+              rackSN: data.rackSN,
+              antenaGain: data.antenaGain,
             },
-            {
-              name: data.Name4,
-              type: data.Type4,
-              brand: data.Brand4,
-              serial: data.Serial4,
+            atmInfo: {
+              atmbrand: data.atmbrand,
+              atmtype: data.atmtype,
+              atmIp: data.atmIp,
             },
-          ],
-          workingTime: {
-            customerSiteETA: data.customerSiteETA,
-            workingStart: data.workingStart,
-            workingEnd: data.workingEnd,
-            officeDeparture: data.officeDeparture,
-            officeArrival: data.officeArrival,
-            customerSiteArrival: data.customerSiteArrival,
-            customerSiteDeparture: data.customerSiteDeparture,
-          },
-          note: data.note,
-          cid: status.cid,
-          ticketId: status.TicketInfoModel
-            ? status.TicketInfoModel.tkdt_ID
-            : status.TicketInfoLTEModel
-            ? status.TicketInfoLTEModel.tkdt_ID
-            : status.TicketInfoKTBModel
-            ? status.TicketInfoKTBModel.tkdt_ID
-            : "",
-          userId: userId,
-          action: "INS",
-        };
-      } else {
-        tempData = {
-          siteInfo: {
-            stationID: data.stationId,
-            branch: data.brand,
-            installBy: data.insBy,
-            installDate: data.insDate,
-            address: data.address,
-          },
-          siteUpdate: {
-            contactName: data.contractName,
-            tel: data.tel,
-            gpsN: data.GPSN,
-            gpsE: data.GPSE,
-          },
-          routerInfo: {
-            routerModel: data.routerModel,
-            routerFW: data.routerFW,
-            routerSN: data.routerSN,
-            routerIp: data.routerIp,
-            subnetMask: data.subnetMask,
-            rackSN: data.rackSN,
-            antenaGain: data.antenaGain,
-          },
-          atmInfo: {
-            atmbrand: data.atmbrand,
-            atmtype: data.atmtype,
-            atmIp: data.atmIp,
-          },
-          simFirst: {
-            provider: data.providerSimFirst,
-            callSimFirst: data.callSimFirst,
-            apnSimFirst: data.apnSimFirst,
-            ipSimFirst: data.ipSimFirst,
-            lacSimFirst: data.lacSimFirst,
-            cellIdSimFirst: data.cellIdSimFirst,
-            connection: data.connectionSimFirst,
-            package: data.packageSimFirst,
-            signalStrength: data.signalStrengthSimFirst,
-            switchOverSimFirst: data.switchOverSimFirst,
-          },
-          testSimFirst: {
-            downloadAverage: data.downloadAverageSimFirstDownload,
-            pingingTest: data.pingingTestSimFirstDownload,
-            average: data.averageSimFirstDownload,
-            test: [
+            simFirst: {
+              provider: data.providerSimFirst,
+              callSimFirst: data.callSimFirst,
+              apnSimFirst: data.apnSimFirst,
+              ipSimFirst: data.ipSimFirst,
+              lacSimFirst: data.lacSimFirst,
+              cellIdSimFirst: data.cellIdSimFirst,
+              switchOverSimFirst: data.switchOverSimFirst,
+            },
+            testSimFirst: {
+              connection: data.connectionSimFirst,
+              package: data.packageSimFirst,
+              signalStrength: data.signalStrengthSimFirst,
+              pingingTest: data.pingingTestSimFirst,
+              average: data.averageSimFirst,
+              download: data.downloadSimFirst,
+              Upload: data.UploadSimFirst,
+            },
+            simSecond: {
+              provider: data.providerSimSecond,
+              callSimSecond: data.callSimSecond,
+              apnSimSecond: data.apnSimSecond,
+              ipSimSecond: data.ipSimSecond,
+              lacSimSecond: data.lacSimSecond,
+              cellIdSimSecond: data.cellIdSimSecond,
+              switchOverSimSecond: data.switchOverSimSecond,
+            },
+            testSimSecond: {
+              connection: data.connectionSimSecond,
+              package: data.packageSimSecond,
+              signalStrength: data.signalStrengthSimSecond,
+              pingingTest: data.pingingTestSimSecond,
+              average: data.averageSimSecond,
+              download: data.downloadSimSecond,
+              Upload: data.UploadSimSecond,
+            },
+            upsInfo: {
+              upsType: data.upsType,
+              upsSN: data.upsSN,
+              upsBrand: data.upsBrand,
+              upsModel: data.upsModel,
+              batteryStart: data.batteryStart,
+              rate: data.rate,
+              load: data.load,
+              temperature: data.temperature,
+            },
+            testUps: {
+              ln: data.ln,
+              lg: data.lg,
+              ng: data.ng,
+              bypassMode: data.bypassMode,
+              powerFailTest: data.powerFailTest,
+              commandTest: data.commandTest,
+            },
+            testSimFirstUpload: null,
+            testSimSecondUpload: null,
+            testSimSecondOther: null,
+            testSimFirstOther: null,
+            otherInfo: [
               {
-                fileSize: data.fileSize1SimFirstDownload,
-                speed: data.speed1SimFirstDownload,
+                name: data.Name1,
+                type: data.Type1,
+                brand: data.Brand1,
+                serial: data.Serial1,
               },
               {
-                fileSize: data.fileSize2SimFirstDownload,
-                speed: data.speed2SimFirstDownload,
+                name: data.Name2,
+                type: data.Type2,
+                brand: data.Brand2,
+                serial: data.Serial2,
               },
               {
-                fileSize: data.fileSize3SimFirstDownload,
-                speed: data.speed3SimFirstDownload,
+                name: data.Name3,
+                type: data.Type3,
+                brand: data.Brand3,
+                serial: data.Serial3,
               },
               {
-                fileSize: data.fileSize4SimFirstDownload,
-                speed: data.speed4SimFirstDownload,
-              },
-              {
-                fileSize: data.fileSize5SimFirstDownload,
-                speed: data.speed5SimFirstDownload,
+                name: data.Name4,
+                type: data.Type4,
+                brand: data.Brand4,
+                serial: data.Serial4,
               },
             ],
-          },
-          simSecond: {
-            provider: data.providerSimSecond,
-            callSimSecond: data.callSimSecond,
-            apnSimSecond: data.apnSimSecond,
-            ipSimSecond: data.ipSimSecond,
-            lacSimSecond: data.lacSimSecond,
-            cellIdSimSecond: data.cellIdSimSecond,
-            connection: data.connectionSimSecond,
-            package: data.packageSimSecond,
-            signalStrength: data.signalStrengthSimSecond,
-            switchOverSimSecond: data.switchOverSimSecond,
-          },
-          testSimSecond: {
-            downloadAverage: data.downloadAverageSimSecondDownload,
-            pingingTest: data.pingingTestSimSecondDownload,
-            average: data.averageSimSecondDownload,
-            test: [
-              {
-                fileSize: data.fileSize1SimSecondDownload,
-                speed: data.speed1SimSecondDownload,
-              },
-              {
-                fileSize: data.fileSize2SimSecondDownload,
-                speed: data.speed2SimSecondDownload,
-              },
-              {
-                fileSize: data.fileSize3SimSecondDownload,
-                speed: data.speed3SimSecondDownload,
-              },
-              {
-                fileSize: data.fileSize4SimSecondDownload,
-                speed: data.speed4SimSecondDownload,
-              },
-              {
-                fileSize: data.fileSize5SimSecondDownload,
-                speed: data.speed5SimSecondDownload,
-              },
-            ],
-          },
-          upsInfo: {
-            upsType: data.upsType,
-            upsSN: data.upsSN,
-            upsBrand: data.upsBrand,
-            upsModel: data.upsModel,
-            batteryStart: data.batteryStart,
-            rate: data.rate,
-            load: data.load,
-            temperature: data.temperature,
-          },
-          testUps: {
-            ln: data.ln,
-            lg: data.lg,
-            ng: data.ng,
-            bypassMode: data.bypassMode,
-            powerFailTest: data.powerFailTest,
-            commandTest: data.commandTest,
-          },
-          testSimFirstUpload: {
-            downloadAverage: data.downloadAverageSimFirstUpload,
-            pingingTest: data.pingingTestSimFirstUpload,
-            average: data.averageSimFirstUpload,
-            test: [
-              {
-                fileSize: data.fileSize1SimFirstUpload,
-                speed: data.speed1SimFirstUpload,
-              },
-              {
-                fileSize: data.fileSize2SimFirstUpload,
-                speed: data.speed2SimFirstUpload,
-              },
-              {
-                fileSize: data.fileSize3SimFirstUpload,
-                speed: data.speed3SimFirstUpload,
-              },
-              {
-                fileSize: data.fileSize4SimFirstUpload,
-                speed: data.speed4SimFirstUpload,
-              },
-              {
-                fileSize: data.fileSize5SimFirstUpload,
-                speed: data.speed5SimFirstUpload,
-              },
-            ],
-          },
-          testSimSecondUpload: {
-            downloadAverage: data.downloadAverageSimSecondUpload,
-            pingingTest: data.pingingTestSimSecondUpload,
-            average: data.averageSimSecondUpload,
-            test: [
-              {
-                fileSize: data.fileSize1SimSecondUpload,
-                speed: data.speed1SimSecondUpload,
-              },
-              {
-                fileSize: data.fileSize2SimSecondUpload,
-                speed: data.speed2SimSecondUpload,
-              },
-              {
-                fileSize: data.fileSize3SimSecondUpload,
-                speed: data.speed3SimSecondUpload,
-              },
-              {
-                fileSize: data.fileSize4SimSecondUpload,
-                speed: data.speed4SimSecondUpload,
-              },
-              {
-                fileSize: data.fileSize5SimSecondUpload,
-                speed: data.speed5SimSecondUpload,
-              },
-            ],
-          },
-          testSimFirstOther: {
-            simtype: data.sim1,
-            data: [
-              {
-                name: data.sim2name1,
-                pass: data.sim1no1,
-              },
-              {
-                name: data.sim2name2,
-                pass: data.sim1no2,
-              },
-              {
-                name: data.sim2name3,
-                pass: data.sim1no3,
-              },
-              {
-                name: data.sim2name4,
-                pass: data.sim1no4,
-              },
-              {
-                name: data.sim2name5,
-                pass: data.sim1no5,
-              },
-              {
-                name: data.sim2name6,
-                pass: data.sim1no6,
-              },
-              {
-                name: data.sim2name7,
-                pass: data.sim1no7,
-              },
-              {
-                name: data.sim2name8,
-                pass: data.sim1no8,
-              },
-            ],
-          },
-          testSimSecondOther: {
-            simtype: data.sim2,
-            data: [
-              {
-                name: data.sim2name1,
-                pass: data.sim2no1,
-              },
-              {
-                name: data.sim2name2,
-                pass: data.sim2no2,
-              },
-              {
-                name: data.sim2name3,
-                pass: data.sim2no3,
-              },
-              {
-                name: data.sim2name4,
-                pass: data.sim2no4,
-              },
-              {
-                name: data.sim2name5,
-                pass: data.sim2no5,
-              },
-              {
-                name: data.sim2name6,
-                pass: data.sim2no6,
-              },
-              {
-                name: data.sim2name7,
-                pass: data.sim2no7,
-              },
-              {
-                name: data.sim2name8,
-                pass: data.sim2no8,
-              },
-            ],
-          },
-          otherInfo: [
-            {
-              name: data.Name1,
-              type: data.Type1,
-              brand: data.Brand1,
-              serial: data.Serial1,
+            workingTime: {
+              customerSiteETA: data.customerSiteETA,
+              workingStart: data.workingStart,
+              workingEnd: data.workingEnd,
+              officeDeparture: data.officeDeparture,
+              officeArrival: data.officeArrival,
+              customerSiteArrival: data.customerSiteArrival,
+              customerSiteDeparture: data.customerSiteDeparture,
             },
-            {
-              name: data.Name2,
-              type: data.Type2,
-              brand: data.Brand2,
-              serial: data.Serial2,
+            note: data.note,
+            cid: status.cid,
+            ticketId: status.TicketInfoModel
+              ? status.TicketInfoModel.tkdt_ID
+              : status.TicketInfoLTEModel
+              ? status.TicketInfoLTEModel.tkdt_ID
+              : status.TicketInfoKTBModel
+              ? status.TicketInfoKTBModel.tkdt_ID
+              : "",
+            userId: userId,
+            action: "INS",
+          };
+        } else {
+          tempData = {
+            siteInfo: {
+              stationID: data.stationId,
+              branch: data.brand,
+              installBy: data.insBy,
+              installDate: data.insDate,
+              address: data.address,
             },
-            {
-              name: data.Name3,
-              type: data.Type3,
-              brand: data.Brand3,
-              serial: data.Serial3,
+            siteUpdate: {
+              contactName: data.contractName,
+              tel: data.tel,
+              gpsN: data.GPSN,
+              gpsE: data.GPSE,
             },
-            {
-              name: data.Name4,
-              type: data.Type4,
-              brand: data.Brand4,
-              serial: data.Serial4,
+            routerInfo: {
+              routerModel: data.routerModel,
+              routerFW: data.routerFW,
+              routerSN: data.routerSN,
+              routerIp: data.routerIp,
+              subnetMask: data.subnetMask,
+              rackSN: data.rackSN,
+              antenaGain: data.antenaGain,
             },
-          ],
-          workingTime: {
-            customerSiteETA: data.customerSiteETA,
-            workingStart: data.workingStart,
-            workingEnd: data.workingEnd,
-            officeDeparture: data.officeDeparture,
-            officeArrival: data.officeArrival,
-            customerSiteArrival: data.customerSiteArrival,
-            customerSiteDeparture: data.customerSiteDeparture,
-          },
-          note: data.note,
-          cid: status.cid,
-          ticketId: status.TicketInfoModel
-            ? status.TicketInfoModel.tkdt_ID
-            : status.TicketInfoLTEModel
-            ? status.TicketInfoLTEModel.tkdt_ID
-            : status.TicketInfoKTBModel
-            ? status.TicketInfoKTBModel.tkdt_ID
-            : "",
-          userId: userId,
-          action: "INS",
-        };
-      }
-      // console.log("tempData", tempData);
-      const response = await axios.post(
-        `${packageJson.domain.ipSiteInfo}/siteinfo/`,
-        tempData
-      );
-      // console.log("test", response.data);
-      Swal.fire({
-        icon: "success",
-        title: "Your work has been Draft",
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(() => {
-        window.location.reload();
-      });
-    } else {
-      let tempData = {
-        ticketId: status.TicketInfoModel
-          ? status.TicketInfoModel.tkdt_ID
-          : status.TicketInfoLTEModel
-          ? status.TicketInfoLTEModel.tkdt_ID
-          : status.TicketInfoKTBModel
-          ? status.TicketInfoKTBModel.tkdt_ID
-          : "",
-        cid: status.cid,
-        action: "INS",
-      };
-      await axios.post(
-        `${packageJson.domain.ipSiteInfo}/siteinfo/updatesiteinfo`,
-        tempData
-      );
-
-      let timerInterval;
-      Swal.fire({
-        title: "Saving!",
-        html: "I will close in <b></b> milliseconds.",
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: () => {
-          Swal.showLoading();
-          const b = Swal.getHtmlContainer().querySelector("b");
-          timerInterval = setInterval(() => {
-            b.textContent = Swal.getTimerLeft();
-          }, 100);
-        },
-        willClose: () => {
-          clearInterval(timerInterval);
-        },
-      }).then((result) => {
-        /* Read more about handling dismissals below */
-        if (result.dismiss === Swal.DismissReason.timer) {
-          console.log("I was closed by the timer");
+            atmInfo: {
+              atmbrand: data.atmbrand,
+              atmtype: data.atmtype,
+              atmIp: data.atmIp,
+            },
+            simFirst: {
+              provider: data.providerSimFirst,
+              callSimFirst: data.callSimFirst,
+              apnSimFirst: data.apnSimFirst,
+              ipSimFirst: data.ipSimFirst,
+              lacSimFirst: data.lacSimFirst,
+              cellIdSimFirst: data.cellIdSimFirst,
+              connection: data.connectionSimFirst,
+              package: data.packageSimFirst,
+              signalStrength: data.signalStrengthSimFirst,
+              switchOverSimFirst: data.switchOverSimFirst,
+            },
+            testSimFirst: {
+              downloadAverage: data.downloadAverageSimFirstDownload,
+              pingingTest: data.pingingTestSimFirstDownload,
+              average: data.averageSimFirstDownload,
+              test: [
+                {
+                  fileSize: data.fileSize1SimFirstDownload,
+                  speed: data.speed1SimFirstDownload,
+                },
+                {
+                  fileSize: data.fileSize2SimFirstDownload,
+                  speed: data.speed2SimFirstDownload,
+                },
+                {
+                  fileSize: data.fileSize3SimFirstDownload,
+                  speed: data.speed3SimFirstDownload,
+                },
+                {
+                  fileSize: data.fileSize4SimFirstDownload,
+                  speed: data.speed4SimFirstDownload,
+                },
+                {
+                  fileSize: data.fileSize5SimFirstDownload,
+                  speed: data.speed5SimFirstDownload,
+                },
+              ],
+            },
+            simSecond: {
+              provider: data.providerSimSecond,
+              callSimSecond: data.callSimSecond,
+              apnSimSecond: data.apnSimSecond,
+              ipSimSecond: data.ipSimSecond,
+              lacSimSecond: data.lacSimSecond,
+              cellIdSimSecond: data.cellIdSimSecond,
+              connection: data.connectionSimSecond,
+              package: data.packageSimSecond,
+              signalStrength: data.signalStrengthSimSecond,
+              switchOverSimSecond: data.switchOverSimSecond,
+            },
+            testSimSecond: {
+              downloadAverage: data.downloadAverageSimSecondDownload,
+              pingingTest: data.pingingTestSimSecondDownload,
+              average: data.averageSimSecondDownload,
+              test: [
+                {
+                  fileSize: data.fileSize1SimSecondDownload,
+                  speed: data.speed1SimSecondDownload,
+                },
+                {
+                  fileSize: data.fileSize2SimSecondDownload,
+                  speed: data.speed2SimSecondDownload,
+                },
+                {
+                  fileSize: data.fileSize3SimSecondDownload,
+                  speed: data.speed3SimSecondDownload,
+                },
+                {
+                  fileSize: data.fileSize4SimSecondDownload,
+                  speed: data.speed4SimSecondDownload,
+                },
+                {
+                  fileSize: data.fileSize5SimSecondDownload,
+                  speed: data.speed5SimSecondDownload,
+                },
+              ],
+            },
+            upsInfo: {
+              upsType: data.upsType,
+              upsSN: data.upsSN,
+              upsBrand: data.upsBrand,
+              upsModel: data.upsModel,
+              batteryStart: data.batteryStart,
+              rate: data.rate,
+              load: data.load,
+              temperature: data.temperature,
+            },
+            testUps: {
+              ln: data.ln,
+              lg: data.lg,
+              ng: data.ng,
+              bypassMode: data.bypassMode,
+              powerFailTest: data.powerFailTest,
+              commandTest: data.commandTest,
+            },
+            testSimFirstUpload: {
+              downloadAverage: data.downloadAverageSimFirstUpload,
+              pingingTest: data.pingingTestSimFirstUpload,
+              average: data.averageSimFirstUpload,
+              test: [
+                {
+                  fileSize: data.fileSize1SimFirstUpload,
+                  speed: data.speed1SimFirstUpload,
+                },
+                {
+                  fileSize: data.fileSize2SimFirstUpload,
+                  speed: data.speed2SimFirstUpload,
+                },
+                {
+                  fileSize: data.fileSize3SimFirstUpload,
+                  speed: data.speed3SimFirstUpload,
+                },
+                {
+                  fileSize: data.fileSize4SimFirstUpload,
+                  speed: data.speed4SimFirstUpload,
+                },
+                {
+                  fileSize: data.fileSize5SimFirstUpload,
+                  speed: data.speed5SimFirstUpload,
+                },
+              ],
+            },
+            testSimSecondUpload: {
+              downloadAverage: data.downloadAverageSimSecondUpload,
+              pingingTest: data.pingingTestSimSecondUpload,
+              average: data.averageSimSecondUpload,
+              test: [
+                {
+                  fileSize: data.fileSize1SimSecondUpload,
+                  speed: data.speed1SimSecondUpload,
+                },
+                {
+                  fileSize: data.fileSize2SimSecondUpload,
+                  speed: data.speed2SimSecondUpload,
+                },
+                {
+                  fileSize: data.fileSize3SimSecondUpload,
+                  speed: data.speed3SimSecondUpload,
+                },
+                {
+                  fileSize: data.fileSize4SimSecondUpload,
+                  speed: data.speed4SimSecondUpload,
+                },
+                {
+                  fileSize: data.fileSize5SimSecondUpload,
+                  speed: data.speed5SimSecondUpload,
+                },
+              ],
+            },
+            testSimFirstOther: {
+              simtype: data.sim1,
+              data: [
+                {
+                  name: data.sim2name1,
+                  pass: data.sim1no1,
+                },
+                {
+                  name: data.sim2name2,
+                  pass: data.sim1no2,
+                },
+                {
+                  name: data.sim2name3,
+                  pass: data.sim1no3,
+                },
+                {
+                  name: data.sim2name4,
+                  pass: data.sim1no4,
+                },
+                {
+                  name: data.sim2name5,
+                  pass: data.sim1no5,
+                },
+                {
+                  name: data.sim2name6,
+                  pass: data.sim1no6,
+                },
+                {
+                  name: data.sim2name7,
+                  pass: data.sim1no7,
+                },
+                {
+                  name: data.sim2name8,
+                  pass: data.sim1no8,
+                },
+              ],
+            },
+            testSimSecondOther: {
+              simtype: data.sim2,
+              data: [
+                {
+                  name: data.sim2name1,
+                  pass: data.sim2no1,
+                },
+                {
+                  name: data.sim2name2,
+                  pass: data.sim2no2,
+                },
+                {
+                  name: data.sim2name3,
+                  pass: data.sim2no3,
+                },
+                {
+                  name: data.sim2name4,
+                  pass: data.sim2no4,
+                },
+                {
+                  name: data.sim2name5,
+                  pass: data.sim2no5,
+                },
+                {
+                  name: data.sim2name6,
+                  pass: data.sim2no6,
+                },
+                {
+                  name: data.sim2name7,
+                  pass: data.sim2no7,
+                },
+                {
+                  name: data.sim2name8,
+                  pass: data.sim2no8,
+                },
+              ],
+            },
+            otherInfo: [
+              {
+                name: data.Name1,
+                type: data.Type1,
+                brand: data.Brand1,
+                serial: data.Serial1,
+              },
+              {
+                name: data.Name2,
+                type: data.Type2,
+                brand: data.Brand2,
+                serial: data.Serial2,
+              },
+              {
+                name: data.Name3,
+                type: data.Type3,
+                brand: data.Brand3,
+                serial: data.Serial3,
+              },
+              {
+                name: data.Name4,
+                type: data.Type4,
+                brand: data.Brand4,
+                serial: data.Serial4,
+              },
+            ],
+            workingTime: {
+              customerSiteETA: data.customerSiteETA,
+              workingStart: data.workingStart,
+              workingEnd: data.workingEnd,
+              officeDeparture: data.officeDeparture,
+              officeArrival: data.officeArrival,
+              customerSiteArrival: data.customerSiteArrival,
+              customerSiteDeparture: data.customerSiteDeparture,
+            },
+            note: data.note,
+            cid: status.cid,
+            ticketId: status.TicketInfoModel
+              ? status.TicketInfoModel.tkdt_ID
+              : status.TicketInfoLTEModel
+              ? status.TicketInfoLTEModel.tkdt_ID
+              : status.TicketInfoKTBModel
+              ? status.TicketInfoKTBModel.tkdt_ID
+              : "",
+            userId: userId,
+            action: "INS",
+          };
         }
-      });
+        // console.log("tempData", tempData);
+        const response = await axios.post(
+          `${packageJson.domain.ipSiteInfo}/siteinfo/`,
+          tempData
+        );
+        // console.log("test", response.data);
+        Swal.fire({
+          icon: "success",
+          title: "Your work has been Draft",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          window.location.reload();
+        });
+      } else {
+        let tempData = {
+          ticketId: status.TicketInfoModel
+            ? status.TicketInfoModel.tkdt_ID
+            : status.TicketInfoLTEModel
+            ? status.TicketInfoLTEModel.tkdt_ID
+            : status.TicketInfoKTBModel
+            ? status.TicketInfoKTBModel.tkdt_ID
+            : "",
+          cid: status.cid,
+          action: "INS",
+        };
+        await axios.post(
+          `${packageJson.domain.ipSiteInfo}/siteinfo/updatesiteinfo`,
+          tempData
+        );
+
+        let timerInterval;
+        Swal.fire({
+          title: "Saving!",
+          html: "I will close in <b></b> milliseconds.",
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+            const b = Swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log("I was closed by the timer");
+          }
+        });
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
     }
   };
 
   const handleUpload = async (e, queue, name) => {
     try {
-      // console.log(queue);
+      console.log(queue);
       if (e.target.files[0]) {
         let type = e.target.files[0].name.split(".");
         const formData = new FormData();
@@ -1315,7 +1319,7 @@ function TotalInputInstallation() {
         console.log("Image uploaded successfully");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   const handleDeleteNamePicture = async (queue) => {
@@ -1342,7 +1346,7 @@ function TotalInputInstallation() {
       );
       console.log("Delete Image successfully");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

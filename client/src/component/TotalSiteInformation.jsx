@@ -71,7 +71,7 @@ function TotalSiteInformation({ props }) {
     const response = await axios.get(
       `${packageJson.domain.ipSiteInfo}/atminfo/atmdevicetype`
     );
-    console.log(response.data);
+    // console.log(response.data);
   };
   const atmTypeList = async () => {
     const response = await axios.get(

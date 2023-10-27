@@ -6,6 +6,7 @@ import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
 import { ImCheckmark } from "react-icons/im";
 import { useAuthContext } from "../context/AuthContext";
+import { formatDateTime } from "../utils/dateUtils";
 
 function PDFlteHistory() {
   const [idList, setIdList] = useState([]);
@@ -13,7 +14,7 @@ function PDFlteHistory() {
 
   // console.log(dataList);
 
-  const { isAdmin, formatDateTime } = useAuthContext();
+  const { isAdmin } = useAuthContext();
 
   // console.log(dataList.testSimSecondOther?.data);
 
@@ -249,79 +250,79 @@ function PDFlteHistory() {
               {/* 8 */}
               <div className="flex border-[1px] border-black">
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  SIM#1 Calling : {dataList.simFirst.callSimFirst}
+                  SIM#1 Calling : {dataList.simFirst?.callSimFirst}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/6">
-                  APN : {dataList.apnSimFirst.aisApnName}
+                  APN : {dataList.apnSimFirst?.aisApnName}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  LAC : {dataList.simFirst.lacSimFirst}
+                  LAC : {dataList.simFirst?.lacSimFirst}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  Cell ID : {dataList.simFirst.cellIdSimFirst}
+                  Cell ID : {dataList.simFirst?.cellIdSimFirst}
                 </p>
                 <p className="pl-2 w-1/5">
-                  Connection Type : {dataList.simFirst.connection}
+                  Connection Type : {dataList.simFirst?.connection}
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 9 */}
               <div className="flex border-x-[1px] border-black">
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  SIM#1 IP : {dataList.simFirst.ipSimFirst}.
+                  SIM#1 IP : {dataList.simFirst?.ipSimFirst}.
                 </p>
                 <div className="flex w-1/6 border-r-[1px] border-black">
                   <div className="flex gap-2 px-2 ">
                     <p>Provider :</p>
-                    <p>{dataList.providerSimFirst.providerName}</p>
+                    <p>{dataList.providerSimFirst?.providerName}</p>
                   </div>
                 </div>
                 <p className="px-2 border-r-[1px] border-black w-1/4">
-                  Signal Strength.....{dataList.simFirst.signalStrength}
+                  Signal Strength.....{dataList.simFirst?.signalStrength}
                   .....dBm ({">"}
                   -91 dBm){" "}
                 </p>
                 <p className="px-2">
-                  Packet SIM : {dataList.packageSimFirst.packageName}.
+                  Packet SIM : {dataList.packageSimFirst?.packageName}.
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 10 */}
               <div className="flex border-[1px] border-black">
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  SIM#2 Calling : {dataList.simSecond.callSimSecond}
+                  SIM#2 Calling : {dataList.simSecond?.callSimSecond}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/6">
-                  APN : {dataList.apnSimSecond.dtacApnName}
+                  APN : {dataList.apnSimSecond?.dtacApnName}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  LAC : {dataList.simSecond.lacSimSecond}
+                  LAC : {dataList.simSecond?.lacSimSecond}
                 </p>
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  Cell ID : {dataList.simSecond.cellIdSimSecond}
+                  Cell ID : {dataList.simSecond?.cellIdSimSecond}
                 </p>
                 <p className="pl-2 w-1/5">
-                  Connection Type : {dataList.simSecond.connection}
+                  Connection Type : {dataList.simSecond?.connection}
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>
               {/* 11 */}
               <div className="flex border-x-[1px] border-b-[1px] border-black">
                 <p className="px-2 border-r-[1px] border-black w-1/5">
-                  SIM#2 IP : {dataList.simSecond.ipSimSecond}.
+                  SIM#2 IP : {dataList.simSecond?.ipSimSecond}.
                 </p>
                 <div className="flex w-1/6 border-r-[1px] border-black">
                   <div className="flex gap-2 px-2">
                     <p>Provider :</p>
-                    <p>{dataList.providerSimSecond.providerName}</p>
+                    <p>{dataList.providerSimSecond?.providerName}</p>
                   </div>
                 </div>
                 <p className="px-2 border-r-[1px] border-black w-1/4">
-                  Signal Strength.....{dataList.simSecond.signalStrength}
+                  Signal Strength.....{dataList.simSecond?.signalStrength}
                   .....dBm ({">"}-91 dBm){" "}
                 </p>
                 <p className="px-2">
-                  Packet SIM : {dataList.packageSimSecond.packageName}
+                  Packet SIM : {dataList.packageSimSecond?.packageName}
                 </p>
                 <div className="pb-3 text-white">.</div>
               </div>

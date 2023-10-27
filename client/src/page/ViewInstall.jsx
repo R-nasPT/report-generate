@@ -14,6 +14,7 @@ import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
 import { useAuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
+import { formatDate, formatDateTime } from "../utils/dateUtils";
 
 function ViewInstall() {
   const [boxOne, setBoxOne] = useState(false);
@@ -26,7 +27,7 @@ function ViewInstall() {
   const [imageList, setImageList] = useState([]);
   const [idList, setIdList] = useState([]);
 
-  const { isAdmin, formatDate, formatDateTime } = useAuthContext();
+  const { isAdmin } = useAuthContext();
 
   // console.log(idList);
   // console.log(dataList);
@@ -311,7 +312,7 @@ function ViewInstall() {
                           </div>
                           <div className="grid gap-4 lg:gap-6">
                             <p className="h-6">
-                              {dataList.providerSimFirst.providerName}
+                              {dataList.providerSimFirst?.providerName}
                             </p>
                             <p className="h-6">
                               {dataList.simFirst.callSimFirst}
@@ -359,14 +360,14 @@ function ViewInstall() {
                           </div>
                           <div className="flex flex-col gap-5 lg:gap-5">
                             <p className="h-6">
-                              {dataList.testSimFirst.connection}
+                              {dataList.testSimFirst?.connection}
                             </p>
                             <p className="h-6">
-                              {dataList.packageSimFirst.packageName}
+                              {dataList.packageSimFirst?.packageName}
                             </p>
                             <div className="flex flex-wrap lg:gap-3 items-center">
                               <span>
-                                {dataList.testSimFirst.signalStrength}
+                                {dataList.testSimFirst?.signalStrength}
                               </span>
                               <span>
                                 dBm(
@@ -377,11 +378,11 @@ function ViewInstall() {
                               </span>
                             </div>
                             <div className="flex flex-wrap gap-3 items-center">
-                              <span>{dataList.testSimFirst.pingingTest}</span>%
+                              <span>{dataList.testSimFirst?.pingingTest}</span>%
                               Success
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimFirst.average}</span>
+                              <span>{dataList.testSimFirst?.average}</span>
                               <span>
                                 ms(
                                 <span className="text-red-500 font-bold">
@@ -391,7 +392,7 @@ function ViewInstall() {
                               </span>
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimFirst.download}</span>
+                              <span>{dataList.testSimFirst?.download}</span>
                               <span>
                                 mbps(
                                 <span className="text-red-500 font-bold">
@@ -401,7 +402,7 @@ function ViewInstall() {
                               </span>
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimFirst.Upload}</span>
+                              <span>{dataList.testSimFirst?.Upload}</span>
                               <span>
                                 mbps(
                                 <span className="text-red-500 font-bold">
@@ -430,26 +431,26 @@ function ViewInstall() {
                           </div>
                           <div className="grid gap-5 lg:gap-6">
                             <p className="h-6">
-                              {dataList.providerSimSecond.providerName}
+                              {dataList.providerSimSecond?.providerName}
                             </p>
                             <p className="h-6">
-                              {dataList.simSecond.callSimSecond}
+                              {dataList.simSecond?.callSimSecond}
                             </p>
                             <p className="h-6">
-                              {dataList.apnSimSecond.dtacApnName}
+                              {dataList.apnSimSecond?.dtacApnName}
                             </p>
                             <p className="h-6">
-                              {dataList.simSecond.ipSimSecond}
+                              {dataList.simSecond?.ipSimSecond}
                             </p>
                             <p className="h-6">
-                              {dataList.simSecond.lacSimSecond}
+                              {dataList.simSecond?.lacSimSecond}
                             </p>
                             <p className="h-6">
-                              {dataList.simSecond.cellIdSimSecond}
+                              {dataList.simSecond?.cellIdSimSecond}
                             </p>
                             <label className="flex p-2 gap-3 items-center">
                               <span>
-                                {dataList.simSecond.switchOverSimSecond ===
+                                {dataList.simSecond?.switchOverSimSecond ===
                                 "true" ? (
                                   <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                                 ) : (
@@ -478,14 +479,14 @@ function ViewInstall() {
                           </div>
                           <div className="flex flex-col gap-5">
                             <p className="h-6">
-                              {dataList.testSimSecond.connection}
+                              {dataList.testSimSecond?.connection}
                             </p>
                             <p className="h-6">
-                              {dataList.packageSimSecond.packageName}
+                              {dataList.packageSimSecond?.packageName}
                             </p>
                             <div className="flex flex-wrap lg:gap-3 items-center">
                               <span>
-                                {dataList.testSimSecond.signalStrength}
+                                {dataList.testSimSecond?.signalStrength}
                               </span>
                               <span>
                                 dBm(
@@ -496,11 +497,11 @@ function ViewInstall() {
                               </span>
                             </div>
                             <div className="flex flex-wrap gap-3 items-center">
-                              <span>{dataList.testSimSecond.pingingTest}</span>%
-                              Success
+                              <span>{dataList.testSimSecond?.pingingTest}</span>
+                              % Success
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimSecond.average}</span>
+                              <span>{dataList.testSimSecond?.average}</span>
                               <span>
                                 ms(
                                 <span className="text-red-500 font-bold">
@@ -510,7 +511,7 @@ function ViewInstall() {
                               </span>
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimSecond.download}</span>
+                              <span>{dataList.testSimSecond?.download}</span>
                               <span>
                                 mbps(
                                 <span className="text-red-500 font-bold">
@@ -520,7 +521,7 @@ function ViewInstall() {
                               </span>
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimSecond.Upload}</span>
+                              <span>{dataList.testSimSecond?.Upload}</span>
                               <span>
                                 mbps(
                                 <span className="text-red-500 font-bold">
@@ -560,28 +561,28 @@ function ViewInstall() {
                           </div>
                           <div className="grid gap-5">
                             <p className="h-6">
-                              {dataList.providerSimFirst.providerName}
+                              {dataList.providerSimFirst?.providerName}
                             </p>
                             <p className="h-6">
-                              {dataList.simFirst.callSimFirst}
+                              {dataList.simFirst?.callSimFirst}
                             </p>
                             <p className="h-6">
-                              {dataList.apnSimFirst.aisApnName}
+                              {dataList.apnSimFirst?.aisApnName}
                             </p>
                             <p className="h-6">
-                              {dataList.simFirst.ipSimFirst}
+                              {dataList.simFirst?.ipSimFirst}
                             </p>
                             <p className="h-6">
-                              {dataList.simFirst.lacSimFirst}
+                              {dataList.simFirst?.lacSimFirst}
                             </p>
                             <p className="h-6">
-                              {dataList.simFirst.cellIdSimFirst}
+                              {dataList.simFirst?.cellIdSimFirst}
                             </p>
                             <p className="h-6">
-                              {dataList.simFirst.connection}
+                              {dataList.simFirst?.connection}
                             </p>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.simFirst.signalStrength}</span>
+                              <span>{dataList.simFirst?.signalStrength}</span>
                               <span>
                                 dBm(
                                 <span className="text-red-500 font-bold">
@@ -591,11 +592,11 @@ function ViewInstall() {
                               </span>
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimFirst.pingingTest}</span>
+                              <span>{dataList.testSimFirst?.pingingTest}</span>
                               <span>% Success</span>
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimFirst.average}</span>
+                              <span>{dataList.testSimFirst?.average}</span>
                               <span>
                                 mbps(
                                 <span className="text-red-500 font-bold">
@@ -606,12 +607,14 @@ function ViewInstall() {
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
                               <span>
-                                {dataList.testSimFirstUpload.pingingTest}
+                                {dataList.testSimFirstUpload?.pingingTest}
                               </span>
                               <span>% Success</span>
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimFirstUpload.average}</span>
+                              <span>
+                                {dataList.testSimFirstUpload?.average}
+                              </span>
                               <span>
                                 mbps(
                                 <span className="text-red-500 font-bold">
@@ -621,7 +624,7 @@ function ViewInstall() {
                               </span>
                             </div>
                             <p className="h-6">
-                              {dataList.packageSimFirst.packageName}
+                              {dataList.packageSimFirst?.packageName}
                             </p>
                             <label className="flex p-1 gap-3 items-center">
                               <span>
@@ -661,28 +664,28 @@ function ViewInstall() {
                           </div>
                           <div className="grid gap-5">
                             <p className="h-6">
-                              {dataList.providerSimSecond.providerName}
+                              {dataList.providerSimSecond?.providerName}
                             </p>
                             <p className="h-6">
-                              {dataList.simSecond.callSimSecond}
+                              {dataList.simSecond?.callSimSecond}
                             </p>
                             <p className="h-6">
-                              {dataList.apnSimSecond.dtacApnName}
+                              {dataList.apnSimSecond?.dtacApnName}
                             </p>
                             <p className="h-6">
-                              {dataList.simSecond.ipSimSecond}
+                              {dataList.simSecond?.ipSimSecond}
                             </p>
                             <p className="h-6">
-                              {dataList.simSecond.cellIdSimSecond}
+                              {dataList.simSecond?.cellIdSimSecond}
                             </p>
                             <p className="h-6">
-                              {dataList.simSecond.lacSimSecond}
+                              {dataList.simSecond?.lacSimSecond}
                             </p>
                             <p className="h-6">
-                              {dataList.simSecond.connection}
+                              {dataList.simSecond?.connection}
                             </p>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.simSecond.signalStrength}</span>
+                              <span>{dataList.simSecond?.signalStrength}</span>
                               <span>
                                 dBm(
                                 <span className="text-red-500 font-bold">
@@ -692,11 +695,11 @@ function ViewInstall() {
                               </span>
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimSecond.pingingTest}</span>
+                              <span>{dataList.testSimSecond?.pingingTest}</span>
                               <span>% Success</span>
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
-                              <span>{dataList.testSimSecond.average}</span>
+                              <span>{dataList.testSimSecond?.average}</span>
                               <span>
                                 mbps(
                                 <span className="text-red-500 font-bold">
@@ -707,13 +710,13 @@ function ViewInstall() {
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
                               <span>
-                                {dataList.testSimSecondUpload.pingingTest}
+                                {dataList.testSimSecondUpload?.pingingTest}
                               </span>
                               <span>% Success</span>
                             </div>
                             <div className="flex flex-wrap lg:gap-3 items-center">
                               <span>
-                                {dataList.testSimSecondUpload.average}
+                                {dataList.testSimSecondUpload?.average}
                               </span>
                               <span>
                                 mbps(
@@ -724,7 +727,7 @@ function ViewInstall() {
                               </span>
                             </div>
                             <p className="h-6">
-                              {dataList.packageSimSecond.packageName}
+                              {dataList.packageSimSecond?.packageName}
                             </p>
                             <label className="flex p-1 gap-3 items-center">
                               <span>

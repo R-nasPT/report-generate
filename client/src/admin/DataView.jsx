@@ -18,7 +18,7 @@ const DataView = () => {
         );
         setConfigDetail(result.data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     getConfigInfo();
