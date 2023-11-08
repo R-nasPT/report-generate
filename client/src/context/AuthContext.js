@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   createContext,
   useCallback,
@@ -31,7 +30,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("token");
     localStorage.removeItem("id");
     navigate("/");
-  });
+  }, [navigate]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");

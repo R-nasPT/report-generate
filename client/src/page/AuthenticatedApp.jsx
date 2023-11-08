@@ -20,6 +20,8 @@ import Service from "./Service";
 import InstallHistory from "./InstallHistory";
 import ViewInstall from "./ViewInstall";
 import PDFlteHistory from "./PDFlteHistory";
+import Replacement from "./Replacement";
+import OnsiteUpdate from "./OnsiteUpdate";
 
 function AuthenticatedApp() {
   const { isAdmin } = useAuthContext();
@@ -53,6 +55,8 @@ function AuthenticatedApp() {
           <Route path="view-install/:id" element={<ViewInstall />} />
           <Route path="pdflte-history/:id" element={<PDFlteHistory />} />
           <Route path="pdfcus/:id" element={<PDFCustomerInfo />} />
+          <Route path="replace/:id" element={<Replacement />} />
+          <Route path="onsite-update/:id" element={<OnsiteUpdate />} />
         </Route>
       </Route>
     </Routes>

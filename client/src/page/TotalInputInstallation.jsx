@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import AnimateHeight from "react-animate-height";
 import TotalSiteInformation from "../component/TotalSiteInformation";
-import Replacement from "../component/Replacement";
 import axios from "axios";
 import packageJson from "../../package.json";
 import { useForm } from "react-hook-form";
@@ -23,7 +22,6 @@ function TotalInputInstallation() {
 
   const [status, setStatus] = useState([]);
   const [update, setUpdate] = useState(0);
-  // const [rep, setRep] = useState(1);
   const [imageList, setImageList] = useState([]);
 
   const userId = localStorage.getItem("id");
@@ -1226,7 +1224,7 @@ function TotalInputInstallation() {
           };
         }
         // console.log("tempData", tempData);
-        const response = await axios.post(
+        await axios.post(
           `${packageJson.domain.ipSiteInfo}/siteinfo/`,
           tempData
         );
@@ -1389,23 +1387,6 @@ function TotalInputInstallation() {
             <div className="flex gap-3 py-1">
               {status.isComplete === true && (
                 <>
-                  {/* <button
-                    className={` text-white w-40 py-2 rounded-3xl ${
-                      rep === 1 ? "bg-[#1A16D3]" : "bg-[#949494]"
-                    }`}
-                    onClick={() => setRep(1)}
-                  >
-                    Onsite Update
-                  </button>
-                  <button
-                    className={` text-white w-40 py-2 rounded-3xl ${
-                      rep === 2 ? "bg-[#1A16D3]" : "bg-[#949494]"
-                    }`}
-                    onClick={() => setRep(2)}
-                  >
-                    Replacement
-                  </button> */}
-
                   <Link
                     to={`/public/pdfcus/${id}`}
                     className="flex gap-2 items-center w-24 px-2 py-2 bg-white text-red-500 border-2 border-red-500 rounded-lg hover:bg-red-100"
@@ -1461,7 +1442,6 @@ function TotalInputInstallation() {
             {/* input content */}
             <div className="flex flex-col gap-5">
               {/* section-1 */}
-              {/* {rep === 1 ? ( */}
               <TotalSiteInformation
                 props={{
                   boxOne: boxOne,
@@ -1472,9 +1452,6 @@ function TotalInputInstallation() {
                   errors,
                 }}
               />
-              {/* ) : (
-                <Replacement boxOne={boxOne} setBoxOne={setBoxOne} />
-              )} */}
               {/* -------------- picture 1 ----------- */}
               {status.isDraft === true && (
                 <>

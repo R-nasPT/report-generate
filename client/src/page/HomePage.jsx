@@ -6,6 +6,7 @@ import axios from "axios";
 import LoadingPage from "../component/LoadingPage";
 import { GiAutoRepair } from "react-icons/gi";
 import { formatDate } from "../utils/dateUtils";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -15,6 +16,8 @@ function HomePage() {
   const [empty, setEmpty] = useState(0);
   const [draft, setDraft] = useState(0);
   const [complete, setComplete] = useState(0);
+
+  const navigate = useNavigate();
 
   // console.log(siteinfo);
 
@@ -82,7 +85,7 @@ function HomePage() {
     <>
       <div>
         <h1 className="ml-10 mt-5 font-bold text-xl lg:text-3xl text-blue-800 font-serif flex gap-3">
-          Installation <GiAutoRepair className="w-7 h-7 lg:w-10 lg:h-10"/>
+          Installation <GiAutoRepair className="w-7 h-7 lg:w-10 lg:h-10" />
         </h1>
         <div className="flex flex-col lg:flex-row px-5 lg:px-14 py-3 gap-4">
           <div className="lg:w-1/2 flex justify-center lg:max-h-[700px] p-3 lg:p-10 shadow-2xl border-[1px] border-zinc-200 rounded-xl">
@@ -95,7 +98,9 @@ function HomePage() {
             />
           </div>
           <div className="p-2 lg:p-7 shadow-2xl border-[1px] border-zinc-200 rounded-xl lg:max-h-[700px] lg:w-1/2">
-            <h1 className="text-red-500 font-extrabold text-3xl font-mono">Information</h1>
+            <h1 className="text-red-500 font-extrabold text-3xl font-mono">
+              Information
+            </h1>
             <br />
             {filterData.length === 0 ? (
               <div className="border-[1px] border-zinc-200"></div>
@@ -122,7 +127,13 @@ function HomePage() {
                   </thead>
                   <tbody className="border-[1px] border-black">
                     {filterData.map((data, index) => (
-                      <tr key={data.siteInfoId}>
+                      <tr
+                        className="hover:bg-neutral-200 cursor-pointer"
+                        key={data.siteInfoId}
+                        onClick={() =>
+                          navigate(`/user/atmpage/${data.siteInfoId}`)
+                        }
+                      >
                         <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                           {index + 1}
                         </td>
