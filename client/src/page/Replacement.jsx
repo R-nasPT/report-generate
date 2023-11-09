@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AnimateHeight from "react-animate-height";
 import {
   RiArrowDownSLine,
@@ -6,12 +6,28 @@ import {
   RiDeleteBin6Fill,
 } from "react-icons/ri";
 import { MdSave } from "react-icons/md";
+import { BsBackspaceFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import packageJson from "../../package.json";
 
 function Replacement() {
   const [boxOne, setBoxOne] = useState(false);
   const [boxTwo, setBoxTwo] = useState(false);
   const [boxThree, setBoxThree] = useState(false);
+
+  const [member, setMember] = useState([]);
   const [equipment, setEquipment] = useState([]);
+  // console.log(member);
+
+  const fetchMember = async () => {
+    const response = await axios.get(`${packageJson.domain.ipbackend}/member`);
+    setMember(response.data);
+  };
+
+  useEffect(() => {
+    fetchMember();
+  }, []);
 
   console.log(equipment);
 
@@ -64,13 +80,22 @@ function Replacement() {
                 </select>
                 <select
                   className="h-12 mt-3 rounded-lg p-2 border-[1px] border-black"
-                  onClick={(e) => setEquipment([...equipment, e.target.value])}
+                  onChange={(e) => {
+                    const selectedValue = e.target.value;
+                    if (
+                      selectedValue !== "" &&
+                      !equipment.includes(selectedValue)
+                    ) {
+                      setEquipment([...equipment, selectedValue]);
+                    }
+                  }}
                 >
                   <option value="">อุปกรณ์ที่จะเปลี่ยน</option>
                   <option value="1111">1111</option>
                   <option value="2222">2222</option>
                   <option value="3333">3333</option>
                   <option value="4444">4444</option>
+                  <option value="5555">5555</option>
                 </select>
               </div>
               <div className="p-3">
@@ -86,16 +111,10 @@ function Replacement() {
                         <div className="flex gap-2 bg-[#E5D283] py-5 pl-5 rounded-xl">
                           <div className="flex flex-col gap-5 text-right font-bold">
                             <p>Router Model :</p>
-                            <p>Router F/W :</p>
                             <p>Router S/N :</p>
                             <p>Router IP :</p>
                           </div>
                           <div className="flex flex-col gap-2">
-                            <input
-                              type="text"
-                              disabled
-                              className="border-2 border-black rounded-lg p-1 opacity-50 cursor-not-allowed"
-                            />
                             <input
                               type="text"
                               disabled
@@ -122,7 +141,6 @@ function Replacement() {
                         <div className="flex gap-2 bg-[#E5D283] py-5 pl-5 rounded-xl">
                           <div className="flex flex-col gap-5 text-right font-bold">
                             <p>Router Model :</p>
-                            <p>Router F/W :</p>
                             <p>Router S/N :</p>
                             <p>Router IP :</p>
                           </div>
@@ -132,10 +150,6 @@ function Replacement() {
                                 -- select --
                               </option>
                             </select>
-                            <input
-                              type="text"
-                              className="border-2 border-black rounded-lg p-1"
-                            />
                             <input
                               type="text"
                               className="border-2 border-black rounded-lg p-1"
@@ -419,6 +433,60 @@ function Replacement() {
                           e.preventDefault();
                           const newEquipment = equipment.filter(
                             (item) => item !== "4444"
+                          );
+                          setEquipment(newEquipment);
+                        }}
+                      >
+                        <RiDeleteBin6Fill className="w-7 h-7" />
+                      </button>
+                    </div>
+                  </>
+                )}
+                {equipment.includes("5555") && (
+                  <>
+                    {/* -- Firmware -- */}
+                    <div className="lg:flex gap-5 lg:items-center">
+                      {/* Box-9 */}
+                      <div className="lg:w-1/2">
+                        <h1 className="text-[#213555] font-bold lg:text-2xl">
+                          Firmware (Old)
+                        </h1>
+                        <div className="flex gap-2 bg-[#E5D283] py-5 lg:pl-5 rounded-xl">
+                          <div className="grid gap-5 text-right font-bold">
+                            <p>Router F/W :</p>
+                          </div>
+                          <div className="grid gap-2">
+                            <input
+                              type="text"
+                              disabled
+                              className="border-2 border-black rounded-lg p-1 opacity-50 cursor-not-allowed"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      {/* Box-10 */}
+                      <div className="lg:w-1/2">
+                        <h1 className="text-[#213555] font-bold lg:text-2xl">
+                          Firmware (Replace to)
+                        </h1>
+                        <div className="flex gap-2 bg-[#E5D283] py-5 lg:pl-5 rounded-xl">
+                          <div className="grid gap-5 text-right font-bold">
+                            <p>Router F/W :</p>
+                          </div>
+                          <div className="grid gap-2">
+                            <input
+                              type="text"
+                              className="border-2 border-black rounded-lg p-1"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <button
+                        className="bg-red-500 w-full flex justify-center items-center p-1 rounded-xl mt-2 text-white lg:w-[50px] lg:py-7 hover:bg-red-600"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const newEquipment = equipment.filter(
+                            (item) => item !== "5555"
                           );
                           setEquipment(newEquipment);
                         }}
@@ -731,27 +799,28 @@ function Replacement() {
               </div>
             </AnimateHeight>
           </div>
-          <div className="flex justify-center gap-5 py-5">
-            <button
-              // className={`flex items-center gap-1 font-bold px-3 w-28 rounded-xl  ${
-              //   status.isComplete && isAdmin !== "Admin"
-              //     ? "bg-slate-300 opacity-50 cursor-no-drop"
-              //     : "bg-yellow-200 hover:bg-yellow-300 text-yellow-800"
-              // }`}
-              type="submit"
-              // disabled={status.isComplete && isAdmin !== "Admin"}
-              // onClick={() => setUpdate(1)}
-            >
-              <RiDraftFill className="h-6 w-7" />
-              {/* {status.isComplete && isAdmin === "Admin" ? "Update" : "Draft"} */}
-            </button>
+          <div className="flex justify-between py-5">
+            <div className="flex gap-3">
+              <Link
+                to="/public/onsite-update/1"
+                className="bg-gray-300 text-gray-600 flex items-center gap-2 rounded-xl px-3 py-3 font-bold hover:bg-gray-400"
+              >
+                <BsBackspaceFill />
+                Back
+              </Link>
+              <button
+                className="flex items-center gap-1 font-bold px-3 w-28 rounded-xl bg-yellow-200 hover:bg-yellow-300 text-yellow-800"
+                type="submit"
+                // disabled={status.isComplete && isAdmin !== "Admin"}
+                // onClick={() => setUpdate(1)}
+              >
+                <RiDraftFill className="h-6 w-7" />
+                {/* {status.isComplete && isAdmin === "Admin" ? "Update" : "Draft"} */}
+              </button>
+            </div>
             {/* {isAdmin === "Admin" && ( */}
             <button
-              // className={`flex items-center gap-1 font-bold px-3 w-28 rounded-xl ${
-              //   status.isComplete && isAdmin !== "Admin"
-              //     ? "bg-slate-300 opacity-50 cursor-no-drop"
-              //     : "bg-green-200 hover:bg-green-300 text-green-800"
-              // }`}
+              className="flex items-center gap-1 font-bold px-3 w-28 rounded-xl bg-green-200 hover:bg-green-300 text-green-800"
               type="submit"
               // disabled={status.isComplete && isAdmin !== "Admin"}
               // onClick={() => setUpdate(2)}
