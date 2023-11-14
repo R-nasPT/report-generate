@@ -55,8 +55,8 @@ function AuthenticatedApp() {
           <Route path="view-install/:id" element={<ViewInstall />} />
           <Route path="pdflte-history/:id" element={<PDFlteHistory />} />
           <Route path="pdfcus/:id" element={<PDFCustomerInfo />} />
-          <Route path="replace/:id" element={<Replacement />} />
-          <Route path="onsite-update/:id" element={<OnsiteUpdate />} />
+          <Route path="replace/:cid/:ticketId/:userId" element={<Replacement />} />
+          <Route path="onsite-update/:cid/:ticketId/:userId" element={<OnsiteUpdate />} />
         </Route>
       </Route>
     </Routes>

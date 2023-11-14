@@ -1,27 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AnimateHeight from "react-animate-height";
 import { RiArrowDownSLine, RiDraftFill } from "react-icons/ri";
 import { MdSave, MdNavigateNext } from "react-icons/md";
 import { BsXCircleFill, BsFillCheckCircleFill } from "react-icons/bs";
 import { formatDate } from "../utils/dateUtils";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import packageJson from "../../package.json";
+import axios from "axios";
+import LoadingPage from "../component/LoadingPage";
 
 function OnsiteUpdate() {
   const [boxOne, setBoxOne] = useState(false);
   const [boxTwo, setBoxTwo] = useState(false);
   const [boxThree, setBoxThree] = useState(false);
 
+  const [siteinfo, setSiteinfo] = useState([]);
+
+  const { cid, ticketId, userId } = useParams();
+
+  console.log(siteinfo);
+
+  const fetchSiteinfo = async () => {
+    const response = await axios.get(
+      `${packageJson.domain.ipSiteInfo}/siteinfo/${cid}`
+    );
+    setSiteinfo(response.data);
+  };
+
+  useEffect(() => {
+    fetchSiteinfo();
+  }, []);
+
+  if (siteinfo.length === 0) return <LoadingPage />;
+
   return (
     <>
       <div className="lg:px-32 lg:py-5">
         <div className="bg-[#213555] text-white mt-5 flex justify-center gap-10 py-3 px-5 font-bold shadow-sm shadow-black rounded-md lg:text-2xl">
-          <h1>CID : {/*<span>{status.cid}</span>*/}</h1>
-          <h1>
-            Ticket :{" "}
-            {/*<span>{status?.TicketInfoModel?.tkdt_ID}</span>
-              <span>{status?.TicketInfoLTEModel?.tkdt_ID}</span>
-              <span>{status?.TicketInfoKTBModel?.tkdt_ID}</span>*/}
-          </h1>
+          <h1>CID : {cid}</h1>
+          <h1>Ticket : {ticketId}</h1>
         </div>
         <div className="flex justify-end items-center p-3">
           <button
@@ -64,18 +81,12 @@ function OnsiteUpdate() {
                     <div className="flex flex-col gap-5 text-right font-bold">
                       <p>Station ID :</p>
                       <p>Branch : (SiteName)</p>
-                      <p>Install by :</p>
-                      <p>Install Date :</p>
                       <p>Address :</p>
                     </div>
                     <div className="grid gap-5">
-                      {/* <p className="h-6">{dataList.siteInfo?.stationID}</p>
-                      <p className="h-6">{dataList.siteInfo?.branch}</p>
-                      <p className="h-6">{dataList.siteInfo?.installBy}</p>
-                      <p className="h-6">
-                        {formatDate(dataList.siteInfo?.installDate)}
-                      </p>
-                      <p className="h-6">{dataList.siteInfo?.address}</p> */}
+                      <p className="h-6">{siteinfo.atmModel?.stationId}</p>
+                      <p className="h-6">{siteinfo.siteName}</p>
+                      <p className="h-6">{siteinfo.address}</p>
                     </div>
                   </div>
                 </div>
@@ -92,10 +103,10 @@ function OnsiteUpdate() {
                       <p className="h-6">GPS E :</p>
                     </div>
                     <div className="flex flex-col gap-5">
-                      {/* <p className="h-6">{dataList.siteUpdate.contactName}</p>
-                      <p className="h-6">{dataList.siteUpdate.tel}</p>
-                      <p className="h-6">{dataList.siteUpdate.gpsN}</p>
-                      <p className="h-6">{dataList.siteUpdate.gpsE}</p> */}
+                      <p className="h-6">{siteinfo.contractName}</p>
+                      <p className="h-6">{siteinfo.tel}</p>
+                      <p className="h-6">{siteinfo.GPSNo}</p>
+                      <p className="h-6">{siteinfo.GPSE}</p>
                     </div>
                   </div>
                 </div>
@@ -115,15 +126,23 @@ function OnsiteUpdate() {
                       <p>Antenna Gain :</p>
                     </div>
                     <div className="flex flex-col gap-6 lg:gap-5">
-                      {/* <p className="h-6">
-                        {dataList.routerModel?.productTypeName}
+                      <p className="h-6">
+                        {siteinfo.routerInfoModel?.productTypeId}
                       </p>
-                      <p className="h-6">{dataList.routerInfo.routerFW}</p>
-                      <p className="h-6">{dataList.routerInfo.routerSN}</p>
-                      <p className="h-6">{dataList.routerInfo.routerIp}</p>
-                      <p className="h-6">{dataList.routerInfo.subnetMask}</p>
-                      <p className="h-6">{dataList.routerInfo.rackSN}</p>
-                      <p className="h-6">{dataList.routerInfo.antenaGain}</p> */}
+                      <p className="h-6">
+                        {siteinfo.routerInfoModel?.firmwareVersion}
+                      </p>
+                      <p className="h-6">
+                        {siteinfo.routerInfoModel?.serialNo}
+                      </p>
+                      <p className="h-6">{siteinfo.routerInfoModel?.gateway}</p>
+                      <p className="h-6">{siteinfo.routerInfoModel?.mask}</p>
+                      <p className="h-6">
+                        {siteinfo.otherInfoModel?.rackSerialNo}
+                      </p>
+                      <p className="h-6">
+                        {siteinfo.otherInfoModel.antennaGain}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -139,9 +158,9 @@ function OnsiteUpdate() {
                       <p>ATM IP :</p>
                     </div>
                     <div className="flex flex-col gap-10 lg:gap-5">
-                      {/* <p className="h-6">{dataList.atmbrand?.atmBrandName}</p>
-                      <p className="h-6">{dataList.atmtype?.atmTypeName}</p>
-                      <p className="h-6">{dataList.atmInfo?.atmIp}</p> */}
+                      <p className="h-6">{siteinfo.atmModel?.atmBrandName}</p>
+                      <p className="h-6">{siteinfo.atmModel?.atmTypeName}</p>
+                      <p className="h-6">{siteinfo.atmModel?.ip}</p>
                     </div>
                   </div>
                 </div>
@@ -160,26 +179,30 @@ function OnsiteUpdate() {
                         <p>Call IP :</p>
                         <p>LAC :</p>
                         <p>Cell ID :</p>
-                        <p>Switch Over :</p>
+                        <p>Package :</p>
+                        {/* <p>Switch Over :</p> */}
                       </div>
                       <div className="grid gap-4 lg:gap-6">
-                        {/* <p className="h-6">
-                            {dataList.providerSimFirst?.providerName}
-                          </p>
-                          <p className="h-6">
-                            {dataList.simFirst.callSimFirst}
-                          </p>
-                          <p className="h-6">
-                            {dataList.apnSimFirst.aisApnName}
-                          </p>
-                          <p className="h-6">{dataList.simFirst.ipSimFirst}</p>
-                          <p className="h-6">{dataList.simFirst.lacSimFirst}</p>
-                          <p className="h-6">
-                            {dataList.simFirst.cellIdSimFirst}
-                          </p>
-                          <label className="flex p-2 gap-3 items-center">
+                        <p className="h-6">
+                          {siteinfo.aisInfoModel?.simProvider}
+                        </p>
+                        <p className="h-6">
+                          {siteinfo.aisInfoModel?.aisCalling}
+                        </p>
+                        <p className="h-6">
+                          {siteinfo.aisInfoModel?.aisApnName}
+                        </p>
+                        <p className="h-6">{siteinfo.aisInfoModel?.aisIp}</p>
+                        <p className="h-6">{siteinfo.aisInfoModel?.aisLac}</p>
+                        <p className="h-6">
+                          {siteinfo.aisInfoModel?.aisCallId}
+                        </p>
+                        <p>
+                          {siteinfo.aisInfoModel?.packageModel?.packageName}
+                        </p>
+                        {/* <label className="flex p-2 gap-3 items-center">
                             <span>
-                              {dataList.simFirst.switchOverSimFirst ===
+                              {siteinfo.aisInfoModel.switchOverSimFirst ===
                               "true" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -192,7 +215,7 @@ function OnsiteUpdate() {
                     </div>
                   </div>
                   {/* box-6 */}
-                  <div>
+                  {/* <div>
                     <h1 className="text-[#213555] font-bold lg:text-2xl">
                       Test SIM 1
                     </h1>
@@ -207,7 +230,7 @@ function OnsiteUpdate() {
                         <p>Upload :</p>
                       </div>
                       <div className="flex flex-col gap-5 lg:gap-5">
-                        {/* <p className="h-6">
+                        <p className="h-6">
                             {dataList.testSimFirst?.connection}
                           </p>
                           <p className="h-6">
@@ -256,10 +279,10 @@ function OnsiteUpdate() {
                               </span>
                               )
                             </span>
-                          </div> */}
+                          </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   {/* box-7 */}
                   <div>
                     <h1 className="text-[#213555] font-bold lg:text-2xl">
@@ -273,28 +296,28 @@ function OnsiteUpdate() {
                         <p>Call IP :</p>
                         <p>LAC :</p>
                         <p>Cell ID :</p>
-                        <p>Switch Over :</p>
+                        <p>Package :</p>
+                        {/* <p>Switch Over :</p> */}
                       </div>
                       <div className="grid gap-5 lg:gap-6">
-                        {/* <p className="h-6">
-                            {dataList.providerSimSecond?.providerName}
-                          </p>
-                          <p className="h-6">
-                            {dataList.simSecond?.callSimSecond}
-                          </p>
-                          <p className="h-6">
-                            {dataList.apnSimSecond?.dtacApnName}
-                          </p>
-                          <p className="h-6">
-                            {dataList.simSecond?.ipSimSecond}
-                          </p>
-                          <p className="h-6">
-                            {dataList.simSecond?.lacSimSecond}
-                          </p>
-                          <p className="h-6">
-                            {dataList.simSecond?.cellIdSimSecond}
-                          </p>
-                          <label className="flex p-2 gap-3 items-center">
+                        <p className="h-6">
+                          {siteinfo.dtacInfoModel?.simProvider}
+                        </p>
+                        <p className="h-6">
+                          {siteinfo.dtacInfoModel?.dtacCalling}
+                        </p>
+                        <p className="h-6">
+                          {siteinfo.dtacInfoModel?.dtacApnName}
+                        </p>
+                        <p className="h-6">{siteinfo.dtacInfoModel?.dtacIp}</p>
+                        <p className="h-6">{siteinfo.dtacInfoModel?.dtacLac}</p>
+                        <p className="h-6">
+                          {siteinfo.dtacInfoModel?.dtacCallId}
+                        </p>
+                        <p>
+                          {siteinfo.dtacInfoModel?.packageModel?.packageName}
+                        </p>
+                        {/* <label className="flex p-2 gap-3 items-center">
                             <span>
                               {dataList.simSecond?.switchOverSimSecond ===
                               "true" ? (
@@ -309,7 +332,7 @@ function OnsiteUpdate() {
                     </div>
                   </div>
                   {/* box-8 */}
-                  <div>
+                  {/* <div>
                     <h1 className="text-[#213555] font-bold lg:text-2xl">
                       Test SIM 2
                     </h1>
@@ -324,7 +347,7 @@ function OnsiteUpdate() {
                         <p>Upload :</p>
                       </div>
                       <div className="flex flex-col gap-5">
-                        {/* <p className="h-6">
+                        <p className="h-6">
                             {dataList.testSimSecond?.connection}
                           </p>
                           <p className="h-6">
@@ -375,16 +398,16 @@ function OnsiteUpdate() {
                               </span>
                               )
                             </span>
-                          </div> */}
+                          </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </>
                 {/* )} */}
                 {/* {status.customerModel?.cusGroupType === 2 && ( */}
                 <>
                   {/*------ LTE Box-1 --------*/}
-                  <div>
+                  {/* <div>
                     <h1 className="text-[#213555] font-bold lg:text-2xl">
                       SIM 1
                     </h1>
@@ -406,7 +429,7 @@ function OnsiteUpdate() {
                         <p>Switch Over :</p>
                       </div>
                       <div className="grid gap-5">
-                        {/* <p className="h-6">
+                        <p className="h-6">
                             {dataList.providerSimFirst?.providerName}
                           </p>
                           <p className="h-6">
@@ -476,12 +499,12 @@ function OnsiteUpdate() {
                               )}
                             </span>
                             <span>Complete</span>
-                          </label> */}
+                          </label>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   {/*------ LTE Box-2 --------*/}
-                  <div>
+                  {/* <div>
                     <h1 className="text-[#213555] font-bold lg:text-2xl">
                       SIM 2
                     </h1>
@@ -503,7 +526,7 @@ function OnsiteUpdate() {
                         <p>Switch Over :</p>
                       </div>
                       <div className="grid gap-5">
-                        {/* <p className="h-6">
+                        <p className="h-6">
                             {dataList.providerSimSecond?.providerName}
                           </p>
                           <p className="h-6">
@@ -577,12 +600,12 @@ function OnsiteUpdate() {
                               )}
                             </span>
                             <span>Complete</span>
-                          </label> */}
+                          </label>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   {/*------ LTE Box-3 --------*/}
-                  <div>
+                  {/* <div>
                     <h1 className="text-[#213555] font-bold lg:text-2xl">
                       Test SIM 1 Download
                     </h1>
@@ -596,7 +619,7 @@ function OnsiteUpdate() {
                         <p>Download Average :</p>
                       </div>
                       <div className="grid gap-2">
-                        {/* <div className="flex flex-wrap lg:gap-3 items-center">
+                        <div className="flex flex-wrap lg:gap-3 items-center">
                             <span>File size</span>
                             <span>
                               {dataList.testSimFirst.test[0]?.fileSize}
@@ -644,12 +667,12 @@ function OnsiteUpdate() {
                           <div className="flex flex-wrap lg:gap-3 items-center">
                             <span>{dataList.testSimFirst.downloadAverage}</span>
                             <span>mbps</span>
-                          </div> */}
+                          </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   {/*------ LTE Box-4 --------*/}
-                  <div>
+                  {/* <div>
                     <h1 className="text-[#213555] font-bold lg:text-2xl">
                       Test SIM 2 Download
                     </h1>
@@ -663,7 +686,7 @@ function OnsiteUpdate() {
                         <p>Download Average :</p>
                       </div>
                       <div className="grid gap-2">
-                        {/* <div className="flex flex-wrap lg:gap-3 items-center">
+                        <div className="flex flex-wrap lg:gap-3 items-center">
                             <span>File size</span>
                             <span>
                               {dataList.testSimSecond.test[0]?.fileSize}
@@ -713,12 +736,12 @@ function OnsiteUpdate() {
                               {dataList.testSimSecond.downloadAverage}
                             </span>
                             <span>mbps</span>
-                          </div> */}
+                          </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   {/*------ LTE Box-5 --------*/}
-                  <div>
+                  {/* <div>
                     <h1 className="text-[#213555] font-bold lg:text-2xl">
                       Test SIM 1 Upload
                     </h1>
@@ -732,7 +755,7 @@ function OnsiteUpdate() {
                         <p>Download Average :</p>
                       </div>
                       <div className="grid gap-2">
-                        {/* <div className="flex flex-wrap lg:gap-3 items-center">
+                        <div className="flex flex-wrap lg:gap-3 items-center">
                             <span>File size</span>
                             <span>
                               {dataList.testSimFirstUpload.test[0]?.fileSize}
@@ -792,13 +815,13 @@ function OnsiteUpdate() {
                               {dataList.testSimFirstUpload.downloadAverage}
                             </span>
                             <span>mbps</span>
-                          </div> */}
+                          </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/*------ LTE Box-6 --------*/}
-                  <div>
+                  {/* <div>
                     <h1 className="text-[#213555] font-bold lg:text-2xl">
                       Test SIM 2 Upload
                     </h1>
@@ -812,7 +835,7 @@ function OnsiteUpdate() {
                         <p>Download Average :</p>
                       </div>
                       <div className="grid gap-2">
-                        {/* <div className="flex flex-wrap lg:gap-3 items-center">
+                        <div className="flex flex-wrap lg:gap-3 items-center">
                             <span>File size</span>
                             <span>
                               {dataList.testSimSecondUpload.test[0]?.fileSize}
@@ -872,10 +895,10 @@ function OnsiteUpdate() {
                               {dataList.testSimSecondUpload.downloadAverage}
                             </span>
                             <span>mbps</span>
-                          </div> */}
+                          </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </>
                 {/* )} */}
 
@@ -894,63 +917,32 @@ function OnsiteUpdate() {
                       <p>Rate :</p>
                       <p>Load :</p>
                       <p>Temperature :</p>
-                      <p>Bypass Mode :</p>
-                      <p>Power Fail Test :</p>
-                      <p>Command Test :</p>
                     </div>
                     <div className="grid gap-7">
-                      {/* <p className="h-6">{dataList.upsType?.upsName}</p>
-                      <p className="h-6">{dataList.upsInfo?.upsSN}</p>
-                      <p className="h-6">{dataList.upsInfo?.upsBrand}</p>
-                      <p className="h-6">{dataList.upsInfo?.upsModel}</p>
                       <p className="h-6">
-                        {formatDate(dataList.upsInfo.batteryStart)}
+                        {siteinfo.actTestingInfoModel?.upsUseId}
+                      </p>
+                      <p className="h-6">{siteinfo.upsInfoModel?.serialNo}</p>
+                      <p className="h-6">{siteinfo.upsInfoModel?.upsBrandId}</p>
+                      <p className="h-6">{siteinfo.upsInfoModel?.upsModelId}</p>
+                      <p className="h-6">
+                        {formatDate(siteinfo.upsInfoModel.batteryStartDate)}
                       </p>
                       <div className="flex flex-wrap lg:gap-3 items-center">
-                        <span>{dataList.upsInfo.rate}</span>
+                        <span>{siteinfo.upsInfoModel.kva}</span>
                         KVA
                       </div>
                       <div className="flex gap-3 items-center">
-                        <span>{dataList.upsInfo.load}</span>%
+                        <span>{siteinfo.upsInfoModel.upsLoad}</span>%
                       </div>
                       <div className="flex flex-wrap lg:gap-3 items-center">
-                        <span>{dataList.upsInfo.temperature}</span>C
+                        <span>{siteinfo.upsInfoModel.temperatureC}</span>C
                       </div>
-                      <label className="flex p-1 gap-3 items-center">
-                        <span>
-                          {dataList.testUps.bypassMode === "true" ? (
-                            <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                          ) : (
-                            <BsXCircleFill className="w-5 h-5 text-red-500" />
-                          )}
-                        </span>
-                        <span>pass</span>
-                      </label>
-                      <label className="flex p-1 gap-3 items-center">
-                        <span>
-                          {dataList.testUps.powerFailTest === "true" ? (
-                            <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                          ) : (
-                            <BsXCircleFill className="w-5 h-5 text-red-500" />
-                          )}
-                        </span>
-                        <span>pass</span>
-                      </label>
-                      <label className="flex p-1 pt-3 gap-3 items-center">
-                        <span>
-                          {dataList.testUps.commandTest === "true" ? (
-                            <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
-                          ) : (
-                            <BsXCircleFill className="w-5 h-5 text-red-500" />
-                          )}
-                        </span>
-                        <span>pass</span>
-                      </label> */}
                     </div>
                   </div>
                 </div>
                 {/* box-10 */}
-                <div>
+                {/* <div>
                   <h1 className="text-[#213555] font-bold lg:text-2xl">
                     Test UPS
                   </h1>
@@ -961,7 +953,7 @@ function OnsiteUpdate() {
                       <p>N - G :</p>
                     </div>
                     <div className="grid gap-7 lg:gap-5">
-                      {/* <div className="flex flex-wrap lg:gap-3 items-center">
+                      <div className="flex flex-wrap lg:gap-3 items-center">
                         <span>{dataList.testUps.ln}</span>
                         Volt
                       </div>
@@ -974,12 +966,12 @@ function OnsiteUpdate() {
                       <div className="flex flex-wrap lg:gap-3 items-center">
                         <span>{dataList.testUps.ng}</span>
                         Volt
-                      </div> */}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* box-11 */}
-                <div>
+                {/* <div>
                   <h1 className="text-[#213555] font-bold lg:text-2xl">
                     Other Information
                   </h1>
@@ -995,7 +987,7 @@ function OnsiteUpdate() {
                       </thead>
                       <tbody>
                         <tr>
-                          {/* <td className="h-5 w-36 text-center">
+                          <td className="h-5 w-36 text-center">
                             {dataList.otherName[0]?.equipmentName}
                           </td>
                           <td className="h-5 w-36 text-center">
@@ -1006,10 +998,10 @@ function OnsiteUpdate() {
                           </td>
                           <td className="h-5 w-36 text-center">
                             {dataList.otherName[0]?.serial}
-                          </td> */}
+                          </td>
                         </tr>
                         <tr>
-                          {/* <td className="h-5 w-36 text-center">
+                          <td className="h-5 w-36 text-center">
                             {dataList.otherName[1]?.equipmentName}
                           </td>
                           <td className="h-5 w-36 text-center">
@@ -1020,10 +1012,10 @@ function OnsiteUpdate() {
                           </td>
                           <td className="h-5 w-36 text-center">
                             {dataList.otherName[1]?.serial}
-                          </td> */}
+                          </td>
                         </tr>
                         <tr>
-                          {/* <td className="h-5 w-36 text-center">
+                          <td className="h-5 w-36 text-center">
                             {dataList.otherName[2]?.equipmentName}
                           </td>
                           <td className="h-5 w-36 text-center">
@@ -1034,10 +1026,10 @@ function OnsiteUpdate() {
                           </td>
                           <td className="h-5 w-36 text-center">
                             {dataList.otherName[2]?.serial}
-                          </td> */}
+                          </td>
                         </tr>
                         <tr>
-                          {/* <td className="h-5 w-36 text-center">
+                          <td className="h-5 w-36 text-center">
                             {dataList.otherName[3]?.equipmentName}
                           </td>
                           <td className="h-5 w-36 text-center">
@@ -1048,33 +1040,33 @@ function OnsiteUpdate() {
                           </td>
                           <td className="h-5 w-36 text-center">
                             {dataList.otherName[3]?.serial}
-                          </td> */}
+                          </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
-                </div>
+                </div> */}
                 {/* box-12 */}
-                <div>
+                {/* <div>
                   <h1 className="text-[#213555] font-bold lg:text-2xl">Note</h1>
                   <div className="flex gap-5 bg-[#E5D283] rounded-xl px-5 py-2">
                     <span className="font-bold">Note : </span>
-                    {/* <span>{dataList.note}</span> */}
+                    <span>{dataList.note}</span>
                   </div>
-                </div>
+                </div> */}
               </div>
               {/* {status.customerModel?.cusGroupType === 2 && ( */}
               <>
-                <div className="lg:flex">
-                  {/* outsideBox-1 */}
-                  <div className="lg:w-1/2">
+                {/* <div className="lg:flex"> */}
+                {/* outsideBox-1 */}
+                {/* <div className="lg:w-1/2">
                     <div className="flex lg:gap-3 mt-4">
                       <h1 className="text-[#213555] font-bold lg:text-2xl">
                         Test Other SIM 1
                       </h1>
                       <label className="flex p-1 gap-3 items-center">
                         <span>
-                          {/* {dataList.testSimFirstOther.simtype === "1" ? (
+                          {dataList.testSimFirstOther.simtype === "1" ? (
                               <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                             ) : (
                               <input
@@ -1082,13 +1074,13 @@ function OnsiteUpdate() {
                                 className="h-5 w-5"
                                 disabled
                               ></input>
-                            )} */}
+                            )}
                         </span>
                         <span>Active</span>
                       </label>
                       <label className="flex p-1 gap-3 items-center">
                         <span>
-                          {/* {dataList.testSimFirstOther.simtype === "0" ? (
+                          {dataList.testSimFirstOther.simtype === "0" ? (
                               <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                             ) : (
                               <input
@@ -1096,7 +1088,7 @@ function OnsiteUpdate() {
                                 className="h-5 w-5"
                                 disabled
                               ></input>
-                            )} */}
+                            )}
                         </span>
                         <span>Back Up</span>
                       </label>
@@ -1106,12 +1098,12 @@ function OnsiteUpdate() {
                         <div className="flex items-center gap-3">
                           <span>1)</span>
                           <span className="w-36">
-                            {/* {dataList.testSimSecondOther.data?.[0]?.name} */}
+                            {dataList.testSimSecondOther.data?.[0]?.name}
                           </span>
                         </div>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[0]?.pass ===
+                            {dataList.testSimFirstOther.data?.[0]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1120,11 +1112,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[0]?.pass ===
+                            {dataList.testSimFirstOther.data?.[0]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1133,7 +1125,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1142,12 +1134,12 @@ function OnsiteUpdate() {
                         <div className="flex items-center gap-3">
                           <span>2)</span>
                           <span className="w-36">
-                            {/* {dataList.testSimSecondOther.data?.[1]?.name} */}
+                            {dataList.testSimSecondOther.data?.[1]?.name}
                           </span>
                         </div>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[1]?.pass ===
+                            {dataList.testSimFirstOther.data?.[1]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1156,11 +1148,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[1]?.pass ===
+                            {dataList.testSimFirstOther.data?.[1]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1169,7 +1161,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1178,12 +1170,12 @@ function OnsiteUpdate() {
                         <div className="flex items-center gap-3">
                           <span>3)</span>
                           <span className="w-36">
-                            {/* {dataList.testSimSecondOther.data?.[2].name} */}
+                            {dataList.testSimSecondOther.data?.[2].name}
                           </span>
                         </div>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[2]?.pass ===
+                            {dataList.testSimFirstOther.data?.[2]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1192,11 +1184,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[2]?.pass ===
+                            {dataList.testSimFirstOther.data?.[2]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1205,7 +1197,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1214,12 +1206,12 @@ function OnsiteUpdate() {
                         <div className="flex items-center gap-3">
                           <span>4)</span>
                           <span className="w-36">
-                            {/* {dataList.testSimSecondOther.data?.[3].name} */}
+                            {dataList.testSimSecondOther.data?.[3].name}
                           </span>
                         </div>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[3]?.pass ===
+                            {dataList.testSimFirstOther.data?.[3]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1228,11 +1220,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[3]?.pass ===
+                            {dataList.testSimFirstOther.data?.[3]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1241,7 +1233,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1250,12 +1242,12 @@ function OnsiteUpdate() {
                         <div className="flex items-center gap-3">
                           <span>5)</span>
                           <span className="w-36">
-                            {/* {dataList.testSimSecondOther.data?.[4].name} */}
+                            {dataList.testSimSecondOther.data?.[4].name}
                           </span>
                         </div>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[4]?.pass ===
+                            {dataList.testSimFirstOther.data?.[4]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1264,11 +1256,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[4]?.pass ===
+                            {dataList.testSimFirstOther.data?.[4]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1277,7 +1269,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1286,12 +1278,12 @@ function OnsiteUpdate() {
                         <div className="flex items-center gap-3">
                           <span>6)</span>
                           <span className="w-36">
-                            {/* {dataList.testSimSecondOther.data?.[5].name} */}
+                            {dataList.testSimSecondOther.data?.[5].name}
                           </span>
                         </div>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[5]?.pass ===
+                            {dataList.testSimFirstOther.data?.[5]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1300,11 +1292,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[5]?.pass ===
+                            {dataList.testSimFirstOther.data?.[5]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1313,7 +1305,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1322,12 +1314,12 @@ function OnsiteUpdate() {
                         <div className="flex items-center gap-3">
                           <span>7)</span>
                           <span className="w-36">
-                            {/* {dataList.testSimSecondOther.data?.[6].name} */}
+                            {dataList.testSimSecondOther.data?.[6].name}
                           </span>
                         </div>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[6]?.pass ===
+                            {dataList.testSimFirstOther.data?.[6]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1336,11 +1328,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[6]?.pass ===
+                            {dataList.testSimFirstOther.data?.[6]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1349,7 +1341,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1358,12 +1350,12 @@ function OnsiteUpdate() {
                         <div className="flex items-center gap-3">
                           <span>8)</span>
                           <span className="w-36">
-                            {/* {dataList.testSimSecondOther.data?.[7].name} */}
+                            {dataList.testSimSecondOther.data?.[7].name}
                           </span>
                         </div>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[7]?.pass ===
+                            {dataList.testSimFirstOther.data?.[7]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1372,11 +1364,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimFirstOther.data?.[7]?.pass ===
+                            {dataList.testSimFirstOther.data?.[7]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1385,22 +1377,22 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
                       </label>
                     </div>
-                  </div>
-                  {/* outsideBox-2 */}
-                  <div className="lg:w-1/2">
+                  </div> */}
+                {/* outsideBox-2 */}
+                {/* <div className="lg:w-1/2">
                     <div className="flex lg:gap-3 mt-4">
                       <h1 className="text-[#213555] font-bold lg:text-2xl">
                         Test Other SIM 2
                       </h1>
                       <label className="flex p-1 gap-3 items-center">
                         <span>
-                          {/* {dataList.testSimSecondOther.simtype === "1" ? (
+                          {dataList.testSimSecondOther.simtype === "1" ? (
                               <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                             ) : (
                               <input
@@ -1408,13 +1400,13 @@ function OnsiteUpdate() {
                                 className="h-5 w-5"
                                 disabled
                               ></input>
-                            )} */}
+                            )}
                         </span>
                         <span>Active</span>
                       </label>
                       <label className="flex p-1 gap-3 items-center">
                         <span>
-                          {/* {dataList.testSimSecondOther.simtype === "0" ? (
+                          {dataList.testSimSecondOther.simtype === "0" ? (
                               <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                             ) : (
                               <input
@@ -1422,7 +1414,7 @@ function OnsiteUpdate() {
                                 className="h-5 w-5"
                                 disabled
                               ></input>
-                            )} */}
+                            )}
                         </span>
                         <span>Back Up</span>
                       </label>
@@ -1432,7 +1424,7 @@ function OnsiteUpdate() {
                         <span>1)</span>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[0]?.pass ===
+                            {dataList.testSimSecondOther.data?.[0]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1441,11 +1433,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[0]?.pass ===
+                            {dataList.testSimSecondOther.data?.[0]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1454,7 +1446,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1463,7 +1455,7 @@ function OnsiteUpdate() {
                         <span>2)</span>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[1]?.pass ===
+                            {dataList.testSimSecondOther.data?.[1]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1472,11 +1464,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[1]?.pass ===
+                            {dataList.testSimSecondOther.data?.[1]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1485,7 +1477,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1494,7 +1486,7 @@ function OnsiteUpdate() {
                         <span>3)</span>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[2]?.pass ===
+                            {dataList.testSimSecondOther.data?.[2]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1503,11 +1495,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[2]?.pass ===
+                            {dataList.testSimSecondOther.data?.[2]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1516,7 +1508,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1525,7 +1517,7 @@ function OnsiteUpdate() {
                         <span>4)</span>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[3]?.pass ===
+                            {dataList.testSimSecondOther.data?.[3]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1534,11 +1526,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[3]?.pass ===
+                            {dataList.testSimSecondOther.data?.[3]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1547,7 +1539,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1556,7 +1548,7 @@ function OnsiteUpdate() {
                         <span>5)</span>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[4]?.pass ===
+                            {dataList.testSimSecondOther.data?.[4]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1565,11 +1557,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[4]?.pass ===
+                            {dataList.testSimSecondOther.data?.[4]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1578,7 +1570,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1587,7 +1579,7 @@ function OnsiteUpdate() {
                         <span>6)</span>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[5]?.pass ===
+                            {dataList.testSimSecondOther.data?.[5]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1596,11 +1588,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[5]?.pass ===
+                            {dataList.testSimSecondOther.data?.[5]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1609,7 +1601,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1618,7 +1610,7 @@ function OnsiteUpdate() {
                         <span>7)</span>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[6]?.pass ===
+                            {dataList.testSimSecondOther.data?.[6]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1627,11 +1619,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[6]?.pass ===
+                            {dataList.testSimSecondOther.data?.[6]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1640,7 +1632,7 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
@@ -1649,7 +1641,7 @@ function OnsiteUpdate() {
                         <span>8)</span>
                         <div className="flex gap-3">
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[7]?.pass ===
+                            {dataList.testSimSecondOther.data?.[7]?.pass ===
                               "1" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1658,11 +1650,11 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Pass</span>
                           <span>
-                            {/* {dataList.testSimSecondOther.data?.[7]?.pass ===
+                            {dataList.testSimSecondOther.data?.[7]?.pass ===
                               "0" ? (
                                 <BsFillCheckCircleFill className="w-5 h-5 text-green-500" />
                               ) : (
@@ -1671,21 +1663,22 @@ function OnsiteUpdate() {
                                   className="h-5 w-5"
                                   disabled
                                 ></input>
-                              )} */}
+                              )}
                           </span>
                           <span>Fail</span>
                         </div>
                       </label>
                     </div>
-                  </div>
-                </div>
+                  </div> */}
+                {/* </div> */}
               </>
               {/* )} */}
             </AnimateHeight>
           </div>
+
           <>
             {/* section-2 */}
-            <div className="bg-[#EDEDED] p-3 rounded-md">
+            {/* <div className="bg-[#EDEDED] p-3 rounded-md">
               <div
                 className="flex items-center justify-between bg-[#4F709C] text-white text-2xl font-bold p-2 rounded-md hover:bg-[#213555]"
                 onClick={() => setBoxTwo(!boxTwo)}
@@ -1705,7 +1698,7 @@ function OnsiteUpdate() {
                   <h1 className="text-3xl font-bold w-full p-5">Image</h1>
                   <div className="lg:grid lg:grid-cols-3 gap-5 text-center">
                     <div className="flex flex-col gap-3">
-                      {/* {imageList[0]?.fileName !== "" &&
+                      {imageList[0]?.fileName !== "" &&
                             imageList[0]?.fileName !== undefined ? (
                               <div className="relative">
                                 <img
@@ -1718,7 +1711,7 @@ function OnsiteUpdate() {
                                   onClick={() => handleDeleteNamePicture(0)}
                                 />
                               </div>
-                            ) : ( */}
+                            ) : (
                       <>
                         <label
                           htmlFor="file-input0"
@@ -1733,16 +1726,16 @@ function OnsiteUpdate() {
                           type="file"
                           id="file-input0"
                           className="hidden"
-                          // onChange={(e) =>
-                          //   handleUpload(e, 0, "storefront")
-                          // }
+                          onChange={(e) =>
+                            handleUpload(e, 0, "storefront")
+                          }
                         />
                       </>
-                      {/* )} */}
+                      )}
                       <p>รูปหน้าร้าน</p>
                     </div>
                     <div className="flex flex-col gap-3">
-                      {/* {imageList[1]?.fileName !== "" &&
+                      {imageList[1]?.fileName !== "" &&
                             imageList[1]?.fileName !== undefined ? (
                               <div className="relative">
                                 <img
@@ -1755,7 +1748,7 @@ function OnsiteUpdate() {
                                   onClick={() => handleDeleteNamePicture(1)}
                                 />
                               </div>
-                            ) : ( */}
+                            ) : (
                       <>
                         <label
                           htmlFor="file-input1"
@@ -1770,18 +1763,18 @@ function OnsiteUpdate() {
                           type="file"
                           id="file-input1"
                           className="hidden"
-                          // onChange={(e) =>
-                          //   handleUpload(e, 1, "cabinetFront")
-                          // }
+                          onChange={(e) =>
+                            handleUpload(e, 1, "cabinetFront")
+                          }
                         />
                       </>
-                      {/* )} */}
+                      )}
                       <p>หน้าตู้/จุดวางอุปกรณ์</p>
                     </div>
-                    {/* {status.customerModel?.shortName !== "KTB" && ( */}
+                    {status.customerModel?.shortName !== "KTB" && (
                     <>
                       <div className="flex flex-col gap-3">
-                        {/* {imageList[2]?.fileName !== "" &&
+                        {imageList[2]?.fileName !== "" &&
                                 imageList[2]?.fileName !== undefined ? (
                                   <div className="relative">
                                     <img
@@ -1794,7 +1787,7 @@ function OnsiteUpdate() {
                                       onClick={() => handleDeleteNamePicture(2)}
                                     />
                                   </div>
-                                ) : ( */}
+                                ) : (
                         <>
                           <label
                             htmlFor="file-input2"
@@ -1809,16 +1802,16 @@ function OnsiteUpdate() {
                             type="file"
                             id="file-input2"
                             className="hidden"
-                            // onChange={(e) =>
-                            //   handleUpload(e, 2, "cabinetRight")
-                            // }
+                            onChange={(e) =>
+                              handleUpload(e, 2, "cabinetRight")
+                            }
                           />
                         </>
-                        {/* )} */}
+                        )}
                         <p>หน้าร้านด้านขวา</p>
                       </div>
                       <div className="flex flex-col gap-3">
-                        {/* {imageList[3]?.fileName !== "" &&
+                        {imageList[3]?.fileName !== "" &&
                                 imageList[3]?.fileName !== undefined ? (
                                   <div className="relative">
                                     <img
@@ -1831,7 +1824,7 @@ function OnsiteUpdate() {
                                       onClick={() => handleDeleteNamePicture(3)}
                                     />
                                   </div>
-                                ) : ( */}
+                                ) : (
                         <>
                           <label
                             htmlFor="file-input3"
@@ -1846,16 +1839,16 @@ function OnsiteUpdate() {
                             type="file"
                             id="file-input3"
                             className="hidden"
-                            // onChange={(e) =>
-                            //   handleUpload(e, 3, "cabinetLeft")
-                            // }
+                            onChange={(e) =>
+                              handleUpload(e, 3, "cabinetLeft")
+                            }
                           />
                         </>
-                        {/* )} */}
+                        )}
                         <p>หน้าร้านด้านซ้าย</p>
                       </div>
                       <div className="flex flex-col gap-3">
-                        {/* {imageList[4]?.fileName !== "" &&
+                        {imageList[4]?.fileName !== "" &&
                                 imageList[4]?.fileName !== undefined ? (
                                   <div className="relative">
                                     <img
@@ -1868,7 +1861,7 @@ function OnsiteUpdate() {
                                       onClick={() => handleDeleteNamePicture(4)}
                                     />
                                   </div>
-                                ) : ( */}
+                                ) : (
                         <>
                           <label
                             htmlFor="file-input4"
@@ -1883,16 +1876,16 @@ function OnsiteUpdate() {
                             type="file"
                             id="file-input4"
                             className="hidden"
-                            // onChange={(e) =>
-                            //   handleUpload(e, 4, "InstallPoint")
-                            // }
+                            onChange={(e) =>
+                              handleUpload(e, 4, "InstallPoint")
+                            }
                           />
                         </>
-                        {/* )} */}
+                        )}
                         <p>จุดวางอุปกรณ์/จุดติดตั้ง</p>
                       </div>
                       <div className="flex flex-col gap-3">
-                        {/* {imageList[5]?.fileName !== "" &&
+                        {imageList[5]?.fileName !== "" &&
                                 imageList[5]?.fileName !== undefined ? (
                                   <div className="relative">
                                     <img
@@ -1905,7 +1898,7 @@ function OnsiteUpdate() {
                                       onClick={() => handleDeleteNamePicture(5)}
                                     />
                                   </div>
-                                ) : ( */}
+                                ) : (
                         <>
                           <label
                             htmlFor="file-input5"
@@ -1920,21 +1913,22 @@ function OnsiteUpdate() {
                             type="file"
                             id="file-input5"
                             className="hidden"
-                            // onChange={(e) =>
-                            //   handleUpload(e, 5, "behindCabinet")
-                            // }
+                            onChange={(e) =>
+                              handleUpload(e, 5, "behindCabinet")
+                            }
                           />
                         </>
-                        {/* )} */}
+                         )} 
                         <p>จุดวางอุปกรณ์/จุดติดตั้ง</p>
                       </div>
                     </>
-                    {/* )} */}
+                     )} 
                   </div>
                 </div>
               </AnimateHeight>
-            </div>
+            </div> */}
           </>
+
           {/* section-3 */}
           <div className="bg-[#EDEDED] p-3 rounded-md">
             <div
@@ -1957,27 +1951,10 @@ function OnsiteUpdate() {
                     <p>Working Start :</p>
                     <p>Working End :</p>
                   </div>
-                  <div className="grid gap-3 lg:gap-2">
-                    <input
-                      type="datetime-local"
-                      className="border-[1px] border-black rounded-lg p-1"
-                      // disabled={status.isComplete && isAdmin !== "Admin"}
-                      // {...register("customerSiteETA")}
-                    />
-
-                    <input
-                      type="datetime-local"
-                      className="border-[1px] border-black rounded-lg p-1"
-                      // disabled={status.isComplete && isAdmin !== "Admin"}
-                      // {...register("workingStart")}
-                    />
-
-                    <input
-                      type="datetime-local"
-                      className="border-[1px] border-black rounded-lg p-1"
-                      // disabled={status.isComplete && isAdmin !== "Admin"}
-                      // {...register("workingEnd")}
-                    />
+                  <div className="grid gap-3 lg:gap-5">
+                    <p>{siteinfo.actTestingInfoModel?.cusETA}</p>
+                    <p>{siteinfo.actTestingInfoModel?.workStart}</p>
+                    <p>{siteinfo.actTestingInfoModel?.workEnd}</p>
                   </div>
                 </div>
               </div>
@@ -1985,7 +1962,7 @@ function OnsiteUpdate() {
           </div>
           <div className="flex justify-end gap-5 py-5">
             <Link
-              to="/public/replace/1"
+              to={`/public/replace/${cid}/${ticketId}/${userId}`}
               className="flex items-center gap-1 font-bold px-3 w-28 rounded-xl py-3 bg-blue-300 hover:bg-blue-400 text-blue-800"
             >
               Next <MdNavigateNext className="w-6 h-6" />
