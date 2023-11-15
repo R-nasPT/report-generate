@@ -27,6 +27,8 @@ function Replacement() {
   const [boxThree, setBoxThree] = useState(false);
   const [update, setUpdate] = useState(0);
 
+  const [status, setStatus] = useState([]);
+
   const [siteinfo, setSiteinfo] = useState([]);
   const [eqpList, setEqpList] = useState([]);
   const [causeList, setCauseList] = useState([]);
@@ -41,7 +43,7 @@ function Replacement() {
 
   const { cid, ticketId, userId } = useParams();
 
-  // console.log(siteinfo);
+  // console.log(status);
 
   const fetchEquipment = async () => {
     const result = await axios.get(
@@ -116,6 +118,7 @@ function Replacement() {
       let rawType = [];
       dataList.forEach((item) => {
         rawType.push(item?.siteinfoReportReplaceTypeId.toString());
+
         if (item?.siteinfoReportReplaceTypeId === 1) {
           setValue("routerModel", item?.modelNewName?.productTypeId);
           setValue("RouterSerial", item?.serialNumberNew);
@@ -153,6 +156,8 @@ function Replacement() {
         );
         setValue("workingEnd", item?.workingEnd.replace("T", " ").slice(0, -1));
         setValue("cause", item?.objectiveId);
+
+        setStatus(item);
       });
 
       setEquipment(rawType);
@@ -364,7 +369,7 @@ function Replacement() {
     <>
       <div className="lg:px-32 lg:py-5">
         <div className="bg-[#213555] text-white mt-5 flex justify-center gap-10 py-3 px-5 font-bold shadow-sm shadow-black rounded-md lg:text-2xl">
-          <h1>CID : {siteinfo.cid}</h1>
+          <h1>Service Replace CID : {siteinfo.cid}</h1>
           <h1>Ticket : {ticketId}</h1>
         </div>
         <div className="flex justify-end items-center p-3">
@@ -401,6 +406,7 @@ function Replacement() {
               <div className="grid">
                 <select
                   className="h-12 mt-3 rounded-lg p-2 border-[1px] border-black w-full"
+                  disabled={status.isComplete}
                   {...register("cause", { required: true })}
                 >
                   <option value="">วัตถุประสงค์/สาเหตุ</option>
@@ -418,6 +424,7 @@ function Replacement() {
                 )}
                 <select
                   className="h-12 mt-3 rounded-lg p-2 border-[1px] border-black"
+                  disabled={status.isComplete}
                   onChange={(e) => {
                     const selectedValue = e.target.value;
                     if (
@@ -481,6 +488,7 @@ function Replacement() {
                           <div className="flex flex-col gap-2">
                             <select
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("routerModel")}
                             >
                               <option value="" className="text-center">
@@ -498,18 +506,25 @@ function Replacement() {
                             <input
                               type="text"
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("RouterSerial")}
                             />
                             <input
                               type="text"
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("RouterIp")}
                             />
                           </div>
                         </div>
                       </div>
                       <button
-                        className="bg-red-500 w-full flex justify-center items-center p-1 rounded-xl mt-2 text-white lg:w-[50px] lg:h-40 hover:bg-red-600"
+                        className={`w-full flex justify-center items-center p-1 rounded-xl mt-2 lg:w-[50px] lg:h-40  ${
+                          status.isComplete
+                            ? "bg-slate-400 opacity-50 cursor-no-drop"
+                            : "bg-red-500 hover:bg-red-600 text-white"
+                        }`}
+                        disabled={status.isComplete}
                         onClick={(e) => {
                           e.preventDefault();
                           const newEquipment = equipment.filter(
@@ -569,6 +584,7 @@ function Replacement() {
                           <div className="grid gap-2">
                             <select
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("mainSim1")}
                             >
                               <option value="" className="text-center">
@@ -586,10 +602,12 @@ function Replacement() {
                             <input
                               type="number"
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("callNoSim1")}
                             />
                             <select
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("APNsim1")}
                             >
                               <option value="" className="text-center">
@@ -604,13 +622,19 @@ function Replacement() {
                             <input
                               type="text"
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("callIpSim1")}
                             />
                           </div>
                         </div>
                       </div>
                       <button
-                        className="bg-red-500 w-full flex justify-center items-center p-1 rounded-xl mt-2 text-white lg:w-[50px] lg:h-40 hover:bg-red-600"
+                        className={`w-full flex justify-center items-center p-1 rounded-xl mt-2 lg:w-[50px] lg:h-40  ${
+                          status.isComplete
+                            ? "bg-slate-400 opacity-50 cursor-no-drop"
+                            : "bg-red-500 hover:bg-red-600 text-white"
+                        }`}
+                        disabled={status.isComplete}
                         onClick={(e) => {
                           e.preventDefault();
                           const newEquipment = equipment.filter(
@@ -673,6 +697,7 @@ function Replacement() {
                           <div className="grid gap-2">
                             <select
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("mainSim2")}
                             >
                               <option value="" className="text-center">
@@ -690,10 +715,12 @@ function Replacement() {
                             <input
                               type="number"
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("callNoSim2")}
                             />
                             <select
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("APNsim2")}
                             >
                               <option value="" className="text-center">
@@ -708,13 +735,19 @@ function Replacement() {
                             <input
                               type="text"
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("callIpSim2")}
                             />
                           </div>
                         </div>
                       </div>
                       <button
-                        className="bg-red-500 w-full flex justify-center items-center p-1 rounded-xl mt-2 text-white lg:w-[50px] lg:h-40 hover:bg-red-600"
+                        className={`w-full flex justify-center items-center p-1 rounded-xl mt-2 lg:w-[50px] lg:h-40  ${
+                          status.isComplete
+                            ? "bg-slate-400 opacity-50 cursor-no-drop"
+                            : "bg-red-500 hover:bg-red-600 text-white"
+                        }`}
+                        disabled={status.isComplete}
                         onClick={(e) => {
                           e.preventDefault();
                           const newEquipment = equipment.filter(
@@ -765,15 +798,18 @@ function Replacement() {
                             <input
                               type="text"
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("UpsSerial")}
                             />
                             <input
                               type="text"
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("UpsBrand")}
                             />
                             <select
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("UpsModel")}
                             >
                               <option value="">-- select --</option>
@@ -790,7 +826,12 @@ function Replacement() {
                         </div>
                       </div>
                       <button
-                        className="bg-red-500 w-full flex justify-center items-center p-1 rounded-xl mt-2 text-white lg:w-[50px] lg:h-40 hover:bg-red-600"
+                        className={`w-full flex justify-center items-center p-1 rounded-xl mt-2 lg:w-[50px] lg:h-40  ${
+                          status.isComplete
+                            ? "bg-slate-400 opacity-50 cursor-no-drop"
+                            : "bg-red-500 hover:bg-red-600 text-white"
+                        }`}
+                        disabled={status.isComplete}
                         onClick={(e) => {
                           e.preventDefault();
                           const newEquipment = equipment.filter(
@@ -835,13 +876,19 @@ function Replacement() {
                             <input
                               type="text"
                               className="border-2 border-black rounded-lg p-1"
+                              disabled={status.isComplete}
                               {...register("Firmware")}
                             />
                           </div>
                         </div>
                       </div>
                       <button
-                        className="bg-red-500 w-full flex justify-center items-center p-1 rounded-xl mt-2 text-white lg:w-[50px] lg:py-7 hover:bg-red-600"
+                        className={`w-full flex justify-center items-center p-1 rounded-xl mt-2 lg:w-[50px] lg:py-7 ${
+                          status.isComplete
+                            ? "bg-slate-400 opacity-50 cursor-no-drop"
+                            : "bg-red-500 hover:bg-red-600 text-white"
+                        }`}
+                        disabled={status.isComplete}
                         onClick={(e) => {
                           e.preventDefault();
                           const newEquipment = equipment.filter(
@@ -888,10 +935,12 @@ function Replacement() {
                             alt="รูปหน้าร้าน"
                             className="w-[300px] h-[300px]"
                           />
-                          <TiDelete
-                            className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
-                            onClick={() => handleDeleteNamePicture(0)}
-                          />
+                          {status.isComplete !== true && (
+                            <TiDelete
+                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                              onClick={() => handleDeleteNamePicture(0)}
+                            />
+                          )}
                         </div>
                       ) : (
                         <>
@@ -923,10 +972,12 @@ function Replacement() {
                             alt="หน้าตู้/จุดวางอุปกรณ์"
                             className="w-[300px] h-[300px]"
                           />
-                          <TiDelete
-                            className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
-                            onClick={() => handleDeleteNamePicture(1)}
-                          />
+                          {status.isComplete !== true && (
+                            <TiDelete
+                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                              onClick={() => handleDeleteNamePicture(1)}
+                            />
+                          )}
                         </div>
                       ) : (
                         <>
@@ -959,10 +1010,12 @@ function Replacement() {
                               alt="หน้าร้านด้านขวา"
                               className="w-[300px] h-[300px]"
                             />
-                            <TiDelete
-                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
-                              onClick={() => handleDeleteNamePicture(2)}
-                            />
+                            {status.isComplete !== true && (
+                              <TiDelete
+                                className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                                onClick={() => handleDeleteNamePicture(2)}
+                              />
+                            )}
                           </div>
                         ) : (
                           <>
@@ -996,10 +1049,12 @@ function Replacement() {
                               alt="หน้าร้านด้านซ้าย"
                               className="w-[300px] h-[300px]"
                             />
-                            <TiDelete
-                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
-                              onClick={() => handleDeleteNamePicture(3)}
-                            />
+                            {status.isComplete !== true && (
+                              <TiDelete
+                                className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                                onClick={() => handleDeleteNamePicture(3)}
+                              />
+                            )}
                           </div>
                         ) : (
                           <>
@@ -1033,10 +1088,12 @@ function Replacement() {
                               alt="จุดวางอุปกรณ์/จุดติดตั้ง"
                               className="w-[300px] h-[300px]"
                             />
-                            <TiDelete
-                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
-                              onClick={() => handleDeleteNamePicture(4)}
-                            />
+                            {status.isComplete !== true && (
+                              <TiDelete
+                                className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                                onClick={() => handleDeleteNamePicture(4)}
+                              />
+                            )}
                           </div>
                         ) : (
                           <>
@@ -1070,10 +1127,12 @@ function Replacement() {
                               alt="จุดวางอุปกรณ์/จุดติดตั้ง"
                               className="w-[300px] h-[300px]"
                             />
-                            <TiDelete
-                              className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
-                              onClick={() => handleDeleteNamePicture(5)}
-                            />
+                            {status.isComplete !== true && (
+                              <TiDelete
+                                className="absolute -top-3 -right-3 w-10 h-10 cursor-pointer text-red-500 hover:text-red-400"
+                                onClick={() => handleDeleteNamePicture(5)}
+                              />
+                            )}
                           </div>
                         ) : (
                           <>
@@ -1130,18 +1189,21 @@ function Replacement() {
                     <input
                       type="datetime-local"
                       className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete}
                       {...register("customerSiteETA")}
                     />
 
                     <input
                       type="datetime-local"
                       className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete}
                       {...register("workingStart")}
                     />
 
                     <input
                       type="datetime-local"
                       className="border-[1px] border-black rounded-lg p-1"
+                      disabled={status.isComplete}
                       {...register("workingEnd")}
                     />
                   </div>
@@ -1159,19 +1221,29 @@ function Replacement() {
                 Back
               </Link>
               <button
-                className="flex items-center gap-1 font-bold px-3 w-28 rounded-xl bg-yellow-200 hover:bg-yellow-300 text-yellow-800"
+                className={`flex items-center gap-1 font-bold px-3 w-28 rounded-xl  ${
+                  status.isComplete
+                    ? "bg-slate-300 opacity-50 cursor-no-drop"
+                    : "bg-yellow-200 hover:bg-yellow-300 text-yellow-800"
+                }`}
                 type="submit"
                 onClick={() => setUpdate(1)}
+                disabled={status.isComplete}
               >
                 <RiDraftFill className="h-6 w-7" />
-                {siteinfo.isComplete && member === "Admin" ? "Update" : "Draft"}
+                Draft
               </button>
             </div>
             {member === "Admin" && (
               <button
-                className="flex items-center gap-1 font-bold px-3 w-28 rounded-xl bg-green-200 hover:bg-green-300 text-green-800"
+                className={`flex items-center gap-1 font-bold px-3 w-28 rounded-xl ${
+                  status.isComplete
+                    ? "bg-slate-300 opacity-50 cursor-no-drop"
+                    : "bg-green-200 hover:bg-green-300 text-green-800"
+                }`}
                 type="submit"
                 onClick={() => setUpdate(2)}
+                disabled={status.isComplete}
               >
                 <MdSave className="h-6 w-7" />
                 Save

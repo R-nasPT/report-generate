@@ -7,16 +7,19 @@ import { FiFilter } from "react-icons/fi";
 import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
 import { formatDate } from "../utils/dateUtils";
+import * as XLSX from "xlsx";
 
 function Service() {
   const [siteinfo, setSiteinfo] = useState([]);
   const [customer, setCustomer] = useState([]);
 
-  const [customerList, setCustomerList] = useState("");
-  const [group, setGroup] = useState("");
+  const [ticketList, setTicketList] = useState("");
+  const [cidList, setCidList] = useState("");
   const [filterData, setFilterData] = useState([]);
 
   const [boxFilter, setBoxFilter] = useState(false);
+
+  const creator = localStorage.getItem("id");
 
   const navigate = useNavigate();
 
@@ -28,10 +31,10 @@ function Service() {
 
   const fetchData = async () => {
     const response = await axios.get(
-      `${packageJson.domain.ipSiteInfo}/siteinfo/`
+      `${packageJson.domain.ipSiteInfoBeta}/siteInforeplace/siteinfoReplaceHistoryALLByCidAndTicket`
     );
-    console.log(response.data);
-    setSiteinfo(response.data);
+    // console.log(response.data);
+    setSiteinfo(response.data.lastData);
   };
 
   const fetchCustomer = async () => {
@@ -45,45 +48,42 @@ function Service() {
     setBoxFilter(!boxFilter);
   };
 
-  const customerOptions = customer
-    .sort((a, b) => a.shortName.localeCompare(b.shortName))
+  const ticketOptions = siteinfo
+    .sort((a, b) => a.ticketId.localeCompare(b.ticketId))
     .map((item) => ({
-      value: item.customerId,
-      label: item.shortName,
+      value: item.ticketId,
+      label: item.ticketId,
     }));
+
+  const cidOptions = siteinfo
+    .sort((a, b) => a.cid.localeCompare(b.cid))
+    .map((item) => {
+      // console.log(item.cid);
+      return {
+        value: item.cid,
+        label: item.cid,
+      };
+    });
 
   const handleSearch = () => {
     const filters = siteinfo.filter((item) => {
-      // console.log(item.customerModel);
-      return item.customerModel.shortName.includes(customerList); //&&
-      // item.customerModel.cusGroupType === group
+      // console.log(item.cid);
+      return item.cid.includes(cidList) && item.ticketId.includes(ticketList);
     });
-    if (group === "") {
-      setFilterData(filters);
-    } else {
-      const filterGroup = filters.filter(
-        (item) => item.customerModel.cusGroupType === group
-      );
-      setFilterData(filterGroup);
-    }
+    setFilterData(filters);
   };
-
-  useEffect(() => {
-    if (group === "") {
-      setFilterData(siteinfo);
-    } else {
-      const filters = siteinfo.filter(
-        (item) => item.customerModel.cusGroupType === group
-      );
-      const filterDetail = filters.filter((item) => {
-        return item.customerModel.shortName.includes(customerList);
-      });
-      setFilterData(filterDetail);
-    }
-  }, [siteinfo, group]);
 
   const handleReset = () => {
     window.location.reload();
+  };
+
+  const exportToExcel = () => {
+    const currentDate = new Date().toISOString().split("T")[0];
+    const worksheet = XLSX.utils.json_to_sheet(filterData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    XLSX.writeFile(workbook, `Replace_data, ${currentDate}.xlsx`);
   };
 
   useEffect(() => {
@@ -101,10 +101,10 @@ function Service() {
     <>
       <div className="px-2 lg:px-32 py-5">
         <h1 className="py-3 px-5 font-bold shadow-sm shadow-black rounded-md">
-          Home / Installation{" "}
-          <span className="text-[#1A16D3]">/ New Install </span>
+          Home / Service{" "}
+          <span className="text-[#1A16D3]">/ Replace </span>
         </h1>
-        <div className="flex justify-end pt-4 px-5 lg:hidden">
+        <div className="flex justify-end py-4 px-5 lg:hidden">
           <div
             onClick={togglePopup}
             className="flex items-center gap-2 bg-violet-600 text-violet-200 p-2 rounded-lg"
@@ -117,28 +117,47 @@ function Service() {
           <div className="flex gap-4 flex-wrap">
             <Select
               isSearchable
-              placeholder="--Customer--"
-              options={customerOptions}
+              placeholder="--Ticket--"
+              options={ticketOptions}
               onChange={(selectedOption) => {
                 // console.log(selectedOption);
-                setCustomerList(selectedOption.label);
+                setTicketList(selectedOption.label);
               }}
               styles={{
-                control: (baseStyles, state) => ({
+                control: (baseStyles) => ({
                   ...baseStyles,
                   borderColor: "black",
                   borderRadius: "12px",
                   width: "160px",
                 }),
               }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
             />
-            <input
-              type="date"
-              className="border-[1px] border-black rounded-xl px-3"
-            />
-            <input
-              type="date"
-              className="border-[1px] border-black rounded-xl px-3"
+            <Select
+              isSearchable
+              placeholder="--CID--"
+              options={cidOptions}
+              onChange={(selectedOption) => {
+                // console.log(selectedOption);
+                setCidList(selectedOption.label);
+              }}
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  borderColor: "black",
+                  borderRadius: "12px",
+                  width: "160px",
+                }),
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
             />
             <button
               className="bg-blue-500 text-blue-100 w-20 rounded-2xl hover:bg-blue-600"
@@ -153,54 +172,33 @@ function Service() {
               Reset
             </button>
           </div>
-          <button className="bg-green-600 text-green-200 w-20 rounded-2xl hover:bg-green-700">
+          <button
+            className="bg-green-600 text-green-200 w-20 rounded-2xl hover:bg-green-700"
+            onClick={exportToExcel}
+          >
             Export
           </button>
         </div>
-        <div className="flex font-bold">
-          <button
-            className={`border-2 w-20 h-10 text-center bg-stone-300 rounded-t-xl ${
-              group === "" ? "bg-white" : "border-black"
-            }`}
-            onClick={() => setGroup("")}
-          >
-            ทั้งหมด
-          </button>
-          <button
-            className={`border-2 w-20 h-10 text-center bg-stone-300 rounded-t-xl ${
-              group === 1 ? "bg-white" : "border-black"
-            }`}
-            onClick={() => setGroup(1)}
-          >
-            ATM
-          </button>
-          <button
-            className={`border-2 w-20 h-10 text-center bg-stone-300 rounded-t-xl ${
-              group === 2 ? "bg-white" : "border-black"
-            }`}
-            onClick={() => setGroup(2)}
-          >
-            LTE
-          </button>
-        </div>
         <div className=" overflow-auto max-h-[500px] lg:max-h-[600px]">
-          <table className="lg:w-[1290px]">
+          <table className="">
             <thead className="border-[1px] border-black sticky top-0">
               <tr className="bg-gray-200">
                 <th className="p-1 lg:p-2">No.</th>
                 <th className="p-1 lg:p-2">Status</th>
-                <th className="p-1 lg:p-2">CID</th>
                 <th className="p-1 lg:p-2">Ticket</th>
-                <th className="p-1 lg:p-2">Problem</th>
-                <th className="p-1 lg:p-2">Plan</th>
-                <th className="p-1 lg:p-2">Install Date</th>
+                <th className="p-1 lg:p-2">CID</th>
                 <th className="p-1 lg:p-2">Sitename</th>
-                <th className="p-1 lg:p-2">LocationDetail</th>
-                <th className="p-1 lg:p-2">Address</th>
-                <th className="p-1 lg:p-2">Province</th>
-                <th className="p-1 lg:p-2">District</th>
-                <th className="p-1 lg:p-2">Subdistrict</th>
-                <th className="p-1 lg:p-2">Contact</th>
+                <th className="p-1 lg:p-2">อุปกรณ์ที่เปลี่ยน</th>
+                <th className="p-1 lg:p-2">Model IN</th>
+                <th className="p-1 lg:p-2">Serial IN</th>
+                <th className="p-1 lg:p-2">Service Center</th>
+                <th className="p-1 lg:p-2">เปลียนโดย</th>
+                <th className="p-1 lg:p-2">วันที่เปลี่ยน</th>
+                <th className="p-1 lg:p-2">ตรวจโดย</th>
+                <th className="p-1 lg:p-2">วันที่ตรวจสอบ</th>
+                <th className="p-1 lg:p-2">ShowProblemFirst</th>
+                <th className="p-1 lg:p-2">ShowProblemClose</th>
+                <th className="p-1 lg:p-2">วัตถุประสงค์</th>
               </tr>
             </thead>
             <tbody className="border-[1px] border-black">
@@ -209,54 +207,69 @@ function Service() {
                 return (
                   <tr
                     className="hover:bg-neutral-200 cursor-pointer"
-                    onClick={() => navigate(`/user/atmpage/${data.siteInfoId}`)}
-                    key={data.siteInfoId}
+                    onClick={() =>
+                      navigate(
+                        `/public/replace/${data.siteinfo?.siteInfoId}/${data.ticketId}/${creator}`
+                      )
+                    }
+                    key={index}
                   >
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       {index + 1}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.status}
+                      <div className="flex justify-center">
+                        <div className="w-6 h-6 border-2  rounded-full bg-green-500 border-green-300"></div>
+                      </div>
+                    </td>
+                    <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
+                      {data.ticketId}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       {data.cid}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.TicketInfoModel?.tkdt_ID}
-                      {data.TicketInfoLTEModel?.tkdt_ID}
-                      {data.TicketInfoKTBModel?.tkdt_ID}
+                      {data.siteinfo?.siteName}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      Lorem ipsum dolor sit amet.
+                      {
+                        data.siteinfoReportServiceTypeModel
+                          ?.siteinfoReportReplaceTypeName
+                      }
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {formatDate(data.TicketInfoModel?.tkdt_NTATime)}
-                      {formatDate(data.TicketInfoLTEModel?.tkdt_NTATime)}
-                      {formatDate(data.TicketInfoKTBModel?.tkdt_NTATime)}
+                      {data.modelNewName?.productTypeName}
+                      {data.modelNewName?.providerName}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.routerInfoModel.installationDate}
+                      {data.serialNumberNew}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.siteName}
+                      {/* {data.locationDetails} */}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.locationDetails}
+                      {data.changeBy}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.address}
+                      {formatDate(data.changeTime)}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.province}
+                      {data.userInfoModel?.userName}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.district}
+                      {formatDate(data.createTime)}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.subDistrict}
+                      {/* {data.subDistrict} */}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.contractName}
+                      {/* {data.contractName} */}
+                    </td>
+                    <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
+                      {
+                        data.siteinfoReportServiceObjectiveModel
+                          ?.siteinfoReportReplaceObjectiveName
+                      }
                     </td>
                   </tr>
                 );
@@ -276,11 +289,11 @@ function Service() {
             />
             <Select
               isSearchable
-              placeholder="--Customer--"
-              options={customerOptions}
+              placeholder="--Ticket--"
+              options={ticketOptions}
               onChange={(selectedOption) => {
                 // console.log(selectedOption);
-                setCustomerList(selectedOption.label);
+                setTicketList(selectedOption.label);
               }}
               styles={{
                 control: (baseStyles, state) => ({
@@ -290,15 +303,21 @@ function Service() {
                 }),
               }}
             />
-            <p>start :</p>
-            <input
-              type="date"
-              className="border-[1px] border-black rounded-xl h-9 px-3"
-            />
-            <p>End :</p>
-            <input
-              type="date"
-              className="border-[1px] border-black rounded-xl h-9 px-3"
+            <Select
+              isSearchable
+              placeholder="--CID--"
+              options={cidOptions}
+              onChange={(selectedOption) => {
+                // console.log(selectedOption);
+                setCidList(selectedOption.label);
+              }}
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  borderColor: "black",
+                  borderRadius: "12px",
+                }),
+              }}
             />
             <div className="flex gap-1">
               <button
@@ -307,10 +326,16 @@ function Service() {
               >
                 Search
               </button>
-              <button className="bg-neutral-500 text-neutral-100 w-20 rounded-lg hover:bg-neutral-600">
+              <button
+                className="bg-neutral-500 text-neutral-100 w-20 rounded-lg hover:bg-neutral-600"
+                onClick={handleReset}
+              >
                 Reset
               </button>
-              <button className="bg-green-600 text-green-200 w-20 py-1 rounded-lg hover:bg-green-700">
+              <button
+                className="bg-green-600 text-green-200 w-20 py-1 rounded-lg hover:bg-green-700"
+                onClick={exportToExcel}
+              >
                 Export
               </button>
             </div>
