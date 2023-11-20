@@ -34,11 +34,13 @@ function ViewInstall() {
 
   const { id } = useParams();
 
+  const server = axios.create({
+    baseURL: packageJson.domain.ipSiteInfo,
+  });
+
   const getStatus = async () => {
     try {
-      const response = await axios.get(
-        `${packageJson.domain.ipSiteInfo}/siteinfo/history/${id}`
-      );
+      const response = await server.get(`/siteinfo/history/${id}`);
       // console.log(response.data);
       getSiteinfoReportByCIDAndTicket(response.data.siteinfo.siteInfoId);
 
@@ -52,9 +54,7 @@ function ViewInstall() {
 
   const getSiteinfoReportByCIDAndTicket = async (data) => {
     try {
-      const response = await axios.get(
-        `${packageJson.domain.ipSiteInfo}/siteinfo/checkstaus/${data}`
-      );
+      const response = await server.get(`/siteinfo/checkstaus/${data}`);
       // console.log(response.data);
       setStatus(response.data);
     } catch (error) {
@@ -64,10 +64,7 @@ function ViewInstall() {
 
   const updateToSiteinfo = async () => {
     const data = { cid: idList.cid, siteinfoReportHistoryId: id };
-    await axios.post(
-      `${packageJson.domain.ipSiteInfo}/siteinfo/selecthistory`,
-      data
-    );
+    await server.post(`/siteinfo/selecthistory`, data);
 
     let timerInterval;
     Swal.fire({
