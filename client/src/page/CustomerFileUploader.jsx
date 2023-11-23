@@ -16,7 +16,7 @@ function CustomerFileUploader() {
   const [cid, setCid] = useState([]);
   const [customer, setCustomer] = useState([]);
   const [boxOne, setBoxOne] = useState(false);
-  const [boxTwo, setBoxTwo] = useState(false);
+  const [boxTwo, setBoxTwo] = useState(true);
 
   const [update, setUpdate] = useState(0);
   const [filterData, setFilterData] = useState([]);
@@ -135,6 +135,7 @@ function CustomerFileUploader() {
           )
         );
         console.log("Image uploaded successfully");
+        window.location.reload();
       }
     } catch (error) {
       console.error(error);
@@ -365,15 +366,15 @@ function CustomerFileUploader() {
                               >
                                 --select--
                               </option>
-                              <option value="สำเร็จ">Result</option>
-                              <option value="ไม่สามารถเข้าได้">
-                                ไม่สามารถเข้าได้
+                              <option value="สำเร็จ">สำเร็จ</option>
+                              <option value="ไม่สำเร็จ เพราะ เข้า Site ไม่ได้">
+                                ไม่สำเร็จ เพราะ เข้า Site ไม่ได้
                               </option>
-                              <option value="Lack ไม่ทำงาน">
-                                Lack ไม่ทำงาน
+                              <option value="ไม่สำเร็จ เพราะ ไม่มี Rack">
+                                ไม่สำเร็จ เพราะ ไม่มี Rack
                               </option>
-                              <option value="Lack Lock ไม่สำเร็จ">
-                                Lack Lock ไม่สำเร็จ
+                              <option value="ไม่สำเร็จ เพราะ Lock ไม่ได้">
+                                ไม่สำเร็จ เพราะ Lock ไม่ได้
                               </option>
                             </select>
                           </div>

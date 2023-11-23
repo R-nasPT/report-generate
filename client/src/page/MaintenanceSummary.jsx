@@ -4,26 +4,38 @@ import { FiFilter } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import packageJson from "../../package.json";
-import { formatDate } from "../utils/dateUtils";
+import { formatDate, formatDateTime } from "../utils/dateUtils";
 import LoadingPage from "../component/LoadingPage";
 import exportToExcel from "../utils/excelUtils";
 
 function MaintenanceSummary() {
   const [boxFilter, setBoxFilter] = useState(false);
   const [dataInfo, setDataInfo] = useState([]);
+  const [dataZone, setDataZone] = useState([]);
 
   const [cidList, setCidList] = useState([]);
+  const [zoneList, setZoneList] = useState([]);
   const [filterData, setFilterData] = useState([]);
 
   const navigate = useNavigate();
 
-  // console.log(dataInfo);
+  // console.log(zoneList,  dataInfo?.[0]?.SiteInfoModel?.zoneModel?.zoneID);
+  // console.log(dataInfo[0]);
+  // console.log(dataInfo[0]?.SiteInfoModel);
+
+  const server = axios.create({
+    baseURL: packageJson.domain.ipSiteInfo,
+  });
 
   const fetchData = async () => {
-    const response = await axios.get(
-      `${packageJson.domain.ipSiteInfo}/maintenance/`
-    );
+    const response = await server.get(`/maintenance/`);
     setDataInfo(response.data);
+    setFilterData(response.data);
+  };
+
+  const fetchDataZone = async () => {
+    const response = await server.get(`/maintenance/zone`);
+    setDataZone(response.data);
   };
 
   const togglePopup = () => {
@@ -36,8 +48,10 @@ function MaintenanceSummary() {
 
   const handleSearch = () => {
     const filters = dataInfo.filter((item) => {
-      // console.log(item.cid);
-      return item.cid.includes(cidList);
+      return (
+        item.cid === cidList ||
+        item.SiteInfoModel?.zoneModel?.zoneID === zoneList
+      );
     });
     setFilterData(filters);
   };
@@ -49,7 +63,9 @@ function MaintenanceSummary() {
       SiteName: item.SiteInfoModel?.siteName,
       CreateBy: item.userInfoModel.userName,
       OnsiteBy: item.onsiteBy,
-      OnsiteTime: formatDate(item.onsiteTime),
+      OnsiteDate: formatDate(item.onsiteTime),
+      StartTime: formatDateTime(item.workingStart),
+      EndTime: formatDateTime(item.workingEnd),
       Status: item.status,
     }));
     exportToExcel(dataForExel, "maintenance_data");
@@ -65,13 +81,18 @@ function MaintenanceSummary() {
       };
     });
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const ZoneOptions = dataZone.map((item) => {
+    // console.log(item);
+    return {
+      value: item.zoneID,
+      label: item.zoneName,
+    };
+  });
 
   useEffect(() => {
-    handleSearch();
-  }, [dataInfo]);
+    fetchData();
+    fetchDataZone();
+  }, []);
 
   if (dataInfo.length === 0) {
     return <LoadingPage />;
@@ -129,6 +150,28 @@ function MaintenanceSummary() {
                 }
               }}
             />
+            <Select
+              isSearchable
+              placeholder="--Zone--"
+              options={ZoneOptions}
+              onChange={(selectedOption) => {
+                // console.log(selectedOption);
+                setZoneList(selectedOption.value);
+              }}
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  borderColor: "black",
+                  borderRadius: "12px",
+                  width: "160px",
+                }),
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
+            />
             <button
               className="bg-blue-500 text-blue-100 w-20 rounded-2xl hover:bg-blue-600"
               onClick={handleSearch}
@@ -165,10 +208,13 @@ function MaintenanceSummary() {
                 <th className="p-1 lg:p-2">No.</th>
                 <th className="p-1 lg:p-2">CID</th>
                 <th className="p-1 lg:p-2">Site Name</th>
-                <th className="p-1 lg:p-2">Create By</th>
                 <th className="p-1 lg:p-2">Onsite By</th>
-                <th className="p-1 lg:p-2">Onsite Time</th>
-                <th className="p-1 lg:p-2">Status</th>
+                <th className="p-1 lg:p-2">Onsite Date</th>
+                <th className="p-1 lg:p-2">District</th>
+                <th className="p-1 lg:p-2">Province</th>
+                <th className="p-1 lg:p-2">Service Center</th>
+                <th className="p-1 lg:p-2">Result</th>
+                <th className="p-1 lg:p-2">Create By</th>
               </tr>
             </thead>
             <tbody className="border-[1px] border-black">
@@ -194,16 +240,25 @@ function MaintenanceSummary() {
                       {data.SiteInfoModel?.siteName}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
-                      {data.userInfoModel.userName}
-                    </td>
-                    <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       {data.onsiteBy}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       {formatDate(data.onsiteTime)}
                     </td>
+                    <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
+                      {data.SiteInfoModel?.districtModel?.districtName}
+                    </td>
+                    <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
+                      {data.SiteInfoModel?.provinceModel?.provinceName}
+                    </td>
+                    <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
+                      {data.SiteInfoModel?.zoneModel?.zoneName}
+                    </td>
                     <td className="p-1 border-2 border-r-neutral-300 border-y-white text-center">
                       {data.status}
+                    </td>
+                    <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
+                      {data.userInfoModel?.userName}
                     </td>
                   </tr>
                 );
@@ -234,6 +289,23 @@ function MaintenanceSummary() {
                   ...baseStyles,
                   borderColor: "black",
                   borderRadius: "12px",
+                }),
+              }}
+            />
+            <Select
+              isSearchable
+              placeholder="--Zone--"
+              options={ZoneOptions}
+              onChange={(selectedOption) => {
+                // console.log(selectedOption);
+                setZoneList(selectedOption.value);
+              }}
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  borderColor: "black",
+                  borderRadius: "12px",
+                  width: "160px",
                 }),
               }}
             />

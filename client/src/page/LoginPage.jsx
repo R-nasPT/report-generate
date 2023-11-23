@@ -35,7 +35,8 @@ function LoginPage() {
       // } else {
       //   setError("Access Denied: You do not have permission to access.");
       // }
-      window.location = "/user/homepage";
+      window.location = "/user/maintenance-summary";
+      // window.location = "/user/homepage";
     } catch (error) {
       setError(error.response.data.message);
     }
