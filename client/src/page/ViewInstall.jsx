@@ -29,7 +29,7 @@ function ViewInstall() {
 
   const { isAdmin } = useAuthContext();
 
-  // console.log(idList);
+  // console.log(imageList);
   // console.log(dataList);
 
   const { id } = useParams();
@@ -315,7 +315,7 @@ function ViewInstall() {
                               {dataList.simFirst.callSimFirst}
                             </p>
                             <p className="h-6">
-                              {dataList.apnSimFirst.aisApnName}
+                              {dataList.apnSimFirst?.aisApnName}
                             </p>
                             <p className="h-6">
                               {dataList.simFirst.ipSimFirst}

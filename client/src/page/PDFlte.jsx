@@ -1,33 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import html2pdf from "html2pdf.js";
 import axios from "axios";
 import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
 import { ImCheckmark } from "react-icons/im";
 import { formatDateTime, timeMinusSeven } from "../utils/dateUtils";
+import downloadPDF from "../utils/pdfUtils";
 
 function PDFlte() {
   const [lteReport, setLteReport] = useState();
 
   // console.log(lteReport);
   const { id } = useParams();
-  const downloadPDF = async () => {
-    const element = document.getElementById("element-to-print");
-    const currentDate = new Date().toISOString().split("T")[0];
-    const opt = {
-      margin: 1,
-      filename: `LTE Report ${lteReport?.cid} ${currentDate}`,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-    };
 
-    try {
-      await html2pdf().from(element).set(opt).save();
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-    }
+  const handleDownloadPDF = () => {
+    downloadPDF(`LTE Report ${lteReport?.cid}`);
   };
+
   useEffect(() => {
     const fetchDataLte = async () => {
       const response = await axios.get(
@@ -63,7 +52,7 @@ function PDFlte() {
             <img
               src="/component/download.png"
               alt="pdf"
-              onClick={downloadPDF}
+              onClick={handleDownloadPDF}
               className="w-9 h-9 p-2 bg-red-400 hover:bg-red-500 rounded-md"
             />
           </div>
@@ -606,7 +595,7 @@ function PDFlte() {
                     <p>SIM#1</p>
                     <div className="flex items-end pt-2">
                       <div className="border-[1px] border-black p-1 rounded-sm relative">
-                        {lteReport.testAisInfoOtherModels?.[0].simtype === 1 ? (
+                        {lteReport.testAisInfoOtherModels?.[0]?.simtype === 1 ? (
                           <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                         ) : (
                           ""
@@ -616,7 +605,7 @@ function PDFlte() {
                     <p>Active</p>
                     <div className="flex items-center pt-2">
                       <div className="border-[1px] border-black p-1 rounded-sm relative">
-                        {lteReport.testAisInfoOtherModels?.[0].simtype === 0 ? (
+                        {lteReport.testAisInfoOtherModels?.[0]?.simtype === 0 ? (
                           <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                         ) : (
                           ""
@@ -663,7 +652,7 @@ function PDFlte() {
                     <p>SIM#2</p>
                     <div className="flex items-center pt-2">
                       <div className="border-[1px] border-black p-1 rounded-sm relative">
-                        {lteReport.testDtacInfoOtherModels?.[0].simtype ===
+                        {lteReport.testDtacInfoOtherModels?.[0]?.simtype ===
                         1 ? (
                           <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                         ) : (
@@ -674,7 +663,7 @@ function PDFlte() {
                     <p>Active</p>
                     <div className="flex items-center pt-2">
                       <div className="border-[1px] border-black p-1 rounded-sm relative">
-                        {lteReport.testDtacInfoOtherModels?.[0].simtype ===
+                        {lteReport.testDtacInfoOtherModels?.[0]?.simtype ===
                         0 ? (
                           <ImCheckmark className="absolute -top-[2px] left-0 w-3 h-3" />
                         ) : (

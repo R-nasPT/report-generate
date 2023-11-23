@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import html2pdf from "html2pdf.js";
 import axios from "axios";
 import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
 import { useAuthContext } from "../context/AuthContext";
 import { formatDate } from "../utils/dateUtils";
+import downloadPDF from "../utils/pdfUtils";
 
 function PDFCustomerInfo() {
   const [status, setStatus] = useState([]);
@@ -15,52 +15,13 @@ function PDFCustomerInfo() {
 
   const { isAdmin } = useAuthContext();
 
-  // console.log(siteinfo);
+  // console.log(imageList);
   // console.log(siteinfo.routerInfoModel?.installationDate);
 
   const { id } = useParams();
 
-  const downloadPDF = async () => {
-    const element = document.getElementById("element-to-print");
-    const currentDate = new Date().toISOString().split("T")[0];
-    const opt = {
-      margin: 1,
-      filename: `ATM Report ${siteinfo.cid} ${currentDate}`,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-    };
-
-    // Convert the images to base64 data URLs before generating the PDF
-    const imageElements = element.querySelectorAll("img");
-    const promises = [];
-    for (const imgElement of imageElements) {
-      const imageUrl = imgElement.src;
-      try {
-        const response = await fetch(imageUrl);
-        const blob = await response.blob();
-        const dataUrl = await new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result);
-          reader.readAsDataURL(blob);
-        });
-        imgElement.src = dataUrl;
-      } catch (error) {
-        console.error("Error converting image:", error);
-      }
-    }
-
-    // Wait for all image conversions to finish before generating the PDF
-    try {
-      await Promise.all(promises);
-    } catch (error) {
-      console.error("Error converting images:", error);
-    }
-
-    try {
-      await html2pdf().from(element).set(opt).save();
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-    }
+  const handleDownloadPDF = () => {
+    downloadPDF(`Customer Report ${siteinfo.cid}`);
   };
 
   const getStatus = async () => {
@@ -117,14 +78,6 @@ function PDFCustomerInfo() {
     fetchData();
   }, []);
 
-  if (
-    customerInfo === undefined ||
-    imageList === undefined ||
-    siteinfo === undefined
-  ) {
-    return <LoadingPage />;
-  }
-
   return (
     <div>
       <div className="py-8 px-96 bg-slate-300 ">
@@ -150,7 +103,7 @@ function PDFCustomerInfo() {
           <img
             src="/component/download.png"
             alt="pdf"
-            onClick={downloadPDF}
+            onClick={handleDownloadPDF}
             className="w-9 h-9 p-2 bg-red-400 hover:bg-red-500 rounded-md"
           />
         </div>
@@ -175,7 +128,7 @@ function PDFCustomerInfo() {
                     </td>
                     <td className=" border-y-[2px] border-black pb-3 pl-3">
                       <p className="w-96 break-words">
-                        {siteinfo.customerModel?.fullNameThai}
+                        {siteinfo?.customerModel?.fullNameThai}
                       </p>
                     </td>
                   </tr>
@@ -184,7 +137,7 @@ function PDFCustomerInfo() {
                       Site Name
                     </td>
                     <td className="pb-3 pl-3 ">
-                      <p className="w-96 break-words">{siteinfo.siteName}</p>
+                      <p className="w-96 break-words">{siteinfo?.siteName}</p>
                     </td>
                   </tr>
                   <tr>
@@ -193,7 +146,7 @@ function PDFCustomerInfo() {
                     </td>
                     <td className="border-y-[2px] border-black pb-3 pl-3">
                       <p className="w-96 break-words">
-                        {siteinfo.atmModel?.stationId}
+                        {siteinfo?.atmModel?.stationId}
                       </p>
                     </td>
                   </tr>
@@ -202,7 +155,7 @@ function PDFCustomerInfo() {
                       CID
                     </td>
                     <td className="pb-3 pl-3">
-                      <p className="w-96 break-words">{siteinfo.cid}</p>
+                      <p className="w-96 break-words">{siteinfo?.cid}</p>
                     </td>
                   </tr>
                   <tr>
@@ -210,23 +163,23 @@ function PDFCustomerInfo() {
                       Install Date
                     </td>
                     <td className="border-y-[2px] border-black pb-3 pl-3">
-                      {siteinfo.upsInfoModel?.batteryStartDate !== undefined &&
-                        siteinfo.upsInfoModel?.batteryStartDate !== null &&
-                        siteinfo.upsInfoModel?.batteryStartDate !== "-" &&
-                        siteinfo.upsInfoModel?.batteryStartDate !== "" && (
+                      {siteinfo?.upsInfoModel?.batteryStartDate !== undefined &&
+                        siteinfo?.upsInfoModel?.batteryStartDate !== null &&
+                        siteinfo?.upsInfoModel?.batteryStartDate !== "-" &&
+                        siteinfo?.upsInfoModel?.batteryStartDate !== "" && (
                           <span>LINK :</span>
                         )}
                       <span>
-                        {formatDate(siteinfo.routerInfoModel?.installationDate)}{" "} 
+                        {formatDate(siteinfo?.routerInfoModel?.installationDate)}{" "} 
                       </span>
-                      {siteinfo.upsInfoModel?.batteryStartDate !== undefined &&
-                        siteinfo.upsInfoModel?.batteryStartDate !== null &&
-                        siteinfo.upsInfoModel?.batteryStartDate !== "-" &&
-                        siteinfo.upsInfoModel?.batteryStartDate !== "" && (
+                      {siteinfo?.upsInfoModel?.batteryStartDate !== undefined &&
+                        siteinfo?.upsInfoModel?.batteryStartDate !== null &&
+                        siteinfo?.upsInfoModel?.batteryStartDate !== "-" &&
+                        siteinfo?.upsInfoModel?.batteryStartDate !== "" && (
                           <span className="h-full pb-3 pl-3">
                             - UPS -{" "}
                             {formatDate(
-                              siteinfo.upsInfoModel?.batteryStartDate
+                              siteinfo?.upsInfoModel?.batteryStartDate
                             )}
                           </span>
                         )}
@@ -238,7 +191,7 @@ function PDFCustomerInfo() {
                     </td>
                     <td className="pb-3 pl-3">
                       <p className="w-96 break-words">
-                        {siteinfo.routerInfoModel?.ppEngineer}
+                        {siteinfo?.routerInfoModel?.ppEngineer}
                       </p>
                     </td>
                   </tr>
@@ -247,7 +200,7 @@ function PDFCustomerInfo() {
                       Address
                     </td>
                     <td className=" border-y-[2px] border-black pb-3 pl-3">
-                      <p className="w-96 break-words">{siteinfo.address}</p>
+                      <p className="w-96 break-words">{siteinfo?.address}</p>
                     </td>
                   </tr>
                   <tr>
@@ -256,7 +209,7 @@ function PDFCustomerInfo() {
                     </td>
                     <td className="pb-3 pl-3">
                       <p className="w-96 break-words">
-                        {siteinfo.contractName}
+                        {siteinfo?.contractName}
                       </p>
                     </td>
                   </tr>
@@ -265,7 +218,7 @@ function PDFCustomerInfo() {
                       Tel.
                     </td>
                     <td className=" border-y-[2px] border-black pb-3 pl-3">
-                      <p className="w-96 break-words">{siteinfo.tel}</p>
+                      <p className="w-96 break-words">{siteinfo?.tel}</p>
                     </td>
                   </tr>
                   <tr>
@@ -281,7 +234,7 @@ function PDFCustomerInfo() {
                       ATM Type
                     </td>
                     <td className=" border-y-[2px] border-black pb-3 pl-3">
-                      {siteinfo.atmModel?.atmTypeModel?.atmTypeName}
+                      {siteinfo?.atmModel?.atmTypeModel?.atmTypeName}
                     </td>
                   </tr>
                   <tr>
@@ -290,7 +243,7 @@ function PDFCustomerInfo() {
                     </td>
                     <td className="pb-3 pl-3">
                       <p className="w-96 break-words">
-                        {siteinfo.atmModel?.atmBrandModel?.atmBrandName}
+                        {siteinfo?.atmModel?.atmBrandModel?.atmBrandName}
                       </p>
                     </td>
                   </tr>
@@ -307,7 +260,7 @@ function PDFCustomerInfo() {
               <h2 className="font-semibold text-3xl pb-3">Picture</h2>
               <div
                 className={`${
-                  siteinfo.shortName === "KTB"
+                  siteinfo?.shortName === "KTB"
                     ? "grid grid-cols-2"
                     : "grid grid-cols-3"
                 } gap-3 mt-3`}
@@ -316,7 +269,7 @@ function PDFCustomerInfo() {
                   src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[0]?.cid}/${imageList[0]?.tikcetId}/${imageList[0]?.fileName}`}
                   alt="รูปหน้าร้าน"
                   className={`${
-                    siteinfo.shortName === "KTB"
+                    siteinfo?.shortName === "KTB"
                       ? "w-[350px] h-[350px]"
                       : "w-52 h-60"
                   }`}
@@ -325,12 +278,12 @@ function PDFCustomerInfo() {
                   src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[1]?.cid}/${imageList[1]?.tikcetId}/${imageList[1]?.fileName}`}
                   alt="หน้าตู้/จุดวางอุปกรณ์"
                   className={`${
-                    siteinfo.shortName === "KTB"
+                    siteinfo?.shortName === "KTB"
                       ? "w-[350px] h-[350px]"
                       : "w-52 h-60"
                   }`}
                 />
-                {siteinfo.shortName !== "KTB" && (
+                {siteinfo?.shortName !== "KTB" && (
                   <>
                     <img
                       src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.tikcetId}/${imageList[2]?.fileName}`}

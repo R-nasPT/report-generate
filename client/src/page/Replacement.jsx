@@ -44,18 +44,17 @@ function Replacement() {
   const { cid, ticketId, userId } = useParams();
 
   // console.log(status);
+  const server = axios.create({
+    baseURL: packageJson.domain.ipSiteInfo,
+  });
 
   const fetchEquipment = async () => {
-    const result = await axios.get(
-      `${packageJson.domain.ipSiteInfoBeta}/siteInforeplace/type`
-    );
+    const result = await server.get(`/siteInforeplace/type`);
     setEqpList(result.data);
   };
 
   const fetchCause = async () => {
-    const result = await axios.get(
-      `${packageJson.domain.ipSiteInfoBeta}/siteInforeplace/replaceobjective`
-    );
+    const result = await server.get(`/siteInforeplace/replaceobjective`);
     setCauseList(result.data);
   };
 
@@ -67,36 +66,26 @@ function Replacement() {
   };
 
   const routerModelList = async () => {
-    const response = await axios.get(
-      `${packageJson.domain.ipSiteInfo}/router/producttype`
-    );
+    const response = await server.get(`/router/producttype`);
     setRouter(response.data);
   };
 
   const providerList = async () => {
-    const response = await axios.get(
-      `${packageJson.domain.ipSiteInfo}/provider/provider`
-    );
+    const response = await server.get(`/provider/provider`);
     setProvider(response.data);
   };
 
   const apnList = async () => {
-    const response = await axios.get(
-      `${packageJson.domain.ipSiteInfo}/apn/apn`
-    );
+    const response = await server.get(`/apn/apn`);
     setAPN(response.data);
   };
   const upsList = async () => {
-    const response = await axios.get(
-      `${packageJson.domain.ipSiteInfoBeta}/iupsModel/iUPSModel`
-    );
+    const response = await server.get(`/iupsModel/iUPSModel`);
     setUps(response.data);
   };
 
   const fetchSiteinfo = async () => {
-    const response = await axios.get(
-      `${packageJson.domain.ipSiteInfo}/siteinfo/${cid}`
-    );
+    const response = await server.get(`/siteinfo/${cid}`);
     setSiteinfo(response.data);
     getBeforeDraft(response.data);
   };
@@ -108,17 +97,15 @@ function Replacement() {
         cid: info?.cid,
       };
       // console.log(data);
-      const response = await axios.post(
-        `${packageJson.domain.ipSiteInfoBeta}/siteInforeplace/siteInfoReplaceByCIDAndTicket`,
+      const response = await server.post(
+        `/siteInforeplace/siteInfoReplaceByCIDAndTicket`,
         data
       );
       // console.log(response.data);
       const dataList = response?.data?.lastData;
-      // console.log(dataList);
       let rawType = [];
       dataList.forEach((item) => {
         rawType.push(item?.siteinfoReportReplaceTypeId.toString());
-
         if (item?.siteinfoReportReplaceTypeId === 1) {
           setValue("routerModel", item?.modelNewName?.productTypeId);
           setValue("RouterSerial", item?.serialNumberNew);
@@ -148,13 +135,22 @@ function Replacement() {
 
         setValue(
           "customerSiteETA",
-          item?.customerSiteETA.replace("T", " ").slice(0, -1)
+          item?.customerSiteETA
+            ? item?.customerSiteETA.replace("T", " ").slice(0, -1)
+            : null
         );
         setValue(
           "workingStart",
-          item?.workingStart.replace("T", " ").slice(0, -1)
+          item?.workingStart
+            ? item?.workingStart.replace("T", " ").slice(0, -1)
+            : null
         );
-        setValue("workingEnd", item?.workingEnd.replace("T", " ").slice(0, -1));
+        setValue(
+          "workingEnd",
+          item?.workingEnd
+            ? item?.workingEnd.replace("T", " ").slice(0, -1)
+            : null
+        );
         setValue("cause", item?.objectiveId);
 
         setStatus(item);
@@ -242,10 +238,7 @@ function Replacement() {
           workingEnd: data.workingEnd,
           equipments: equip,
         };
-        await axios.post(
-          `${packageJson.domain.ipSiteInfoBeta}/siteInforeplace/`,
-          tempData
-        );
+        await server.post(`/siteInforeplace/`, tempData);
 
         Swal.fire({
           icon: "success",
@@ -260,10 +253,7 @@ function Replacement() {
           ticketId: ticketId,
           cid: siteinfo.cid,
         };
-        await axios.post(
-          `${packageJson.domain.ipSiteInfoBeta}/siteInforeplace/siteinfoReplacetomain`,
-          tempData
-        );
+        await server.post(`/siteInforeplace/siteinfoReplacetomain`, tempData);
 
         let timerInterval;
         Swal.fire({
@@ -306,13 +296,9 @@ function Replacement() {
         formData.append("name", name);
         formData.append("queue", queue);
         console.log(formData);
-        axios.post(
-          `${packageJson.domain.ipSiteInfoBeta}/ftpreplace/addimage`,
-          formData,
-          {
-            headers: { "content-type": "multipart/form-data" },
-          }
-        );
+        server.post(`/ftpreplace/addimage`, formData, {
+          headers: { "content-type": "multipart/form-data" },
+        });
 
         setImageList((prevImage) =>
           prevImage.map((item) =>
@@ -328,7 +314,7 @@ function Replacement() {
     }
   };
   const handleDeleteNamePicture = async (queue) => {
-    // console.log(queue);
+    console.log(queue);
     try {
       let data = {
         cid: siteinfo.cid,
@@ -337,10 +323,7 @@ function Replacement() {
         queue: queue,
       };
       // console.log(data);
-      axios.post(
-        `${packageJson.domain.ipSiteInfo}/ftpreplace/delectimage`,
-        data
-      );
+      server.post(`/ftpreplace/delectimage`, data);
       setImageList((prevImage) =>
         prevImage.map((item) =>
           item.queue === queue ? { ...item, fileName: "" } : item
@@ -931,7 +914,7 @@ function Replacement() {
                       imageList[0]?.fileName !== undefined ? (
                         <div className="relative">
                           <img
-                            src={`${packageJson.domain.ipftpBeta}/api/v1/siteinforeport/siteinforeport/${imageList[0]?.cid}/${imageList[0]?.ticketId}/${imageList[0]?.fileName}`}
+                            src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[0]?.cid}/${imageList[0]?.ticketId}/${imageList[0]?.fileName}`}
                             alt="รูปหน้าร้าน"
                             className="w-[300px] h-[300px]"
                           />
@@ -968,7 +951,7 @@ function Replacement() {
                       imageList[1]?.fileName !== undefined ? (
                         <div className="relative">
                           <img
-                            src={`${packageJson.domain.ipftpBeta}/api/v1/siteinforeport/siteinforeport/${imageList[1]?.cid}/${imageList[1]?.ticketId}/${imageList[1]?.fileName}`}
+                            src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[1]?.cid}/${imageList[1]?.ticketId}/${imageList[1]?.fileName}`}
                             alt="หน้าตู้/จุดวางอุปกรณ์"
                             className="w-[300px] h-[300px]"
                           />
@@ -1006,7 +989,7 @@ function Replacement() {
                         imageList[2]?.fileName !== undefined ? (
                           <div className="relative">
                             <img
-                              src={`${packageJson.domain.ipftpBeta}/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.ticketId}/${imageList[2]?.fileName}`}
+                              src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[2]?.cid}/${imageList[2]?.ticketId}/${imageList[2]?.fileName}`}
                               alt="หน้าร้านด้านขวา"
                               className="w-[300px] h-[300px]"
                             />
@@ -1045,7 +1028,7 @@ function Replacement() {
                         imageList[3]?.fileName !== undefined ? (
                           <div className="relative">
                             <img
-                              src={`${packageJson.domain.ipftpBeta}/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.ticketId}/${imageList[3]?.fileName}`}
+                              src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[3]?.cid}/${imageList[3]?.ticketId}/${imageList[3]?.fileName}`}
                               alt="หน้าร้านด้านซ้าย"
                               className="w-[300px] h-[300px]"
                             />
@@ -1084,7 +1067,7 @@ function Replacement() {
                         imageList[4]?.fileName !== undefined ? (
                           <div className="relative">
                             <img
-                              src={`${packageJson.domain.ipftpBeta}/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.ticketId}/${imageList[4]?.fileName}`}
+                              src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[4]?.cid}/${imageList[4]?.ticketId}/${imageList[4]?.fileName}`}
                               alt="จุดวางอุปกรณ์/จุดติดตั้ง"
                               className="w-[300px] h-[300px]"
                             />
@@ -1123,7 +1106,7 @@ function Replacement() {
                         imageList[5]?.fileName !== undefined ? (
                           <div className="relative">
                             <img
-                              src={`${packageJson.domain.ipftpBeta}/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.ticketId}/${imageList[5]?.fileName}`}
+                              src={`${packageJson.domain.ipftp}/api/v1/siteinforeport/siteinforeport/${imageList[5]?.cid}/${imageList[5]?.ticketId}/${imageList[5]?.fileName}`}
                               alt="จุดวางอุปกรณ์/จุดติดตั้ง"
                               className="w-[300px] h-[300px]"
                             />

@@ -22,6 +22,9 @@ import ViewInstall from "./ViewInstall";
 import PDFlteHistory from "./PDFlteHistory";
 import Replacement from "./Replacement";
 import OnsiteUpdate from "./OnsiteUpdate";
+import CustomerFileUploader from "./CustomerFileUploader";
+import MaintenanceSummary from "./MaintenanceSummary";
+import PDFMaintenance from "./PDFMaintenance";
 
 function AuthenticatedApp() {
   const { isAdmin } = useAuthContext();
@@ -49,6 +52,9 @@ function AuthenticatedApp() {
             <Route path="service" element={<Service />} />
             <Route path="pdf/:id" element={<PDFFile />} />
             <Route path="pdflte/:id" element={<PDFlte />} />
+            <Route path="maintenance-summary" element={<MaintenanceSummary />} />
+            <Route path="customer-file-upload" element={<CustomerFileUploader />} />
+            <Route path="pdf-maintenance/:id" element={<PDFMaintenance />} />
           </Route>
         )}
         <Route path="public">

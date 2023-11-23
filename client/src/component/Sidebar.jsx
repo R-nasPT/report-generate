@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { GiAutoRepair } from "react-icons/gi";
 import { TfiWrite } from "react-icons/tfi";
-import { RiCustomerService2Fill, RiFileMarkLine } from "react-icons/ri";
+import { RiCustomerService2Fill, RiFileMarkLine, RiInstallFill } from "react-icons/ri";
 import { MdMiscellaneousServices, MdManageHistory } from "react-icons/md";
 import { TbFileSettings } from "react-icons/tb";
 import { FaSitemap } from "react-icons/fa";
@@ -64,7 +64,7 @@ function Sidebar({ onSidebarToggle }) {
               className="flex pl-7 items-center gap-3 py-5 hover:bg-slate-200 cursor-pointer"
               onClick={() => setSubInstall(!subInstall)}
             >
-              <GiAutoRepair className="h-10 w-6" />
+              <RiInstallFill className="h-10 w-6" />
               <h1>Installation</h1>
               <h1 className={`ml-10 ${subInstall ? "rotate-180" : ""}`}>▼</h1>
             </div>
@@ -128,6 +128,10 @@ function Sidebar({ onSidebarToggle }) {
                 </Link>
               </AnimateHeight>
             </AnimateHeight>
+            <Link to="/user/maintenance-summary" className="flex pl-7 items-center gap-3 py-5 hover:bg-slate-200">
+              <GiAutoRepair className="h-6 w-6"  />
+              <h1>Maintenance</h1>
+            </Link>
           </div>
           <div className="flex justify-center items-center gap-3 mt-5 py-4">
             <img src="/component/logout.svg" alt="logout" className="h-5 " />

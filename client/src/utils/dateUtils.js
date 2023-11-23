@@ -30,6 +30,19 @@ const formatDateTime = (dateString) => {
   }
   return null;
 };
+const formatTime = (dateString) => {
+  if (dateString) {
+    const createDate = new Date(dateString);
+    if (!isNaN(createDate)) {
+      const hour = `${("0" + createDate.getHours()).slice(-2)}`;
+      const minute = `${("0" + createDate.getMinutes()).slice(-2)}`;
+
+      const formattedDate = `${hour}:${minute}`;
+      return formattedDate;
+    }
+  }
+  return null;
+};
 
 const timeMinusSeven = (time) => {
   const date = new Date(time);
@@ -38,4 +51,4 @@ const timeMinusSeven = (time) => {
   return date.toISOString();
 };
 
-export { formatDate, formatDateTime, timeMinusSeven };
+export { formatDate, formatDateTime, formatTime, timeMinusSeven };

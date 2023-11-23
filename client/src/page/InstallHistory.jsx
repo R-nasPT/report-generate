@@ -6,8 +6,8 @@ import Select from "react-select";
 import LoadingPage from "../component/LoadingPage";
 import { FiFilter } from "react-icons/fi";
 import packageJson from "../../package.json";
-import * as XLSX from "xlsx";
 import { formatDate } from "../utils/dateUtils";
+import exportToExcel from "../utils/excelUtils";
 
 function InstallHistory() {
   const [siteinfo, setSiteinfo] = useState([]);
@@ -103,13 +103,8 @@ function InstallHistory() {
     window.location.reload();
   };
 
-  const exportToExcel = () => {
-    const currentDate = new Date().toISOString().split("T")[0];
-    const worksheet = XLSX.utils.json_to_sheet(filterData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-
-    XLSX.writeFile(workbook, `installation_data, ${currentDate}.xlsx`);
+  const handleExportToExcel = () => {
+    exportToExcel(filterData, "installation_history_data");
   };
 
   useEffect(() => {
@@ -201,7 +196,7 @@ function InstallHistory() {
           </div>
           <button
             className="bg-green-600 text-green-200 w-20 rounded-2xl hover:bg-green-700"
-            onClick={exportToExcel}
+            onClick={handleExportToExcel}
           >
             Export
           </button>
@@ -382,7 +377,7 @@ function InstallHistory() {
               </button>
               <button
                 className="bg-green-600 text-green-200 w-20 py-1 rounded-lg hover:bg-green-700"
-                onClick={exportToExcel}
+                onClick={handleExportToExcel}
               >
                 Export
               </button>

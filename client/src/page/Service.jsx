@@ -7,7 +7,7 @@ import { FiFilter } from "react-icons/fi";
 import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
 import { formatDate } from "../utils/dateUtils";
-import * as XLSX from "xlsx";
+import exportToExcel from "../utils/excelUtils";
 
 function Service() {
   const [siteinfo, setSiteinfo] = useState([]);
@@ -29,18 +29,20 @@ function Service() {
 
   // console.log(siteinfo);
 
+  const server = axios.create({
+    baseURL: packageJson.domain.ipSiteInfo,
+  });
+
   const fetchData = async () => {
-    const response = await axios.get(
-      `${packageJson.domain.ipSiteInfoBeta}/siteInforeplace/siteinfoReplaceHistoryALLByCidAndTicket`
+    const response = await server.get(
+      `/siteInforeplace/siteinfoReplaceHistoryALLByCidAndTicket`
     );
     // console.log(response.data);
     setSiteinfo(response.data.lastData);
   };
 
   const fetchCustomer = async () => {
-    const response = await axios.get(
-      `${packageJson.domain.ipSiteInfo}/customer/`
-    );
+    const response = await server.get(`/customer/`);
     setCustomer(response.data);
   };
 
@@ -77,13 +79,8 @@ function Service() {
     window.location.reload();
   };
 
-  const exportToExcel = () => {
-    const currentDate = new Date().toISOString().split("T")[0];
-    const worksheet = XLSX.utils.json_to_sheet(filterData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-
-    XLSX.writeFile(workbook, `Replace_data, ${currentDate}.xlsx`);
+  const handleExportToExcel = () => {
+    exportToExcel(filterData, "Replace_data");
   };
 
   useEffect(() => {
@@ -101,8 +98,7 @@ function Service() {
     <>
       <div className="px-2 lg:px-32 py-5">
         <h1 className="py-3 px-5 font-bold shadow-sm shadow-black rounded-md">
-          Home / Service{" "}
-          <span className="text-[#1A16D3]">/ Replace </span>
+          Home / Service <span className="text-[#1A16D3]">/ Replace </span>
         </h1>
         <div className="flex justify-end py-4 px-5 lg:hidden">
           <div
@@ -174,7 +170,7 @@ function Service() {
           </div>
           <button
             className="bg-green-600 text-green-200 w-20 rounded-2xl hover:bg-green-700"
-            onClick={exportToExcel}
+            onClick={handleExportToExcel}
           >
             Export
           </button>
@@ -334,7 +330,7 @@ function Service() {
               </button>
               <button
                 className="bg-green-600 text-green-200 w-20 py-1 rounded-lg hover:bg-green-700"
-                onClick={exportToExcel}
+                onClick={handleExportToExcel}
               >
                 Export
               </button>

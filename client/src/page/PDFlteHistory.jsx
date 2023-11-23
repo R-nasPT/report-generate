@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import html2pdf from "html2pdf.js";
 import axios from "axios";
 import packageJson from "../../package.json";
 import LoadingPage from "../component/LoadingPage";
 import { ImCheckmark } from "react-icons/im";
 import { useAuthContext } from "../context/AuthContext";
 import { formatDateTime } from "../utils/dateUtils";
+import downloadPDF from "../utils/pdfUtils";
 
 function PDFlteHistory() {
   const [idList, setIdList] = useState([]);
@@ -32,21 +32,9 @@ function PDFlteHistory() {
   };
 
   const { id } = useParams();
-  const downloadPDF = async () => {
-    const element = document.getElementById("element-to-print");
-    const currentDate = new Date().toISOString().split("T")[0];
-    const opt = {
-      margin: 1,
-      filename: `LTE Report ${dataList?.cid} ${currentDate}`,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-    };
 
-    try {
-      await html2pdf().from(element).set(opt).save();
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-    }
+  const handleDownloadPDF = () => {
+    downloadPDF(`LTE Report ${dataList?.cid}`);
   };
 
   useEffect(() => {
@@ -80,7 +68,7 @@ function PDFlteHistory() {
             <img
               src="/component/download.png"
               alt="pdf"
-              onClick={downloadPDF}
+              onClick={handleDownloadPDF}
               className="w-9 h-9 p-2 bg-red-400 hover:bg-red-500 rounded-md"
             />
           </div>
@@ -334,7 +322,8 @@ function PDFlteHistory() {
               <div className="flex border-[1px] border-black font-extrabold">
                 <p className="px-3 border-r-[1px] border-black w-1/2">
                   SIM#1 Ping Test (256 bytes) .....
-                  {dataList.testSimFirst?.pingingTest}.....% success Average.....
+                  {dataList.testSimFirst?.pingingTest}.....% success
+                  Average.....
                   {dataList.testSimFirst?.average}.....ms ({"<"}
                   400 ms)
                 </p>
