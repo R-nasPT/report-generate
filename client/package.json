@@ -24,9 +24,11 @@
     "xlsx": "^0.18.5"
   },
   "domain": {
-    "ipSiteInfo": "http://172.13.0.190:3062/api/v1",
-    "ipbackend": "http://172.13.0.190:4000",
-    "ipftp": "http://172.13.0.190:3001"
+    "ipSiteInfoBeta": "http://172.17.6.11:3062/api/v1",
+    "ipSiteInfo": "http://203.151.57.10:3062/api/v1",
+    "ipbackend": "http://203.151.57.10:4001",
+    "ipftpBeta": "http://172.17.6.11:3000",
+    "ipftp": "http://203.151.57.10:3001"
   },
   "scripts": {
     "start": "react-scripts start",
