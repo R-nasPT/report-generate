@@ -123,7 +123,7 @@ function CustomerFileUploader() {
         formData.append("name", name);
         formData.append("queue", queue);
         console.log(formData);
-        server.post(`/ftpmaintenance/addimage`, formData, {
+        await server.post(`/ftpmaintenance/addimage`, formData, {
           headers: { "content-type": "multipart/form-data" },
         });
 
@@ -135,7 +135,6 @@ function CustomerFileUploader() {
           )
         );
         console.log("Image uploaded successfully");
-        window.location.reload();
       }
     } catch (error) {
       console.error(error);
@@ -152,7 +151,7 @@ function CustomerFileUploader() {
         queue: queue,
       };
       // console.log(data);
-      server.post(`/ftpmaintenance/delectimage`, data);
+      await server.post(`/ftpmaintenance/delectimage`, data);
       setImageList((prevImage) =>
         prevImage.map((item) =>
           item.queue === queue ? { ...item, fileName: "" } : item

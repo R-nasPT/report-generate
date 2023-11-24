@@ -1303,7 +1303,7 @@ function TotalInputInstallation() {
         formData.append("name", name);
         formData.append("queue", queue);
         console.log(formData);
-        axios.post(`${packageJson.domain.ipSiteInfo}/ftp/addimage`, formData, {
+        await axios.post(`${packageJson.domain.ipSiteInfo}/ftp/addimage`, formData, {
           headers: { "content-type": "multipart/form-data" },
         });
 
@@ -1336,7 +1336,7 @@ function TotalInputInstallation() {
         queue: queue,
       };
       // console.log(data);
-      axios.post(`${packageJson.domain.ipSiteInfo}/ftp/delectimage`, data);
+      await axios.post(`${packageJson.domain.ipSiteInfo}/ftp/delectimage`, data);
       setImageList((prevImage) =>
         prevImage.map((item) =>
           item.queue === queue ? { ...item, fileName: "" } : item

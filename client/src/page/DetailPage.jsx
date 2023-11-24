@@ -107,7 +107,7 @@ function DetailPage() {
           "file_info_id",
           ticketDetail.config.pictures[index].file_info_id
         );
-        axios.post(
+        await axios.post(
           `${packageJson.domain.ipbackend}/ticket/updateimageticket`,
           formData,
           {

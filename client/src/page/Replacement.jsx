@@ -296,7 +296,7 @@ function Replacement() {
         formData.append("name", name);
         formData.append("queue", queue);
         console.log(formData);
-        server.post(`/ftpreplace/addimage`, formData, {
+        await server.post(`/ftpreplace/addimage`, formData, {
           headers: { "content-type": "multipart/form-data" },
         });
 
@@ -323,7 +323,7 @@ function Replacement() {
         queue: queue,
       };
       // console.log(data);
-      server.post(`/ftpreplace/delectimage`, data);
+      await server.post(`/ftpreplace/delectimage`, data);
       setImageList((prevImage) =>
         prevImage.map((item) =>
           item.queue === queue ? { ...item, fileName: "" } : item
