@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import packageJson from "../../package.json";
 import axios from "axios";
 import LoadingPage from "../component/LoadingPage";
 import { formatDate, formatTime } from "../utils/dateUtils";
 import downloadPDF from "../utils/pdfUtils";
+import { FaDownload } from "react-icons/fa";
+import { RiHome2Line } from "react-icons/ri";
 
 function PDFMaintenance() {
   const [imageList, setImageList] = useState([]);
   const [maintenance, setMaintenance] = useState([]);
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const server = axios.create({
     baseURL: packageJson.domain.ipSiteInfo,
@@ -40,7 +43,7 @@ function PDFMaintenance() {
   return (
     <>
       <div className="lg:py-8 lg:px-96 min-h-screen flex justify-center items-center lg:flex-col bg-slate-300 ">
-        <div className="flex gap-3 mb-2">
+        <div className="flex gap-7 lg:gap-2 mb-2">
           <>
             {/* <Link to={`/user/customer-file-upload`}>
               <img
@@ -49,19 +52,14 @@ function PDFMaintenance() {
                 className="w-9 h-9 p-2 bg-red-600 hover:bg-red-500 rounded-md"
               />
             </Link> */}
-            <Link to="/user/maintenance-summary">
-              <img
-                src="/user/home 2.png"
-                alt="home"
-                className="w-9 h-9 p-2 bg-blue-500 hover:bg-blue-400 rounded-md"
-              />
-            </Link>
+            <RiHome2Line
+              className="w-32 h-32 p-2 lg:w-10 lg:h-10 lg:p-2 bg-blue-500 lg:hover:bg-blue-400 rounded-xl lg:rounded-md text-white"
+              onClick={() => navigate(`/user/maintenance-summary`)}
+            />
           </>
-          <img
-            src="/component/download.png"
-            alt="pdf"
+          <FaDownload
             onClick={handleDownloadPDF}
-            className="w-9 h-9 p-2 bg-red-400 hover:bg-red-500 rounded-md"
+            className="w-32 h-32 p-3 lg:w-10 lg:h-10 lg:p-2 bg-red-400 lg:hover:bg-red-500 rounded-xl lg:rounded-md text-red-100 transition-transform transform active:scale-[0.8]"
           />
         </div>
         <div className="hidden lg:block">

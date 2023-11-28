@@ -57,6 +57,7 @@ function CustomerFileUploader() {
       setImageList(response.data.maintenanceInfoDetailModels);
       //setFilterData(response.data.SiteInfoModel);
       setValue("cid", response.data.cid);
+      setValue("ticketId", response.data.ticketId);
       setValue("onsiteBy", response.data.onsiteBy);
       setValue("onsiteTime", response.data.onsiteTime.slice(0, 10));
       setValue(
@@ -87,6 +88,7 @@ function CustomerFileUploader() {
         let tempData;
         tempData = {
           cid: data.cid,
+          ticketId: data.ticketId,
           onsiteBy: data.onsiteBy,
           onsiteTime: data.onsiteTime,
           workingStart: data.workingStart,
@@ -338,6 +340,14 @@ function CustomerFileUploader() {
                               กรุณากรอกข้อมูล
                             </p>
                           )}
+                          <div className="flex gap-2 items-center justify-between">
+                            <p>Ticket ID :</p>
+                            <input
+                              type="text"
+                              className="border-[1px] border-black rounded-lg p-1"
+                              {...register("ticketId", { required: true })}
+                            />
+                          </div>
                           <div className="flex gap-2 items-center justify-between">
                             <p>Onsite by :</p>
                             <input

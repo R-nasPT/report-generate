@@ -20,7 +20,7 @@ function MaintenanceSummary() {
   const navigate = useNavigate();
 
   // console.log(zoneList,  dataInfo?.[0]?.SiteInfoModel?.zoneModel?.zoneID);
-  // console.log(dataInfo[0]);
+  // console.log(dataInfo);
   // console.log(dataInfo[0]?.SiteInfoModel);
 
   const server = axios.create({
@@ -207,6 +207,7 @@ function MaintenanceSummary() {
               <tr className="bg-gray-200">
                 <th className="p-1 lg:p-2">No.</th>
                 <th className="p-1 lg:p-2">CID</th>
+                <th className="p-1 lg:p-2">Ticket</th>
                 <th className="p-1 lg:p-2">Site Name</th>
                 <th className="p-1 lg:p-2">Onsite By</th>
                 <th className="p-1 lg:p-2">Onsite Date</th>
@@ -235,6 +236,9 @@ function MaintenanceSummary() {
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       {data.cid}
+                    </td>
+                    <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
+                      {data.ticketId}
                     </td>
                     <td className="p-1 lg:p-2 border-2 border-r-neutral-300 border-y-white text-center">
                       {data.SiteInfoModel?.siteName}
