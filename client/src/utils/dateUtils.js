@@ -51,4 +51,21 @@ const timeMinusSeven = (time) => {
   return date.toISOString();
 };
 
-export { formatDate, formatDateTime, formatTime, timeMinusSeven };
+const formatThaiDateTime = (dateString) => {
+  const createDate = new Date(dateString);
+  if (!isNaN(createDate)) {
+    return createDate.toLocaleDateString("th-TH", {
+      weekday: "long",
+      day: "numeric",
+      month: "long", //or numeric
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    });
+  } else {
+    return dateString;
+  }
+};
+
+export { formatDate, formatDateTime, formatTime, timeMinusSeven, formatThaiDateTime };
